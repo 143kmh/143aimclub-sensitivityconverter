@@ -13,16 +13,13 @@
             padding: 40px 20px; 
             font-family: 'Space Grotesk', sans-serif;
             color: #ffffff;
-            
             min-height: 100vh; 
             overflow-x: hidden;
             overflow-y: auto; 
             box-sizing: border-box;
-            
             display: flex;
             justify-content: center;
             align-items: flex-start; 
-            
             background-color: #05020a;
             background-image: url('space-bg.jpg');
             background-size: 105%;
@@ -64,29 +61,29 @@
             margin-bottom: 20px;
         }
 
-        .social-links {
-            display: flex;
-            gap: 12px;
+        .social-links { 
+            display: flex; 
+            gap: 12px; 
         }
 
         .social-links a {
-            color: #888;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
+            color: #888; 
+            transition: all 0.3s ease; 
+            display: flex; 
+            align-items: center; 
             justify-content: center;
         }
 
         .social-links a:hover {
-            color: #fff;
-            filter: drop-shadow(0 0 8px #A985FF);
+            color: #fff; 
+            filter: drop-shadow(0 0 8px #A985FF); 
             transform: translateY(-2px);
         }
 
-        .social-links svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
+        .social-links svg { 
+            width: 20px; 
+            height: 20px; 
+            fill: currentColor; 
         }
 
         /* ЛОГОТИП */
@@ -134,172 +131,219 @@
         }
 
         .tab {
-            flex: 1;
-            text-align: center;
-            padding: 10px;
+            flex: 1; 
+            text-align: center; 
+            padding: 10px; 
             cursor: pointer;
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 13px; 
+            font-weight: 700; 
             transition: color 0.3s ease;
-            color: #888;
-            text-transform: uppercase;
+            color: #888; 
+            text-transform: uppercase; 
             letter-spacing: 1px;
         }
 
-        .tab.active {
-            color: #fff;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        .tab.active { 
+            color: #fff; 
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); 
         }
 
-        .modes-wrapper {
-            position: relative;
-            box-sizing: border-box;
+        .modes-wrapper { 
+            position: relative; 
+            box-sizing: border-box; 
         }
 
-        /* ПОЛЯ ВВОДА (ПРИМЕНЯЕТСЯ ТОЛЬКО К ТЕКСТОВЫМ) */
-        .input-group {
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
+        /* ПОЛЯ ВВОДА */
+        .input-group { 
+            margin-bottom: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            position: relative; 
         }
 
         .input-group label {
-            font-size: 11px;
-            font-weight: 600;
-            color: #aaa;
-            margin-bottom: 6px;
-            text-transform: uppercase;
+            font-size: 11px; 
+            font-weight: 600; 
+            color: #aaa; 
+            margin-bottom: 6px; 
+            text-transform: uppercase; 
             letter-spacing: 0.5px;
         }
 
         input[type="text"] {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(137, 102, 245, 0.3);
+            background: rgba(0, 0, 0, 0.5); 
+            border: 1px solid rgba(137, 102, 245, 0.3); 
             color: #fff;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 15px;
+            padding: 12px; 
+            border-radius: 8px; 
+            font-size: 15px; 
             font-family: 'Space Grotesk', sans-serif;
-            font-weight: 500;
-            outline: none;
-            transition: all 0.3s ease;
+            font-weight: 500; 
+            outline: none; 
+            transition: all 0.3s ease; 
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-            width: 100%;
+            width: 100%; 
             box-sizing: border-box;
         }
 
         input[type="text"]:focus {
-            border-color: #A985FF;
+            border-color: #A985FF; 
             box-shadow: 0 0 15px rgba(169, 133, 255, 0.5), inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* ПОДСВЕТКА И ОШИБКИ ЛИМИТОВ (OW2 / CS2) */
+        .input-error {
+            border-color: #ff9800 !important;
+            box-shadow: 0 0 15px rgba(255, 152, 0, 0.5), inset 0 0 10px rgba(0,0,0,0.5) !important;
+        }
+
+        .error-tooltip {
+            position: absolute; 
+            bottom: 100%; 
+            left: 50%; 
+            transform: translateX(-50%) translateY(-5px);
+            background: #ff9800; 
+            color: #fff; 
+            padding: 4px 10px; 
+            border-radius: 6px;
+            font-size: 11px; 
+            font-weight: 700; 
+            white-space: nowrap; 
+            opacity: 0; 
+            visibility: hidden;
+            transition: all 0.2s; 
+            z-index: 10; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            pointer-events: none;
+        }
+
+        .error-tooltip::after {
+            content: ''; 
+            position: absolute; 
+            top: 100%; 
+            left: 50%; 
+            margin-left: -5px;
+            border-width: 5px; 
+            border-style: solid; 
+            border-color: #ff9800 transparent transparent transparent;
+        }
+
+        .error-tooltip.show { 
+            opacity: 1; 
+            visibility: visible; 
         }
 
         /* --- МИНИ-ТУМБЛЕР --- */
         .mini-tabs {
-            position: relative;
-            display: flex;
-            background: rgba(0, 0, 0, 0.4);
+            position: relative; 
+            display: flex; 
+            background: rgba(0, 0, 0, 0.4); 
             border-radius: 8px;
-            padding: 3px;
-            margin-bottom: 8px;
+            padding: 3px; 
+            margin-bottom: 8px; 
             border: 1px solid rgba(137, 102, 245, 0.2);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-            z-index: 1;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5); 
+            z-index: 1; 
             box-sizing: border-box;
         }
 
         .mini-slider {
-            position: absolute;
-            top: 3px;
-            bottom: 3px;
-            left: 3px;
+            position: absolute; 
+            top: 3px; 
+            bottom: 3px; 
+            left: 3px; 
             width: calc(50% - 3px);
             background: linear-gradient(180deg, rgba(169, 133, 255, 0.5), rgba(137, 102, 245, 0.15));
-            border-radius: 6px;
-            transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            border-radius: 6px; 
+            transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1); 
             z-index: -1;
-            box-shadow: 0 0 10px rgba(169, 133, 255, 0.4);
-            border: 1px solid rgba(169, 133, 255, 0.3);
+            box-shadow: 0 0 10px rgba(169, 133, 255, 0.4); 
+            border: 1px solid rgba(169, 133, 255, 0.3); 
             box-sizing: border-box;
         }
 
+        .mini-slider-3 { 
+            width: calc(33.33% - 2px); 
+        }
+
         .mini-tab {
-            flex: 1;
-            text-align: center;
-            padding: 6px;
-            font-size: 11px;
+            flex: 1; 
+            text-align: center; 
+            padding: 6px; 
+            font-size: 11px; 
             font-weight: 700;
-            cursor: pointer;
-            color: #888;
-            transition: color 0.3s;
-            text-transform: uppercase;
+            cursor: pointer; 
+            color: #888; 
+            transition: color 0.3s; 
+            text-transform: uppercase; 
             letter-spacing: 0.5px;
         }
 
-        .mini-tab.active {
-            color: #fff;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        .mini-tab.active { 
+            color: #fff; 
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); 
         }
 
         /* COMBOBOX */
-        .combobox {
-            position: relative;
-            width: 100%;
+        .combobox { 
+            position: relative; 
+            width: 100%; 
         }
 
         .combobox::after {
-            content: '▼';
-            position: absolute;
-            right: 15px;
-            top: 50%;
+            content: '▼'; 
+            position: absolute; 
+            right: 15px; 
+            top: 50%; 
             transform: translateY(-50%);
-            font-size: 10px;
-            color: #888;
-            pointer-events: none;
+            font-size: 10px; 
+            color: #888; 
+            pointer-events: none; 
             transition: color 0.3s;
         }
 
-        .combobox:hover::after {
-            color: #A985FF;
+        .combobox:hover::after { 
+            color: #A985FF; 
         }
 
         .combobox-list {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
+            position: absolute; 
+            top: 100%; 
+            left: 0; 
+            right: 0; 
             background: rgba(15, 10, 25, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(137, 102, 245, 0.4);
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(137, 102, 245, 0.4); 
             border-radius: 8px;
-            margin-top: 6px;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 100;
+            margin-top: 6px; 
+            max-height: 200px; 
+            overflow-y: auto; 
+            z-index: 100; 
             display: none;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
-        .combobox-list.active {
-            display: block;
+        .combobox-list.active { 
+            display: block; 
         }
 
         .combobox-option {
-            padding: 12px 15px;
-            cursor: pointer;
-            font-size: 14px;
-            color: #ddd;
+            padding: 12px 15px; 
+            cursor: pointer; 
+            font-size: 14px; 
+            color: #ddd; 
             transition: all 0.2s ease;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .combobox-option:last-child {
-            border-bottom: none;
+        .combobox-option:last-child { 
+            border-bottom: none; 
         }
 
-        .combobox-option:hover {
-            background: rgba(137, 102, 245, 0.4);
-            color: #fff;
-            padding-left: 20px;
+        .combobox-option:hover { 
+            background: rgba(137, 102, 245, 0.4); 
+            color: #fff; 
+            padding-left: 20px; 
         }
 
         .combobox-list::-webkit-scrollbar { width: 6px; }
@@ -307,226 +351,276 @@
         .combobox-list::-webkit-scrollbar-thumb { background: rgba(137, 102, 245, 0.6); border-radius: 8px; }
         .combobox-list::-webkit-scrollbar-thumb:hover { background: rgba(169, 133, 255, 0.8); }
 
-        /* ВСПЛЫВАЮЩИЕ ПОДСКАЗКИ (TOOLTIPS) */
-        .tooltip {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            margin-left: 6px;
-            cursor: help;
+        /* ВСПЛЫВАЮЩИЕ ПОДСКАЗКИ */
+        .tooltip { 
+            position: relative; 
+            display: inline-flex; 
+            align-items: center; 
+            margin-left: 6px; 
+            cursor: help; 
         }
-        .tooltip svg {
-            width: 14px;
-            height: 14px;
-            fill: #A985FF;
-            transition: fill 0.2s, transform 0.2s;
+
+        .tooltip svg { 
+            width: 14px; 
+            height: 14px; 
+            fill: #A985FF; 
+            transition: fill 0.2s, transform 0.2s; 
         }
-        .tooltip:hover svg {
-            fill: #fff;
-            transform: scale(1.1);
+
+        .tooltip:hover svg { 
+            fill: #fff; 
+            transform: scale(1.1); 
         }
+
         .tooltip-text {
-            visibility: hidden;
-            opacity: 0;
-            position: absolute;
-            bottom: 140%;
+            visibility: hidden; 
+            opacity: 0; 
+            position: absolute; 
+            bottom: 140%; 
             left: 50%;
-            transform: translateX(-50%) translateY(8px);
+            transform: translateX(-50%) translateY(8px); 
             background: rgba(15, 10, 25, 0.95);
-            border: 1px solid rgba(137, 102, 245, 0.4);
-            padding: 12px 16px;
+            border: 1px solid rgba(137, 102, 245, 0.4); 
+            padding: 12px 16px; 
             border-radius: 8px;
-            font-size: 12px;
-            color: #fff;
-            width: max-content;
-            max-width: 260px;
+            font-size: 12px; 
+            color: #fff; 
+            width: max-content; 
+            max-width: 260px; 
             text-align: center;
-            text-transform: none;
-            letter-spacing: normal;
+            text-transform: none; 
+            letter-spacing: normal; 
             font-weight: 500;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.7);
-            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.7); 
+            transition: all 0.3s ease; 
             pointer-events: none;
-            z-index: 100;
+            z-index: 100; 
             line-height: 1.4;
         }
+
         .tooltip-text::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
+            content: ''; 
+            position: absolute; 
+            top: 100%; 
+            left: 50%; 
             margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
+            border-width: 5px; 
+            border-style: solid; 
             border-color: rgba(137, 102, 245, 0.4) transparent transparent transparent;
         }
-        .tooltip:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+
+        .tooltip:hover .tooltip-text { 
+            visibility: visible; 
+            opacity: 1; 
+            transform: translateX(-50%) translateY(0); 
         }
 
-        /* THE FINALS OPTIONS BLOCK */
-        .tf-options {
-            display: none;
-            margin-bottom: 15px;
-            padding: 15px;
+        /* ADVANCED БЛОКИ */
+        .advanced-box {
+            display: none; 
+            margin-bottom: 15px; 
+            padding: 15px; 
             background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(137, 102, 245, 0.3);
-            border-radius: 12px;
+            border: 1px solid rgba(137, 102, 245, 0.3); 
+            border-radius: 12px; 
             box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
         }
 
-        .tf-advanced-content {
-            display: none;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(137, 102, 245, 0.2);
+        .adv-content {
+            display: none; 
+            margin-top: 15px; 
+            padding-top: 15px; 
+            border-top: 1px solid rgba(137, 102, 245, 0.2); 
             animation: fadeIn 0.3s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(-5px); } 
+            to { opacity: 1; transform: translateY(0); } 
         }
 
-        .tf-opt-row {
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .adv-opt-row { 
+            margin-bottom: 12px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
         }
-        .tf-opt-row:last-child {
-            margin-bottom: 0;
+
+        .adv-opt-row:last-child { 
+            margin-bottom: 0; 
         }
         
-        /* СБРОС И СТИЛИЗАЦИЯ ПОЛЗУНКА */
-        .tf-opt-row input[type="range"] {
-            width: 100%;
-            margin-top: 8px;
-            accent-color: #A985FF;
-            cursor: pointer;
-            background: transparent;
-            border: none;
-            padding: 0;
+        .adv-opt-row input[type="range"] {
+            width: 100%; 
+            margin-top: 8px; 
+            accent-color: #A985FF; 
+            cursor: pointer; 
+            background: transparent; 
+            border: none; 
+            padding: 0; 
             box-shadow: none;
         }
         
         .checkbox-container {
-            display: flex;
-            align-items: center;
-            font-size: 11px;
-            font-weight: 700;
-            color: #ccc;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: flex; 
+            align-items: center; 
+            font-size: 11px; 
+            font-weight: 700; 
+            color: #ccc; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
             transition: color 0.2s;
         }
 
-        .checkbox-container:hover {
-            color: #fff;
+        .checkbox-container:hover { 
+            color: #fff; 
         }
 
-        /* СБРОС СТИЛЕЙ ГАЛОЧКИ */
         .checkbox-container input[type="checkbox"] {
-            cursor: pointer;
-            accent-color: #A985FF;
-            width: 16px;
-            height: 16px;
-            margin: 0;
-            margin-right: 10px;
-            background: transparent;
-            border: none;
+            cursor: pointer; 
+            accent-color: #A985FF; 
+            width: 16px; 
+            height: 16px; 
+            margin: 0; 
+            margin-right: 10px; 
+            background: transparent; 
+            border: none; 
             box-shadow: none;
+        }
+        
+        /* Мелкие инпуты для множителей */
+        .mini-input {
+            width: 50px; 
+            background: rgba(0,0,0,0.5); 
+            border: 1px solid rgba(137, 102, 245, 0.4);
+            color: #fff; 
+            padding: 3px 5px; 
+            border-radius: 6px; 
+            text-align: center; 
+            font-size: 12px;
+            font-family: 'Space Grotesk', sans-serif; 
+            font-weight: 600; 
+            outline: none; 
+            transition: 0.2s;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .mini-input:focus { 
+            border-color: #A985FF; 
+            box-shadow: 0 0 8px rgba(169, 133, 255, 0.5); 
         }
 
         /* РЕЗУЛЬТАТ */
         .result-box {
-            margin-top: 20px;
-            padding: 20px 15px;
+            margin-top: 20px; 
+            padding: 20px 15px; 
             background: linear-gradient(180deg, rgba(137, 102, 245, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid rgba(137, 102, 245, 0.4);
-            box-shadow: inset 0 0 20px rgba(137, 102, 245, 0.1);
+            border-radius: 12px; 
+            text-align: center; 
+            border: 1px solid rgba(137, 102, 245, 0.4); 
+            box-shadow: inset 0 0 20px rgba(137, 102, 245, 0.1); 
             position: relative;
         }
 
-        .result-title {
-            font-size: 11px;
-            font-weight: 600;
-            color: #aaa;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .result-title { 
+            font-size: 11px; 
+            font-weight: 600; 
+            color: #aaa; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
         }
 
-        .result-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: #fff;
-            margin-top: 5px;
-            text-shadow: 0 0 15px #8966f5, 0 0 30px #A985FF;
+        .result-value { 
+            font-size: 32px; 
+            font-weight: 700; 
+            color: #fff; 
+            margin-top: 5px; 
+            text-shadow: 0 0 15px #8966f5, 0 0 30px #A985FF; 
         }
 
-        .config-value {
-            font-size: 12px;
-            color: #A985FF;
-            margin-top: 8px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .config-value { 
+            font-size: 12px; 
+            color: #A985FF; 
+            margin-top: 8px; 
+            font-weight: 600; 
+            letter-spacing: 0.5px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
         }
 
-        /* СТОЛБИКИ ПРИЦЕЛОВ (THE FINALS) */
-        .tf-ads-results {
-            display: none;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(137, 102, 245, 0.2);
+        .feels-like-box {
+            display: none; 
+            justify-content: center; 
+            align-items: center; 
+            margin-top: 6px;
+        }
+
+        .feels-like-val { 
+            color: #ff9800; 
+            font-size: 13px; 
+            font-weight: 700; 
+            letter-spacing: 0.5px; 
+            text-shadow: 0 0 8px rgba(255, 152, 0, 0.5); 
+        }
+
+        /* СТОЛБИКИ ПРИЦЕЛОВ */
+        .ads-results {
+            display: none; 
+            flex-direction: column; 
+            gap: 12px; 
+            margin-top: 20px; 
+            padding-top: 15px; 
+            border-top: 1px solid rgba(137, 102, 245, 0.2); 
             animation: fadeIn 0.3s ease;
         }
-        .tf-ads-cat-title {
-            font-size: 10px;
-            color: #A985FF;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-align: center;
-            margin-bottom: -4px;
-        }
-        .tf-ads-row {
-            display: flex;
-            gap: 8px;
-            width: 100%;
-        }
-        .tf-ads-col {
-            flex: 1;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(137, 102, 245, 0.2);
-            border-radius: 8px;
-            padding: 8px 5px;
-            text-align: center;
-        }
-        .tf-ads-title {
-            font-size: 10px;
-            color: #aaa;
-            margin-bottom: 5px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        .tf-ads-val {
-            font-size: 14px;
-            color: #fff;
-            font-weight: 700;
-            text-shadow: 0 0 5px #A985FF;
+
+        .ads-cat-title { 
+            font-size: 10px; 
+            color: #A985FF; 
+            font-weight: 700; 
+            letter-spacing: 1px; 
+            text-align: center; 
+            margin-bottom: -4px; 
         }
 
-        .hidden { display: none !important; }
+        .ads-row { 
+            display: flex; 
+            gap: 8px; 
+            width: 100%; 
+        }
+
+        .ads-col {
+            flex: 1; 
+            background: rgba(0,0,0,0.4); 
+            border: 1px solid rgba(137, 102, 245, 0.2); 
+            border-radius: 8px; 
+            padding: 8px 5px; 
+            text-align: center;
+        }
+
+        .ads-title { 
+            font-size: 9px; 
+            color: #aaa; 
+            margin-bottom: 5px; 
+            font-weight: 700; 
+            letter-spacing: 0.5px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        .ads-val { 
+            font-size: 14px; 
+            color: #fff; 
+            font-weight: 700; 
+            text-shadow: 0 0 5px #A985FF; 
+        }
+
+        .hidden { 
+            display: none !important; 
+        }
     </style>
 </head>
 <body>
@@ -578,7 +672,10 @@
                     <div class="mini-tab active" id="mtab-cm2game" onclick="setSubMode(true)">CM TO GAME</div>
                     <div class="mini-tab" id="mtab-game2cm" onclick="setSubMode(false)">GAME TO CM</div>
                 </div>
-                <input type="text" inputmode="decimal" id="cm-dynamic-input" placeholder="e.g. 35" oninput="calculate()">
+                <div style="position: relative;">
+                    <input type="text" inputmode="decimal" id="cm-dynamic-input" placeholder="e.g. 35" oninput="calculate()">
+                    <div id="cm-dynamic-input-error" class="error-tooltip"></div>
+                </div>
             </div>
         </div>
 
@@ -593,7 +690,10 @@
             </div>
             <div class="input-group">
                 <label>SENSITIVITY:</label>
-                <input type="text" inputmode="decimal" id="g2g-sens" placeholder="e.g. 1.5" oninput="calculate()">
+                <div style="position: relative;">
+                    <input type="text" inputmode="decimal" id="g2g-sens" placeholder="e.g. 1.5" oninput="calculate()">
+                    <div id="g2g-sens-error" class="error-tooltip"></div>
+                </div>
             </div>
             <div class="input-group">
                 <label>TO GAME:</label>
@@ -606,15 +706,110 @@
 
     </div>
 
+    <!-- ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ ДЛЯ CS2 -->
+    <div class="advanced-box" id="cs2-box">
+        <label class="checkbox-container" style="justify-content: center;">
+            <input type="checkbox" id="cs2-advanced-check" onchange="calculate()">
+            <span>SHOW ADVANCED (ZOOM, RES)</span>
+        </label>
+        <div class="adv-content" id="cs2-advanced-content">
+            <label class="checkbox-container">
+                <input type="checkbox" id="cs2-res-check" onchange="calculate()">
+                <span>У МЕНЯ НЕ 16:9 (I DON'T USE 16:9)</span>
+            </label>
+            
+            <div class="mini-tabs" id="cs2-res-tabs" style="display:none; margin-top:8px;">
+                <div class="mini-slider mini-slider-3" id="cs2-res-slider"></div>
+                <div class="mini-tab active" id="rtab-43" onclick="setCs2Res('43')">4:3</div>
+                <div class="mini-tab" id="rtab-54" onclick="setCs2Res('54')">5:4</div>
+                <div class="mini-tab" id="rtab-1610" onclick="setCs2Res('1610')">16:10</div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-top:15px; margin-bottom:5px;">
+                <div style="display:flex; align-items:center;">
+                    <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">ZOOM SENSITIVITY MULTIPLIER:</span>
+                    <div class="tooltip">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                        <div class="tooltip-text" style="width:230px;">
+                            Для ощущения 1:1 (MDH 0%) рекомендуется использовать <span style="color:#A985FF; font-weight:700;">0.818933</span>.<br><br>В CS чувствительность при зуме снижается, множитель нужен для точной компенсации.
+                        </div>
+                    </div>
+                </div>
+                <input type="text" inputmode="decimal" id="cs2-zoom" value="1" class="mini-input" oninput="calculate()">
+            </div>
+        </div>
+    </div>
+
+    <!-- ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ ДЛЯ OVERWATCH 2 -->
+    <div class="advanced-box" id="ow2-box">
+        <label class="checkbox-container" style="justify-content: center;">
+            <input type="checkbox" id="ow2-advanced-check" onchange="calculate()">
+            <span>SHOW ADVANCED (HERO ADS)</span>
+        </label>
+        <div class="adv-content" id="ow2-advanced-content">
+            <!-- Row 1 -->
+            <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
+                <div style="display:flex; align-items:center;">
+                    <span style="font-size: 11px; font-weight: 700; color: #aaa;">ANA & WIDOWMAKER:</span>
+                    <div class="tooltip">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                        <div class="tooltip-text">Optimal tracking feel (1:1 MDH 0%):<br><span style="color:#A985FF; font-weight:700;">37.89%</span></div>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:5px; font-size:12px;">
+                    <input type="text" inputmode="decimal" id="ow2-ana" value="100" class="mini-input" oninput="calculate()"> %
+                </div>
+            </div>
+            <!-- Row 2 -->
+            <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
+                <div style="display:flex; align-items:center;">
+                    <span style="font-size: 11px; font-weight: 700; color: #aaa;">ASHE & CASSIDY:</span>
+                    <div class="tooltip">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                        <div class="tooltip-text">Optimal tracking feel (1:1 MDH 0%):<br><span style="color:#A985FF; font-weight:700;">51.47%</span></div>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:5px; font-size:12px;">
+                    <input type="text" inputmode="decimal" id="ow2-ashe" value="100" class="mini-input" oninput="calculate()"> %
+                </div>
+            </div>
+            <!-- Row 3 -->
+            <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
+                <div style="display:flex; align-items:center;">
+                    <span style="font-size: 11px; font-weight: 700; color: #aaa;">FREJA:</span>
+                    <div class="tooltip">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                        <div class="tooltip-text">Optimal tracking feel (1:1 MDH 0%):<br><span style="color:#A985FF; font-weight:700;">62.22%</span></div>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:5px; font-size:12px;">
+                    <input type="text" inputmode="decimal" id="ow2-freja" value="100" class="mini-input" oninput="calculate()"> %
+                </div>
+            </div>
+            <!-- Row 4 -->
+            <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                <div style="display:flex; align-items:center;">
+                    <span style="font-size: 11px; font-weight: 700; color: #aaa;">EMRE:</span>
+                    <div class="tooltip">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                        <div class="tooltip-text">Optimal tracking feel (1:1 MDH 0%):<br><span style="color:#A985FF; font-weight:700;">54.99%</span></div>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:5px; font-size:12px;">
+                    <input type="text" inputmode="decimal" id="ow2-emre" value="100" class="mini-input" oninput="calculate()"> %
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ ДЛЯ THE FINALS -->
-    <div class="tf-options" id="tf-box">
+    <div class="advanced-box" id="tf-box">
         <label class="checkbox-container" style="justify-content: center;">
             <input type="checkbox" id="tf-advanced-check" onchange="calculate()">
             <span>SHOW ADVANCED (FOV, ADS)</span>
         </label>
-
-        <div class="tf-advanced-content" id="tf-advanced-content">
-            <div class="tf-opt-row">
+        <div class="adv-content" id="tf-advanced-content">
+            <div class="adv-opt-row">
                 <label class="checkbox-container" style="width:100%; display:flex; justify-content: space-between; align-items:center; margin:0;">
                     <div style="display: flex; align-items: center;">
                         <span>FOCAL LENGTH SENSITIVITY SCALING</span>
@@ -629,30 +824,27 @@
                     <input type="checkbox" id="tf-fls" checked onchange="calculate()" style="margin-right:0;">
                 </label>
             </div>
-            
-            <div class="tf-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 15px;">
+            <div class="adv-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 15px;">
                 <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
                     <div style="display:flex; align-items:center;">
                         <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">HIPFIRE FOV:</span>
                         <div class="tooltip">
                             <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
-                            <div class="tooltip-text">The Finals uses Vertical FOV.<br><br>Pro players typically use an FOV between <span style="color:#A985FF; font-weight:700;">85 and 100</span>, with <span style="color:#A985FF; font-weight:700;">90</span> being the most common sweet spot.</div>
+                            <div class="tooltip-text">The Finals uses Vertical FOV.<br><br>Pro players typically use an FOV between <span style="color:#A985FF; font-weight:700;">85 and 100</span>.</div>
                         </div>
                     </div>
                     <span id="tf-fov-val" style="color:#fff; font-size:12px; font-weight:700;">71</span>
                 </div>
                 <input type="range" id="tf-fov" min="45" max="100" value="71" oninput="document.getElementById('tf-fov-val').innerText = this.value; calculate()">
             </div>
-
-            <div class="tf-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 10px;">
+            <div class="adv-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 10px;">
                 <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
                     <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">MOUSE ZOOM SENS. MULTIPLIER:</span>
                     <span id="tf-zoom-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
                 </div>
                 <input type="range" id="tf-zoom-slider" min="1" max="100" value="100" oninput="document.getElementById('tf-zoom-val').innerText = this.value + '%'; calculate()">
             </div>
-            
-            <div class="tf-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 10px;">
+            <div class="adv-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 10px;">
                 <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
                     <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">SCOPED ZOOM SENS. MULTIPLIER:</span>
                     <span id="tf-scoped-zoom-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
@@ -667,34 +859,84 @@
         <div class="result-title" id="result-label">RESULT:</div>
         <div class="result-value" id="result-value">0.00</div>
         
-        <div class="config-value" id="config-result" style="display: none;"></div>
-
-        <div class="tf-ads-results" id="tf-ads-results">
-            <div class="tf-ads-cat-title">MOUSE ZOOM SENSITIVITY</div>
-            <div class="tf-ads-row">
-                <div class="tf-ads-col">
-                    <div class="tf-ads-title">IRON/RED DOT</div>
-                    <div class="tf-ads-val" id="tf-iron-res">0 cm</div>
-                </div>
-                <div class="tf-ads-col">
-                    <div class="tf-ads-title">MAGNIFEX</div>
-                    <div class="tf-ads-val" id="tf-med-res">0 cm</div>
-                </div>
-            </div>
-            <div class="tf-ads-cat-title" style="margin-top: 5px;">SCOPED ZOOM SENSITIVITY</div>
-            <div class="tf-ads-row">
-                <div class="tf-ads-col">
-                    <div class="tf-ads-title" style="display: flex; justify-content: center; align-items: center;">
-                        SR-84 (SNIPER)
-                        <div class="tooltip">
-                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
-                            <div class="tooltip-text">To get an exact 1:1 tracking feel (0% MDH), set the Scoped Zoom Sens. Multiplier to <span style="color:#A985FF; font-weight:700;">80%</span> in the game.</div>
-                        </div>
-                    </div>
-                    <div class="tf-ads-val" id="tf-sniper-res">0 cm</div>
+        <div class="feels-like-box" id="feels-like-box">
+            <span class="feels-like-val" id="feels-like-val">ОЩУЩАЕТСЯ КАК 0 CM/360</span>
+            <div class="tooltip" style="margin-left: 6px;">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                <div class="tooltip-text" style="width:260px;">
+                    При растягивании изображения на 16:9 объекты становятся шире и движутся визуально быстрее. Хотя физическая дистанция для 360° на коврике не меняется, визуально сенса кажется более быстрой (cm/360 ощущается меньше).
                 </div>
             </div>
         </div>
+
+        <div class="config-value" id="config-result" style="display: none;"></div>
+
+        <!-- РЕЗУЛЬТАТЫ THE FINALS -->
+        <div class="ads-results" id="tf-ads-results">
+            <div class="ads-cat-title">MOUSE ZOOM SENSITIVITY</div>
+            <div class="ads-row">
+                <div class="ads-col">
+                    <div class="ads-title">IRON/RED DOT</div>
+                    <div class="ads-val" id="tf-iron-res">0 cm</div>
+                </div>
+                <div class="ads-col">
+                    <div class="ads-title">MAGNIFEX</div>
+                    <div class="ads-val" id="tf-med-res">0 cm</div>
+                </div>
+            </div>
+            <div class="ads-cat-title" style="margin-top: 5px;">SCOPED ZOOM SENSITIVITY</div>
+            <div class="ads-row">
+                <div class="ads-col">
+                    <div class="ads-title">SR-84 (SNIPER)</div>
+                    <div class="ads-val" id="tf-sniper-res">0 cm</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- РЕЗУЛЬТАТЫ CS2 -->
+        <div class="ads-results" id="cs2-ads-results">
+            <div class="ads-cat-title">SCOPED CM/360 DISTANCES</div>
+            <div class="ads-row">
+                <div class="ads-col">
+                    <div class="ads-title">SG / AUG</div>
+                    <div class="ads-val" id="cs2-aug-res">0 cm</div>
+                </div>
+                <div class="ads-col">
+                    <div class="ads-title">SNIPER ZOOM 1</div>
+                    <div class="ads-val" id="cs2-snip1-res">0 cm</div>
+                </div>
+                <div class="ads-col">
+                    <div class="ads-title">SNIPER ZOOM 2</div>
+                    <div class="ads-val" id="cs2-snip2-res">0 cm</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- РЕЗУЛЬТАТЫ OW2 -->
+        <div class="ads-results" id="ow2-ads-results">
+            <div class="ads-cat-title">HERO ADS CM/360 DISTANCES</div>
+            <div class="ads-row">
+                <div class="ads-col">
+                    <div class="ads-title">ANA & WIDOW</div>
+                    <div class="ads-val" id="ow2-ana-res">0 cm</div>
+                </div>
+                <div class="ads-col">
+                    <div class="ads-title">ASHE & CASSIDY</div>
+                    <div class="ads-val" id="ow2-ashe-res">0 cm</div>
+                </div>
+            </div>
+            <div class="ads-row">
+                <div class="ads-col">
+                    <div class="ads-title">EMRE</div>
+                    <div class="ads-val" id="ow2-emre-res">0 cm</div>
+                </div>
+                <div class="ads-col">
+                    <div class="ads-title">FREJA</div>
+                    <div class="ads-val" id="ow2-freja-res">0 cm</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </div>
@@ -733,9 +975,9 @@
         update() {
             this.x += this.speedX;
             this.y += this.speedY;
-            if (this.y > canvas.height + 100) {
-                this.y = -100;
-                this.x = Math.random() * (canvas.width + 200) - 100;
+            if (this.y > canvas.height + 100) { 
+                this.y = -100; 
+                this.x = Math.random() * (canvas.width + 200) - 100; 
             }
             if (this.x < -100) this.x = canvas.width + 100;
             if (this.x > canvas.width + 100) this.x = -100;
@@ -743,7 +985,6 @@
         draw() {
             let drawX = this.x - mouseX * this.z;
             let drawY = this.y - mouseY * this.z;
-
             ctx.beginPath();
             ctx.arc(drawX, drawY, this.z * 0.8, 0, Math.PI * 2); 
             ctx.fillStyle = `rgba(215, 210, 255, ${this.alpha})`;
@@ -761,16 +1002,15 @@
     function animateParticles() {
         mouseX += (targetMouseX - mouseX) * 0.1;
         mouseY += (targetMouseY - mouseY) * 0.1;
-
         document.body.style.backgroundPosition = `calc(50% + ${-mouseX}px) calc(50% + ${-mouseY}px)`;
-
+        
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "rgba(5, 2, 10, 0.4)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        particles.forEach(p => {
-            p.update();
-            p.draw();
+        particles.forEach(p => { 
+            p.update(); 
+            p.draw(); 
         });
         requestAnimationFrame(animateParticles);
     }
@@ -778,47 +1018,19 @@
 
     // === БАЗА ИГР ===
     const games = {
-        "cs2": { 
-            name: "CS2 / Apex Legends / Source", 
-            aliases:["counter", "strike", "cs", "csgo", "apex", "source"], 
-            yaw: 0.022, 
-            decimals: 2 
-        },
-        "val": { 
-            name: "Valorant", 
-            aliases:["val", "valorant"], 
-            yaw: 0.07, 
-            decimals: 3 
-        },
-        "ow2": { 
-            name: "Overwatch / Call of Duty", 
-            aliases:["ow", "ow2", "overwatch", "cod", "call", "warzone", "mw"], 
-            yaw: 0.0066, 
-            decimals: 2 
-        },
-        "mr": { 
-            name: "Marvel Rivals", 
-            aliases:["marvel", "rivals", "mr"], 
-            yaw: 0.0175, 
-            decimals: 2 
-        },
-        "tf": { 
-            name: "The Finals", 
-            aliases:["finals", "the finals", "tf"], 
-            yaw: 0.001, 
-            decimals: 0 
-        },
-        "fn": { 
-            name: "Fortnite", 
-            aliases:["fortnite", "fn", "fort"], 
-            yaw: 0.0055, 
-            decimals: 1, 
-            suffix: "%"  
-        }
+        "cs2":  { name: "Counter-Strike 2", aliases:["cs2", "csgo", "counter", "strike", "cs"], yaw: 0.022, decimals: 2 },
+        "apex": { name: "Apex Legends / Source", aliases:["apex", "source"], yaw: 0.022, decimals: 2 },
+        "val":  { name: "Valorant", aliases:["val", "valorant"], yaw: 0.07, decimals: 3 },
+        "ow2":  { name: "Overwatch 2", aliases:["ow", "ow2", "overwatch"], yaw: 0.0066, decimals: 2 },
+        "cod":  { name: "Call of Duty", aliases:["cod", "call", "warzone", "mw"], yaw: 0.0066, decimals: 2 },
+        "mr":   { name: "Marvel Rivals", aliases:["marvel", "rivals", "mr"], yaw: 0.0175, decimals: 2 },
+        "tf":   { name: "The Finals", aliases:["finals", "the finals", "tf"], yaw: 0.001, decimals: 0 },
+        "fn":   { name: "Fortnite", aliases:["fortnite", "fn", "fort"], yaw: 0.0055, decimals: 1, suffix: "%" }
     };
 
     let currentMainTab = 'cm'; 
     let isCmToGame = true; 
+    let currentCs2Res = '43';
 
     window.onload = () => {
         initComboboxes();
@@ -851,9 +1063,16 @@
         function renderList(filter = '') {
             list.innerHTML = '';
             const f = filter.toLowerCase();
+            
+            // Ищем ключ другой игры (чтобы исключить дубликат)
+            let otherKey = '';
+            if (inputId === 'g2g-game1') otherKey = document.getElementById('g2g-game2').dataset.key;
+            if (inputId === 'g2g-game2') otherKey = document.getElementById('g2g-game1').dataset.key;
+
             for (let key in games) {
+                if (key === otherKey) continue; // Убираем выбранную во втором списке игру
+
                 const game = games[key];
-                
                 const matchName = game.name.toLowerCase().includes(f);
                 const matchAlias = game.aliases && game.aliases.some(alias => alias.includes(f));
                 
@@ -875,28 +1094,23 @@
             }
         }
 
-        input.addEventListener('focus', () => {
-            input.select();
-            renderList();
-            list.classList.add('active');
+        input.addEventListener('focus', () => { 
+            input.select(); 
+            renderList(); 
+            list.classList.add('active'); 
         });
-
+        
         input.addEventListener('input', () => {
-            renderList(input.value);
+            renderList(input.value); 
             list.classList.add('active');
-            
             let matchedKey = null;
             for (let key in games) {
-                if (games[key].name.toLowerCase() === input.value.toLowerCase()) {
-                    matchedKey = key;
-                    break;
+                if (games[key].name.toLowerCase() === input.value.toLowerCase()) { 
+                    matchedKey = key; 
+                    break; 
                 }
             }
-            if (matchedKey) {
-                input.dataset.key = matchedKey;
-            } else {
-                input.dataset.key = ''; 
-            }
+            if (matchedKey) input.dataset.key = matchedKey; 
             calculate();
         });
 
@@ -906,8 +1120,9 @@
                 if (input.dataset.key && games[input.dataset.key]) {
                     input.value = games[input.dataset.key].name;
                 } else {
-                    input.dataset.key = 'cs2';
-                    input.value = games['cs2'].name;
+                    let fallbackKey = (inputId === 'g2g-game2') ? 'val' : 'cs2';
+                    input.dataset.key = fallbackKey;
+                    input.value = games[fallbackKey].name;
                     calculate();
                 }
             }
@@ -916,14 +1131,9 @@
 
     function switchMainTab(tab) {
         currentMainTab = tab;
-        
         const slider = document.getElementById('tabs-slider');
-        if (tab === 'cm') {
-            slider.style.left = '4px';
-        } else {
-            slider.style.left = '50%';
-        }
-
+        slider.style.left = tab === 'cm' ? '4px' : '50%';
+        
         document.getElementById('tab-cm').classList.toggle('active', tab === 'cm');
         document.getElementById('tab-g2g').classList.toggle('active', tab === 'g2g');
         
@@ -934,41 +1144,90 @@
 
     function setSubMode(isCm) {
         isCmToGame = isCm;
-        
-        const slider = document.getElementById('mini-slider');
-        slider.style.left = isCm ? '3px' : '50%';
+        document.getElementById('mini-slider').style.left = isCm ? '3px' : '50%';
         
         document.getElementById('mtab-cm2game').classList.toggle('active', isCm);
         document.getElementById('mtab-game2cm').classList.toggle('active', !isCm);
         
         const dynInput = document.getElementById('cm-dynamic-input');
         dynInput.placeholder = isCm ? 'e.g. 35' : 'e.g. 1.5';
-        
         dynInput.value = '';
         calculate();
     }
 
+    function setCs2Res(res) {
+        currentCs2Res = res;
+        let left = '3px';
+        if (res === '54') left = 'calc(33.33% + 1px)';
+        if (res === '1610') left = 'calc(66.66% - 1px)';
+        
+        document.getElementById('cs2-res-slider').style.left = left;
+        document.getElementById('rtab-43').classList.toggle('active', res === '43');
+        document.getElementById('rtab-54').classList.toggle('active', res === '54');
+        document.getElementById('rtab-1610').classList.toggle('active', res === '1610');
+        calculate();
+    }
+
+    function validateLimits() {
+        let sensInputId = '';
+        let gameKey = '';
+
+        if (currentMainTab === 'g2g') {
+            sensInputId = 'g2g-sens';
+            gameKey = document.getElementById('g2g-game1').dataset.key;
+        } else if (currentMainTab === 'cm' && !isCmToGame) {
+            sensInputId = 'cm-dynamic-input';
+            gameKey = document.getElementById('cm-game').dataset.key;
+        }
+
+        // Очищаем старые ошибки
+        document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+        document.querySelectorAll('.error-tooltip').forEach(el => el.classList.remove('show'));
+
+        if (!sensInputId) return; 
+
+        const inputEl = document.getElementById(sensInputId);
+        const val = parseInputVal(sensInputId);
+        const tooltipEl = document.getElementById(sensInputId + '-error');
+
+        if (isNaN(val)) return;
+
+        if (gameKey === 'ow2' && val > 100) {
+            inputEl.classList.add('input-error');
+            if (tooltipEl) { 
+                tooltipEl.innerText = "Max is 100"; 
+                tooltipEl.classList.add('show'); 
+            }
+        } else if (gameKey === 'cs2' && (val < 0.01 || val > 8)) {
+            inputEl.classList.add('input-error');
+            if (tooltipEl) { 
+                tooltipEl.innerText = "Limit: 0.01 to 8"; 
+                tooltipEl.classList.add('show'); 
+            }
+        }
+    }
+
     // === ГЛАВНЫЙ РАСЧЕТ И МАТЕМАТИКА ===
     function calculate() {
+        validateLimits(); // Проверка лимитов для подсветок
+
         let resultText = "0.00";
         let resultLabel = "RESULT:";
         let configText = ""; 
         let actualBaseCm360 = 0; 
-        let showTfBox = false;
-
+        
         let g1 = document.getElementById('g2g-game1').dataset.key;
         let g2 = document.getElementById('g2g-game2').dataset.key;
         let g_cm = document.getElementById('cm-game').dataset.key;
+        let targetGameKey = currentMainTab === 'cm' ? g_cm : g2;
 
         if (currentMainTab === 'g2g') {
-            if (g2 === 'tf') showTfBox = true; 
             let sens = parseInputVal('g2g-sens'); 
-
+            
             if (g1 && g2 && !isNaN(sens) && sens > 0) {
                 let dpi = parseInputVal('cm-dpi') || 800; 
-
-                let converted = (sens * games[g1].yaw) / games[g2].yaw;
                 let targetGame = games[g2];
+                let converted = (sens * games[g1].yaw) / targetGame.yaw;
                 
                 if (g2 === 'tf') {
                     let roundedSens = Math.round(converted);
@@ -981,23 +1240,19 @@
                     if (targetGame.suffix) resultText += targetGame.suffix;
                     actualBaseCm360 = (360 * 2.54) / (converted * dpi * targetGame.yaw);
                 }
-                
                 resultLabel = `SENSITIVITY FOR ${targetGame.name}:`;
             }
-
         } else if (currentMainTab === 'cm') {
-            if (g_cm === 'tf') showTfBox = true;
             let dpi = parseInputVal('cm-dpi');
             let val = parseInputVal('cm-dynamic-input');
-            let g = document.getElementById('cm-game').dataset.key;
             
-            if (g && !isNaN(dpi) && !isNaN(val) && val > 0 && dpi > 0) {
-                let targetGame = games[g];
-
+            if (g_cm && !isNaN(dpi) && !isNaN(val) && val > 0 && dpi > 0) {
+                let targetGame = games[g_cm];
+                
                 if (isCmToGame) {
                     let converted = (360 * 2.54) / (val * dpi * targetGame.yaw);
                     
-                    if (g === 'tf') {
+                    if (g_cm === 'tf') {
                         let roundedSens = Math.round(converted);
                         resultText = roundedSens.toString();
                         configText = `FOR CONFIG FILE: ${(converted / 100).toFixed(6)}`;
@@ -1006,7 +1261,7 @@
                         let dec = targetGame.decimals !== undefined ? targetGame.decimals : 4; 
                         resultText = converted.toFixed(dec);
                         if (targetGame.suffix) resultText += targetGame.suffix;
-                        actualBaseCm360 = (360 * 2.54) / (converted * dpi * targetGame.yaw);
+                        actualBaseCm360 = val; // В режиме перевода в сенсу, исходник cm/360 - это то, что ввел пользователь
                     }
                     resultLabel = `SENSITIVITY FOR ${targetGame.name}:`;
                 } else {
@@ -1018,9 +1273,10 @@
             }
         }
 
+        // Вывод основного результата
         document.getElementById('result-value').innerText = resultText;
         document.getElementById('result-label').innerText = resultLabel;
-
+        
         let configDiv = document.getElementById('config-result');
         if (configText !== "") {
             configDiv.innerHTML = configText + `
@@ -1036,51 +1292,97 @@
             configDiv.style.display = 'none';
         }
 
-        // УПРАВЛЕНИЕ БЛОКОМ THE FINALS
+        // --- УПРАВЛЕНИЕ ADVANCED БЛОКАМИ ---
         const tfBox = document.getElementById('tf-box');
-        const tfAdvContent = document.getElementById('tf-advanced-content');
-        const tfAdsResults = document.getElementById('tf-ads-results');
-        const isAdvChecked = document.getElementById('tf-advanced-check').checked;
+        const ow2Box = document.getElementById('ow2-box');
+        const cs2Box = document.getElementById('cs2-box');
         
-        if (showTfBox) {
-            tfBox.style.display = 'block';
-            
-            if (isAdvChecked) {
-                tfAdvContent.style.display = 'block';
-                
-                if (actualBaseCm360 > 0) {
-                    tfAdsResults.style.display = 'flex';
-                    let fov = parseFloat(document.getElementById('tf-fov').value) || 71;
-                    let fls_on = document.getElementById('tf-fls').checked;
-                    let mouse_zoom = parseFloat(document.getElementById('tf-zoom-slider').value) / 100;
-                    let scoped_zoom = parseFloat(document.getElementById('tf-scoped-zoom-slider').value) / 100;
-                    
-                    let getAdsCm = (base, fovMult, isSniper, zoomMult) => {
-                        if (!fls_on) {
-                            return base / zoomMult;
-                        } else {
-                            let hip_rad = (fov / 2) * (Math.PI / 180);
-                            let ads_rad = isSniper ? (25 / 2) * (Math.PI / 180) : ((fov * fovMult) / 2) * (Math.PI / 180);
-                            let zoom_ratio = Math.tan(hip_rad) / Math.tan(ads_rad);
-                            return (base * zoom_ratio) / zoomMult;
-                        }
-                    };
+        tfBox.style.display = 'none';
+        ow2Box.style.display = 'none';
+        cs2Box.style.display = 'none';
+        
+        document.getElementById('tf-ads-results').style.display = 'none';
+        document.getElementById('ow2-ads-results').style.display = 'none';
+        document.getElementById('cs2-ads-results').style.display = 'none';
+        document.getElementById('feels-like-box').style.display = 'none';
 
-                    document.getElementById('tf-iron-res').innerText = getAdsCm(actualBaseCm360, 0.78, false, mouse_zoom).toFixed(1) + ' cm';
-                    document.getElementById('tf-med-res').innerText = getAdsCm(actualBaseCm360, 0.68, false, mouse_zoom).toFixed(1) + ' cm';
-                    document.getElementById('tf-sniper-res').innerText = getAdsCm(actualBaseCm360, null, true, scoped_zoom).toFixed(1) + ' cm';
-                } else {
-                    tfAdsResults.style.display = 'none';
-                }
-            } else {
-                tfAdvContent.style.display = 'none';
-                tfAdsResults.style.display = 'none';
+        // Логика THE FINALS
+        if (targetGameKey === 'tf') {
+            tfBox.style.display = 'block';
+            const adv = document.getElementById('tf-advanced-check').checked;
+            document.getElementById('tf-advanced-content').style.display = adv ? 'block' : 'none';
+            
+            if (adv && actualBaseCm360 > 0) {
+                document.getElementById('tf-ads-results').style.display = 'flex';
+                let fov = parseFloat(document.getElementById('tf-fov').value) || 71;
+                let fls_on = document.getElementById('tf-fls').checked;
+                let mouse_zoom = parseFloat(document.getElementById('tf-zoom-slider').value) / 100;
+                let scoped_zoom = parseFloat(document.getElementById('tf-scoped-zoom-slider').value) / 100;
+                
+                let getAdsCm = (base, fovMult, isSniper, zoomMult) => {
+                    if (!fls_on) return base / zoomMult;
+                    let hip_rad = (fov / 2) * (Math.PI / 180);
+                    let ads_rad = isSniper ? (25 / 2) * (Math.PI / 180) : ((fov * fovMult) / 2) * (Math.PI / 180);
+                    let zoom_ratio = Math.tan(hip_rad) / Math.tan(ads_rad);
+                    return (base * zoom_ratio) / zoomMult;
+                };
+                
+                document.getElementById('tf-iron-res').innerText = getAdsCm(actualBaseCm360, 0.78, false, mouse_zoom).toFixed(1) + ' cm';
+                document.getElementById('tf-med-res').innerText = getAdsCm(actualBaseCm360, 0.68, false, mouse_zoom).toFixed(1) + ' cm';
+                document.getElementById('tf-sniper-res').innerText = getAdsCm(actualBaseCm360, null, true, scoped_zoom).toFixed(1) + ' cm';
             }
-        } else {
-            tfBox.style.display = 'none';
-            tfAdvContent.style.display = 'none';
-            tfAdsResults.style.display = 'none';
-            document.getElementById('tf-advanced-check').checked = false;
+        } 
+        
+        // Логика OVERWATCH 2
+        else if (targetGameKey === 'ow2') {
+            ow2Box.style.display = 'block';
+            const adv = document.getElementById('ow2-advanced-check').checked;
+            document.getElementById('ow2-advanced-content').style.display = adv ? 'block' : 'none';
+            
+            if (adv && actualBaseCm360 > 0) {
+                document.getElementById('ow2-ads-results').style.display = 'flex';
+                let ana = parseInputVal('ow2-ana') || 100;
+                let ashe = parseInputVal('ow2-ashe') || 100;
+                let freja = parseInputVal('ow2-freja') || 100;
+                let emre = parseInputVal('ow2-emre') || 100;
+
+                document.getElementById('ow2-ana-res').innerText = (actualBaseCm360 / (ana / 100)).toFixed(1) + ' cm';
+                document.getElementById('ow2-ashe-res').innerText = (actualBaseCm360 / (ashe / 100)).toFixed(1) + ' cm';
+                document.getElementById('ow2-freja-res').innerText = (actualBaseCm360 / (freja / 100)).toFixed(1) + ' cm';
+                document.getElementById('ow2-emre-res').innerText = (actualBaseCm360 / (emre / 100)).toFixed(1) + ' cm';
+            }
+        }
+        
+        // Логика CS2
+        else if (targetGameKey === 'cs2') {
+            cs2Box.style.display = 'block';
+            const adv = document.getElementById('cs2-advanced-check').checked;
+            document.getElementById('cs2-advanced-content').style.display = adv ? 'block' : 'none';
+            
+            let resChecked = document.getElementById('cs2-res-check').checked;
+            document.getElementById('cs2-res-tabs').style.display = resChecked ? 'flex' : 'none';
+
+            if (adv && resChecked && actualBaseCm360 > 0) {
+                let feelsCm = actualBaseCm360;
+                
+                // Делители визуального ускорения сенсы при растягивании 
+                if (currentCs2Res === '43') feelsCm = actualBaseCm360 / 1.3333;
+                else if (currentCs2Res === '54') feelsCm = actualBaseCm360 / 1.4222;
+                else if (currentCs2Res === '1610') feelsCm = actualBaseCm360 / 1.1111;
+
+                document.getElementById('feels-like-val').innerText = `ОЩУЩАЕТСЯ КАК ${feelsCm.toFixed(2)} CM/360`;
+                document.getElementById('feels-like-box').style.display = 'flex';
+            }
+
+            if (adv && actualBaseCm360 > 0) {
+                document.getElementById('cs2-ads-results').style.display = 'flex';
+                let zoom = parseInputVal('cs2-zoom');
+                if (isNaN(zoom) || zoom <= 0) zoom = 1;
+
+                document.getElementById('cs2-aug-res').innerText = ((actualBaseCm360 * 2) / zoom).toFixed(1) + ' cm';
+                document.getElementById('cs2-snip1-res').innerText = ((actualBaseCm360 * 2.25) / zoom).toFixed(1) + ' cm';
+                document.getElementById('cs2-snip2-res').innerText = ((actualBaseCm360 * 9) / zoom).toFixed(1) + ' cm';
+            }
         }
     }
 </script>
