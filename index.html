@@ -13,7 +13,6 @@
             font-family: 'Space Grotesk', sans-serif;
             color: #ffffff;
             
-            /* Жестко фиксируем размер страницы, убираем скролл */
             height: 100vh;
             width: 100vw;
             overflow: hidden;
@@ -26,7 +25,6 @@
             
             background-color: #05020a;
             background-image: url('space-bg.jpg');
-            /* Сделал фон чуть больше 100%, чтобы он мог двигаться за мышкой */
             background-size: 105%;
             background-position: center;
             background-repeat: no-repeat;
@@ -120,17 +118,16 @@
             filter: drop-shadow(0 0 8px rgba(96, 81, 155, 0.6));
         }
 
-        /* ИСПРАВЛЕННЫЙ ТУМБЛЕР (Убрал засвет справа) */
+        /* ИСПРАВЛЕННЫЙ И ОТЦЕНТРИРОВАННЫЙ ТУМБЛЕР */
         .tabs-container {
             position: relative;
             display: flex;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.4);
             border-radius: 12px;
-            padding: 4px;
+            padding: 4px; /* Внутренние отступы */
             margin-bottom: 25px;
-            border: 1px solid rgba(96, 81, 155, 0.3);
-            /* Обрезаем свечение, чтобы оно не билось о правый край */
-            overflow: hidden; 
+            border: 1px solid rgba(96, 81, 155, 0.2);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
             z-index: 1;
         }
 
@@ -139,14 +136,15 @@
             top: 4px;
             bottom: 4px;
             left: 4px;
+            /* Вычисляем ширину точно с учетом отступов */
             width: calc(50% - 4px);
             background: linear-gradient(135deg, rgba(96, 81, 155, 0.8), rgba(96, 81, 155, 0.2));
             border-radius: 8px;
             transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
             z-index: -1;
-            /* Более мягкая тень */
+            box-sizing: border-box; /* Это свойство исправило кривизну! */
             box-shadow: 0 2px 10px rgba(96, 81, 155, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .tab {
@@ -267,27 +265,27 @@
         .combobox-list::-webkit-scrollbar-thumb { background: rgba(96, 81, 155, 0.6); border-radius: 8px; }
         .combobox-list::-webkit-scrollbar-thumb:hover { background: rgba(96, 81, 155, 0.8); }
 
-        .swap-btn {
-            background: rgba(96, 81, 155, 0.15);
-            border: 1px solid rgba(96, 81, 155, 0.4);
-            color: #fff;
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
+        /* ИКОНКА СМЕНЫ РЕЖИМА (Стрелочки) */
+        .swap-icon-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 5px 0 15px 0;
             cursor: pointer;
-            margin-bottom: 15px;
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            opacity: 0.6;
             transition: all 0.3s ease;
-            text-shadow: 0 0 5px rgba(96, 81, 155, 0.8);
-            font-family: 'Space Grotesk', sans-serif;
         }
 
-        .swap-btn:hover {
-            background: rgba(96, 81, 155, 0.4);
-            box-shadow: 0 0 15px rgba(96, 81, 155, 0.5);
+        .swap-icon-container:hover {
+            opacity: 1;
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 8px #60519b);
+        }
+
+        .swap-icon {
+            width: 26px;
+            height: 26px;
+            color: #a985ff;
         }
 
         .result-box {
@@ -314,39 +312,6 @@
             color: #fff;
             margin-top: 5px;
             text-shadow: 0 0 15px #60519b, 0 0 30px #60519b;
-        }
-
-        .cs2-options {
-            display: none;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(96, 81, 155, 0.3);
-        }
-
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-            font-size: 13px;
-            color: #ccc;
-            cursor: pointer;
-        }
-
-        .checkbox-container input {
-            margin-right: 10px;
-            cursor: pointer;
-            accent-color: #60519b;
-            width: auto; 
-        }
-
-        .zoom-results {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #d8cfff;
-            display: none;
-            background: rgba(0,0,0,0.3);
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid rgba(96, 81, 155, 0.2);
         }
 
         .hidden { display: none !important; }
@@ -381,6 +346,7 @@
         <div class="tab" onclick="switchMainTab('cm')" id="tab-cm" data-i18n="tab_cm">cm/360 ↔ Game</div>
     </div>
 
+    <!-- РЕЖИМ 1: GAME TO GAME -->
     <div id="mode-g2g">
         <div class="input-group">
             <label data-i18n="from_game">From Game:</label>
@@ -402,19 +368,42 @@
         </div>
     </div>
 
+    <!-- РЕЖИМ 2: CM/360 to GAME -->
     <div id="mode-cm" class="hidden">
-        <button class="swap-btn" onclick="toggleCmMode()" data-i18n="swap_btn">🔁 Swap Direction</button>
         
+        <!-- DPI ОБЩИЙ ДЛЯ ОБОИХ РЕЖИМОВ -->
         <div class="input-group">
             <label data-i18n="mouse_dpi">Mouse DPI:</label>
             <input type="text" inputmode="decimal" id="cm-dpi" placeholder="e.g. 800" value="800" oninput="calculate()">
         </div>
 
-        <div id="cm-submode-cm2game">
+        <!-- ВЕРХНЕЕ ПОЛЕ (Меняется) -->
+        <div id="cm-top-cm2game">
             <div class="input-group">
                 <label data-i18n="target_cm">Target cm/360:</label>
                 <input type="text" inputmode="decimal" id="cm-input-cm" placeholder="e.g. 35" oninput="calculate()">
             </div>
+        </div>
+        <div id="cm-top-game2cm" class="hidden">
+            <div class="input-group">
+                <label data-i18n="game_label_2">Game:</label>
+                <div class="combobox">
+                    <input type="text" id="cm-game2" autocomplete="off" spellcheck="false" placeholder="Search game...">
+                    <div class="combobox-list" id="cm-game2-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ИКОНКА СМЕНЫ МЕЖДУ ПОЛЯМИ -->
+        <div class="swap-icon-container" onclick="toggleCmMode()">
+            <!-- SVG Иконка вертикальных стрелочек -->
+            <svg class="swap-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/>
+            </svg>
+        </div>
+
+        <!-- НИЖНЕЕ ПОЛЕ (Меняется) -->
+        <div id="cm-bot-cm2game">
             <div class="input-group">
                 <label data-i18n="game_label">Game:</label>
                 <div class="combobox">
@@ -423,15 +412,7 @@
                 </div>
             </div>
         </div>
-
-        <div id="cm-submode-game2cm" class="hidden">
-            <div class="input-group">
-                <label data-i18n="game_label_2">Game:</label>
-                <div class="combobox">
-                    <input type="text" id="cm-game2" autocomplete="off" spellcheck="false" placeholder="Search game...">
-                    <div class="combobox-list" id="cm-game2-list"></div>
-                </div>
-            </div>
+        <div id="cm-bot-game2cm" class="hidden">
             <div class="input-group">
                 <label data-i18n="ingame_sens">In-game Sensitivity:</label>
                 <input type="text" inputmode="decimal" id="cm-input-sens" placeholder="e.g. 1.5" oninput="calculate()">
@@ -439,26 +420,16 @@
         </div>
     </div>
 
+    <!-- РЕЗУЛЬТАТ -->
     <div class="result-box">
         <div class="result-title" id="result-label" data-i18n="result_default">RESULT:</div>
         <div class="result-value" id="result-value">0.00</div>
     </div>
 
-    <div class="cs2-options" id="cs2-box">
-        <label class="checkbox-container">
-            <input type="checkbox" id="cs2-zoom-check" onchange="calculate()"> 
-            <span data-i18n="cs2_zoom">Include Zoom (AWP/Scout)</span>
-        </label>
-        <div class="zoom-results" id="cs2-zoom-results">
-            <span data-i18n="zoom1">1st Zoom:</span> <span id="cs2-z1">0</span> cm/360<br>
-            <span data-i18n="zoom2">2nd Zoom:</span> <span id="cs2-z2">0</span> cm/360
-        </div>
-    </div>
-
 </div>
 
 <script>
-    // === АНИМАЦИЯ (МУЛЬТИ-ПАРАЛЛАКС ФОНА И ЧАСТИЦ) ===
+    // === АНИМАЦИЯ (МУЛЬТИ-ПАРАЛЛАКС) ===
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     let particles =[];
@@ -469,7 +440,6 @@
     let targetMouseY = 0;
 
     window.addEventListener('mousemove', (e) => {
-        // Сила отклонения камеры (курсора)
         targetMouseX = (e.clientX - window.innerWidth / 2) * 0.05;
         targetMouseY = (e.clientY - window.innerHeight / 2) * 0.05;
     });
@@ -485,18 +455,14 @@
         constructor() {
             this.x = Math.random() * (canvas.width + 200) - 100;
             this.y = Math.random() * (canvas.height + 200) - 100;
-            
-            // Зависимость скорости падения от "близости" частицы
             this.z = Math.random() * 2 + 0.5; 
             this.speedY = this.z * 0.2 + 0.1; 
             this.speedX = (Math.random() - 0.5) * 0.2;
-            
             this.alpha = Math.random() * 0.6 + 0.2;
         }
         update() {
             this.x += this.speedX;
             this.y += this.speedY;
-            
             if (this.y > canvas.height + 100) {
                 this.y = -100;
                 this.x = Math.random() * (canvas.width + 200) - 100;
@@ -523,16 +489,12 @@
     }
 
     function animateParticles() {
-        // Сглаживание движения
         mouseX += (targetMouseX - mouseX) * 0.1;
         mouseY += (targetMouseY - mouseY) * 0.1;
 
-        // ПАРАЛЛАКС САМОГО ФОНА (Картинки)
-        // Картинка сдвигается в противовес мышке, создавая эффект 3D
         document.body.style.backgroundPosition = `calc(50% + ${-mouseX}px) calc(50% + ${-mouseY}px)`;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
         ctx.fillStyle = "rgba(5, 2, 10, 0.4)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
@@ -562,7 +524,6 @@
             from_game: "From Game:",
             sens_label: "Sensitivity:",
             to_game: "To Game:",
-            swap_btn: "🔁 Swap Direction",
             mouse_dpi: "Mouse DPI:",
             target_cm: "Target cm/360:",
             game_label: "Game:",
@@ -571,9 +532,6 @@
             result_default: "RESULT:",
             sens_for: "Sensitivity for",
             cm_dist: "Distance on mousepad:",
-            cs2_zoom: "Include Zoom (AWP/Scout)",
-            zoom1: "1st Zoom:",
-            zoom2: "2nd Zoom:",
             placeholder_sens: "e.g. 1.5",
             placeholder_dpi: "e.g. 800",
             placeholder_cm: "e.g. 35"
@@ -584,7 +542,6 @@
             from_game: "Из игры:",
             sens_label: "Чувствительность:",
             to_game: "В игру:",
-            swap_btn: "🔁 Сменить направление",
             mouse_dpi: "DPI мыши:",
             target_cm: "Желаемые cm/360:",
             game_label: "Игра:",
@@ -593,9 +550,6 @@
             result_default: "РЕЗУЛЬТАТ:",
             sens_for: "Сенса для",
             cm_dist: "Дистанция на коврике:",
-            cs2_zoom: "Учитывать Зум (AWP/Scout)",
-            zoom1: "1-й Зум:",
-            zoom2: "2-й Зум:",
             placeholder_sens: "Например: 1.5",
             placeholder_dpi: "Например: 800",
             placeholder_cm: "Например: 35"
@@ -732,16 +686,16 @@
 
     function toggleCmMode() {
         isCmToGame = !isCmToGame;
-        document.getElementById('cm-submode-cm2game').classList.toggle('hidden', !isCmToGame);
-        document.getElementById('cm-submode-game2cm').classList.toggle('hidden', isCmToGame);
+        document.getElementById('cm-top-cm2game').classList.toggle('hidden', !isCmToGame);
+        document.getElementById('cm-bot-cm2game').classList.toggle('hidden', !isCmToGame);
+        document.getElementById('cm-top-game2cm').classList.toggle('hidden', isCmToGame);
+        document.getElementById('cm-bot-game2cm').classList.toggle('hidden', isCmToGame);
         calculate();
     }
 
     function calculate() {
         let resultText = "0.00";
         let resultLabel = i18n[currentLang].result_default;
-        let showCs2Box = false;
-        let baseCm360 = 0; 
 
         if (currentMainTab === 'g2g') {
             let g1 = document.getElementById('g2g-game1').dataset.key;
@@ -752,11 +706,6 @@
                 let converted = (sens * games[g1].yaw) / games[g2].yaw;
                 resultText = converted.toFixed(4); 
                 resultLabel = `${i18n[currentLang].sens_for} ${games[g2].name}:`;
-            }
-            if (g1 === 'cs2' || g2 === 'cs2') showCs2Box = true;
-            
-            if (g1 && !isNaN(sens) && sens > 0) {
-                baseCm360 = (360 * 2.54) / (sens * 800 * games[g1].yaw); 
             }
 
         } else if (currentMainTab === 'cm') {
@@ -769,9 +718,7 @@
                     let sens = (360 * 2.54) / (cm * dpi * games[g].yaw);
                     resultText = sens.toFixed(4);
                     resultLabel = `${i18n[currentLang].sens_for} ${games[g].name}:`;
-                    baseCm360 = cm;
                 }
-                if (g === 'cs2') showCs2Box = true;
             } else {
                 let sens = parseInputVal('cm-input-sens');
                 let g = document.getElementById('cm-game2').dataset.key;
@@ -779,33 +726,12 @@
                     let cm = (360 * 2.54) / (sens * dpi * games[g].yaw);
                     resultText = cm.toFixed(2) + " cm/360";
                     resultLabel = i18n[currentLang].cm_dist;
-                    baseCm360 = cm;
                 }
-                if (g === 'cs2') showCs2Box = true;
             }
         }
 
         document.getElementById('result-value').innerText = resultText;
         document.getElementById('result-label').innerText = resultLabel;
-
-        const cs2Box = document.getElementById('cs2-box');
-        const zoomResults = document.getElementById('cs2-zoom-results');
-        const isChecked = document.getElementById('cs2-zoom-check').checked;
-
-        if (showCs2Box) {
-            cs2Box.style.display = 'block';
-            if (isChecked && baseCm360 > 0) {
-                zoomResults.style.display = 'block';
-                document.getElementById('cs2-z1').innerText = (baseCm360 * 2.25).toFixed(1);
-                document.getElementById('cs2-z2').innerText = (baseCm360 * 6.0).toFixed(1);
-            } else {
-                zoomResults.style.display = 'none';
-            }
-        } else {
-            cs2Box.style.display = 'none';
-            document.getElementById('cs2-zoom-check').checked = false;
-            zoomResults.style.display = 'none';
-        }
     }
 </script>
 
