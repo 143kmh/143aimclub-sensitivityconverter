@@ -191,7 +191,7 @@
             box-shadow: 0 0 15px rgba(169, 133, 255, 0.5), inset 0 0 10px rgba(0,0,0,0.5);
         }
 
-        /* ADVANCED MINI INPUTS OVERRIDE (Fix for 100% width bug) */
+        /* ADVANCED MINI INPUTS OVERRIDE (Fix for width bug) */
         input[type="text"].mini-input {
             width: 70px !important; 
             padding: 6px 10px; 
@@ -365,12 +365,12 @@
             position: relative; 
             display: inline-flex; 
             align-items: center; 
-            margin-left: 10px; /* Увеличен отступ от текста */
+            margin-left: 10px; 
             cursor: help; 
         }
 
         .tooltip svg { 
-            width: 18px; /* Иконка стала больше */
+            width: 18px; 
             height: 18px; 
             fill: #A985FF; 
             transition: fill 0.2s, transform 0.2s; 
@@ -569,10 +569,9 @@
             font-weight: 700; 
             letter-spacing: 1px; 
             text-align: center; 
-            margin-bottom: 6px; /* Исправлен отступ */
+            margin-bottom: 6px; 
         }
 
-        /* Полностью переписана сетка чтобы блоки никогда не пропадали */
         .ads-row { 
             display: flex; 
             flex-wrap: wrap; /* Позволяет блокам переноситься если нет места */
@@ -846,6 +845,45 @@
         </div>
     </div>
 
+    <!-- ADVANCED SETTINGS FOR PUBG -->
+    <div class="advanced-box" id="pubg-box">
+        <label class="checkbox-container" style="justify-content: center;">
+            <input type="checkbox" id="pubg-advanced-check" onchange="calculate()">
+            <span>SHOW ADVANCED (FOV, SCOPES)</span>
+        </label>
+        <div class="adv-content" id="pubg-advanced-content">
+            <div class="adv-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 5px;">
+                <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
+                    <div style="display:flex; align-items:center;">
+                        <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">HIPFIRE FOV:</span>
+                    </div>
+                    <span id="pubg-fov-val" style="color:#fff; font-size:12px; font-weight:700;">90</span>
+                </div>
+                <input type="range" id="pubg-fov" min="80" max="103" value="90" oninput="document.getElementById('pubg-fov-val').innerText = this.value; calculate()">
+            </div>
+            
+            <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-top:20px; margin-bottom:12px;">
+                <div style="display:flex; align-items:center;">
+                    <span style="font-size: 11px; font-weight: 700; color: #aaa;">1X SCOPE (RED DOT/HOLO):</span>
+                    <div class="tooltip">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                        <div class="tooltip-text" style="width:230px;">
+                            PUBG automatically scales scoped sensitivity using FOV ratios based on a hardcoded 80 FOV rule.<br><br>Leaving this at default (50) preserves the engine's built-in scaling curve.
+                        </div>
+                    </div>
+                </div>
+                <input type="text" inputmode="decimal" id="pubg-1x" value="50" class="mini-input" oninput="calculate()">
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:5px;">
+                <div style="display:flex; align-items:center;">
+                    <span style="font-size: 11px; font-weight: 700; color: #aaa;">4X SCOPE (ACOG):</span>
+                </div>
+                <input type="text" inputmode="decimal" id="pubg-4x" value="50" class="mini-input" oninput="calculate()">
+            </div>
+        </div>
+    </div>
+
     <!-- RESULT AREA -->
     <div class="result-box">
         <div class="result-title" id="result-label">RESULT:</div>
@@ -925,6 +963,21 @@
                 <div class="ads-col">
                     <div class="ads-title">FREJA</div>
                     <div class="ads-val" id="ow2-freja-res">0 cm</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PUBG RESULTS -->
+        <div class="ads-results" id="pubg-ads-results">
+            <div class="ads-cat-title">SCOPED CM/360 DISTANCES</div>
+            <div class="ads-row">
+                <div class="ads-col">
+                    <div class="ads-title">1X (RED DOT)</div>
+                    <div class="ads-val" id="pubg-1x-res">0 cm</div>
+                </div>
+                <div class="ads-col">
+                    <div class="ads-title">4X (ACOG)</div>
+                    <div class="ads-val" id="pubg-4x-res">0 cm</div>
                 </div>
             </div>
         </div>
@@ -1017,6 +1070,7 @@
         "cod":  { name: "Call of Duty", aliases:["cod", "call", "warzone", "mw"], yaw: 0.0066, decimals: 2 },
         "mr":   { name: "Marvel Rivals", aliases:["marvel", "rivals", "mr"], yaw: 0.0175, decimals: 2 },
         "tf":   { name: "The Finals", aliases:["finals", "the finals", "tf"], yaw: 0.001, decimals: 0 },
+        "pubg": { name: "PUBG: BATTLEGROUNDS", aliases:["pubg", "playerunknown", "battlegrounds"], yaw: 1, decimals: 1 },
         "fn":   { name: "Fortnite", aliases:["fortnite", "fn", "fort"], yaw: 0.0055, decimals: 1, suffix: "%" }
     };
 
@@ -1062,7 +1116,7 @@
             if (inputId === 'g2g-game2') otherKey = document.getElementById('g2g-game1').dataset.key;
 
             for (let key in games) {
-                if (key === otherKey) continue; // Exclude the game already selected on the other side
+                if (key === otherKey) continue; 
 
                 const game = games[key];
                 const matchName = game.name.toLowerCase().includes(f);
@@ -1199,6 +1253,26 @@
         }
     }
 
+    // YAW & GAME SPECIFIC CONVERSION HELPERS
+    // PUBG has a non-linear slider (0-100) mathematically defined by the config base
+    function getEffectiveYaw(gameKey, sens) {
+        if (gameKey === 'pubg') {
+            let configSens = 0.002 * Math.pow(10, sens / 50);
+            return configSens * 2.5; // UE4 Engine default scaling
+        }
+        return sens * games[gameKey].yaw;
+    }
+
+    function convertFromEffectiveYaw(gameKey, effectiveYaw) {
+        if (gameKey === 'pubg') {
+            let configSens = effectiveYaw / 2.5;
+            if (configSens <= 0) return 0;
+            let sens = 50 * Math.log10(configSens / 0.002);
+            return sens;
+        }
+        return effectiveYaw / games[gameKey].yaw;
+    }
+
     // === MAIN CALCULATION ALGORITHM ===
     function calculate() {
         validateLimits(); // Check constraints for highlights
@@ -1212,52 +1286,66 @@
         let g2 = document.getElementById('g2g-game2').dataset.key;
         let g_cm = document.getElementById('cm-game').dataset.key;
         let targetGameKey = currentMainTab === 'cm' ? g_cm : g2;
+        let dpi = parseInputVal('cm-dpi') || 800; // default failsafe
 
         if (currentMainTab === 'g2g') {
             let sens = parseInputVal('g2g-sens'); 
             
             if (g1 && g2 && !isNaN(sens) && sens > 0) {
-                let dpi = parseInputVal('cm-dpi') || 800; 
                 let targetGame = games[g2];
-                let converted = (sens * games[g1].yaw) / targetGame.yaw;
+                let effectiveYaw1 = getEffectiveYaw(g1, sens);
+                let converted = convertFromEffectiveYaw(g2, effectiveYaw1);
                 
-                if (g2 === 'tf') {
+                if (g2 === 'tf' || g2 === 'pubg') {
                     let roundedSens = Math.round(converted);
-                    resultText = roundedSens.toString(); 
-                    configText = `FOR CONFIG FILE: ${(converted / 100).toFixed(6)}`; 
-                    actualBaseCm360 = (360 * 2.54) / (roundedSens * dpi * targetGame.yaw);
+                    if (g2 === 'pubg') {
+                        resultText = converted.toFixed(1); 
+                        let configSens = (getEffectiveYaw('pubg', converted) / 2.5).toFixed(6);
+                        configText = `FOR CONFIG FILE: ${configSens}`;
+                    } else {
+                        resultText = roundedSens.toString(); 
+                        configText = `FOR CONFIG FILE: ${(converted / 100).toFixed(6)}`; 
+                    }
+                    actualBaseCm360 = (360 * 2.54) / (dpi * getEffectiveYaw(g2, roundedSens));
                 } else {
                     let dec = targetGame.decimals !== undefined ? targetGame.decimals : 4; 
                     resultText = converted.toFixed(dec); 
                     if (targetGame.suffix) resultText += targetGame.suffix;
-                    actualBaseCm360 = (360 * 2.54) / (converted * dpi * targetGame.yaw);
+                    actualBaseCm360 = (360 * 2.54) / (dpi * getEffectiveYaw(g2, converted));
                 }
                 resultLabel = `SENSITIVITY FOR ${targetGame.name}:`;
             }
         } else if (currentMainTab === 'cm') {
-            let dpi = parseInputVal('cm-dpi');
             let val = parseInputVal('cm-dynamic-input');
             
             if (g_cm && !isNaN(dpi) && !isNaN(val) && val > 0 && dpi > 0) {
                 let targetGame = games[g_cm];
                 
                 if (isCmToGame) {
-                    let converted = (360 * 2.54) / (val * dpi * targetGame.yaw);
+                    let requiredEffectiveYaw = (360 * 2.54) / (val * dpi);
+                    let converted = convertFromEffectiveYaw(g_cm, requiredEffectiveYaw);
                     
-                    if (g_cm === 'tf') {
+                    if (g_cm === 'tf' || g_cm === 'pubg') {
                         let roundedSens = Math.round(converted);
-                        resultText = roundedSens.toString();
-                        configText = `FOR CONFIG FILE: ${(converted / 100).toFixed(6)}`;
-                        actualBaseCm360 = (360 * 2.54) / (roundedSens * dpi * targetGame.yaw);
+                        if (g_cm === 'pubg') {
+                            resultText = converted.toFixed(1); 
+                            let configSens = (getEffectiveYaw('pubg', converted) / 2.5).toFixed(6);
+                            configText = `FOR CONFIG FILE: ${configSens}`;
+                        } else {
+                            resultText = roundedSens.toString();
+                            configText = `FOR CONFIG FILE: ${(converted / 100).toFixed(6)}`;
+                        }
+                        actualBaseCm360 = val; // CM input directly defines base tracking distance
                     } else {
                         let dec = targetGame.decimals !== undefined ? targetGame.decimals : 4; 
                         resultText = converted.toFixed(dec);
                         if (targetGame.suffix) resultText += targetGame.suffix;
-                        actualBaseCm360 = val; // CM input directly defines base tracking distance
+                        actualBaseCm360 = val; 
                     }
                     resultLabel = `SENSITIVITY FOR ${targetGame.name}:`;
                 } else {
-                    let cm = (360 * 2.54) / (val * dpi * targetGame.yaw);
+                    let effectiveYaw = getEffectiveYaw(g_cm, val);
+                    let cm = (360 * 2.54) / (dpi * effectiveYaw);
                     actualBaseCm360 = cm;
                     resultText = cm.toFixed(2) + " cm/360"; 
                     resultLabel = "DISTANCE ON MOUSEPAD:";
@@ -1275,8 +1363,8 @@
                 <div class="tooltip">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
                     <div class="tooltip-text" style="word-break: break-all;">
-                        <span style="font-weight: 700;">Path:</span><br>
-                        <span style="color: #A985FF;">%LOCALAPPDATA%\\Discovery\\Saved\\Config\\WindowsClient\\GameUserSettings.ini</span>
+                        <span style="font-weight: 700;">File config value mapping</span><br>
+                        <span style="color: #A985FF; font-size:11px;">Copy this exact value into your game config directory for absolute 1:1 precision.</span>
                     </div>
                 </div>`;
             configDiv.style.display = 'flex';
@@ -1288,14 +1376,17 @@
         const tfBox = document.getElementById('tf-box');
         const ow2Box = document.getElementById('ow2-box');
         const cs2Box = document.getElementById('cs2-box');
+        const pubgBox = document.getElementById('pubg-box');
         
         tfBox.style.display = 'none';
         ow2Box.style.display = 'none';
         cs2Box.style.display = 'none';
+        pubgBox.style.display = 'none';
         
         document.getElementById('tf-ads-results').style.display = 'none';
         document.getElementById('ow2-ads-results').style.display = 'none';
         document.getElementById('cs2-ads-results').style.display = 'none';
+        document.getElementById('pubg-ads-results').style.display = 'none';
         document.getElementById('feels-like-box').style.display = 'none';
 
         // THE FINALS Logic
@@ -1304,24 +1395,30 @@
             const adv = document.getElementById('tf-advanced-check').checked;
             document.getElementById('tf-advanced-content').style.display = adv ? 'block' : 'none';
             
-            if (adv && actualBaseCm360 > 0) {
+            if (adv) {
                 document.getElementById('tf-ads-results').style.display = 'flex';
-                let fov = parseFloat(document.getElementById('tf-fov').value) || 71;
-                let fls_on = document.getElementById('tf-fls').checked;
-                let mouse_zoom = parseFloat(document.getElementById('tf-zoom-slider').value) / 100;
-                let scoped_zoom = parseFloat(document.getElementById('tf-scoped-zoom-slider').value) / 100;
-                
-                let getAdsCm = (base, fovMult, isSniper, zoomMult) => {
-                    if (!fls_on) return base / zoomMult;
-                    let hip_rad = (fov / 2) * (Math.PI / 180);
-                    let ads_rad = isSniper ? (25 / 2) * (Math.PI / 180) : ((fov * fovMult) / 2) * (Math.PI / 180);
-                    let zoom_ratio = Math.tan(hip_rad) / Math.tan(ads_rad);
-                    return (base * zoom_ratio) / zoomMult;
-                };
-                
-                document.getElementById('tf-iron-res').innerText = getAdsCm(actualBaseCm360, 0.78, false, mouse_zoom).toFixed(1) + ' cm';
-                document.getElementById('tf-med-res').innerText = getAdsCm(actualBaseCm360, 0.68, false, mouse_zoom).toFixed(1) + ' cm';
-                document.getElementById('tf-sniper-res').innerText = getAdsCm(actualBaseCm360, null, true, scoped_zoom).toFixed(1) + ' cm';
+                if (actualBaseCm360 > 0) {
+                    let fov = parseFloat(document.getElementById('tf-fov').value) || 71;
+                    let fls_on = document.getElementById('tf-fls').checked;
+                    let mouse_zoom = parseFloat(document.getElementById('tf-zoom-slider').value) / 100;
+                    let scoped_zoom = parseFloat(document.getElementById('tf-scoped-zoom-slider').value) / 100;
+                    
+                    let getAdsCm = (base, fovMult, isSniper, zoomMult) => {
+                        if (!fls_on) return base / zoomMult;
+                        let hip_rad = (fov / 2) * (Math.PI / 180);
+                        let ads_rad = isSniper ? (25 / 2) * (Math.PI / 180) : ((fov * fovMult) / 2) * (Math.PI / 180);
+                        let zoom_ratio = Math.tan(hip_rad) / Math.tan(ads_rad);
+                        return (base * zoom_ratio) / zoomMult;
+                    };
+                    
+                    document.getElementById('tf-iron-res').innerText = getAdsCm(actualBaseCm360, 0.78, false, mouse_zoom).toFixed(1) + ' cm';
+                    document.getElementById('tf-med-res').innerText = getAdsCm(actualBaseCm360, 0.68, false, mouse_zoom).toFixed(1) + ' cm';
+                    document.getElementById('tf-sniper-res').innerText = getAdsCm(actualBaseCm360, null, true, scoped_zoom).toFixed(1) + ' cm';
+                } else {
+                    document.getElementById('tf-iron-res').innerText = '0 cm';
+                    document.getElementById('tf-med-res').innerText = '0 cm';
+                    document.getElementById('tf-sniper-res').innerText = '0 cm';
+                }
             }
         } 
         
@@ -1331,17 +1428,24 @@
             const adv = document.getElementById('ow2-advanced-check').checked;
             document.getElementById('ow2-advanced-content').style.display = adv ? 'block' : 'none';
             
-            if (adv && actualBaseCm360 > 0) {
+            if (adv) {
                 document.getElementById('ow2-ads-results').style.display = 'flex';
-                let ana = parseInputVal('ow2-ana') || 100;
-                let ashe = parseInputVal('ow2-ashe') || 100;
-                let freja = parseInputVal('ow2-freja') || 100;
-                let emre = parseInputVal('ow2-emre') || 100;
+                if (actualBaseCm360 > 0) {
+                    let ana = parseInputVal('ow2-ana') || 100;
+                    let ashe = parseInputVal('ow2-ashe') || 100;
+                    let freja = parseInputVal('ow2-freja') || 100;
+                    let emre = parseInputVal('ow2-emre') || 100;
 
-                document.getElementById('ow2-ana-res').innerText = (actualBaseCm360 / (ana / 100)).toFixed(1) + ' cm';
-                document.getElementById('ow2-ashe-res').innerText = (actualBaseCm360 / (ashe / 100)).toFixed(1) + ' cm';
-                document.getElementById('ow2-freja-res').innerText = (actualBaseCm360 / (freja / 100)).toFixed(1) + ' cm';
-                document.getElementById('ow2-emre-res').innerText = (actualBaseCm360 / (emre / 100)).toFixed(1) + ' cm';
+                    document.getElementById('ow2-ana-res').innerText = (actualBaseCm360 / (ana / 100)).toFixed(1) + ' cm';
+                    document.getElementById('ow2-ashe-res').innerText = (actualBaseCm360 / (ashe / 100)).toFixed(1) + ' cm';
+                    document.getElementById('ow2-freja-res').innerText = (actualBaseCm360 / (freja / 100)).toFixed(1) + ' cm';
+                    document.getElementById('ow2-emre-res').innerText = (actualBaseCm360 / (emre / 100)).toFixed(1) + ' cm';
+                } else {
+                    document.getElementById('ow2-ana-res').innerText = '0 cm';
+                    document.getElementById('ow2-ashe-res').innerText = '0 cm';
+                    document.getElementById('ow2-freja-res').innerText = '0 cm';
+                    document.getElementById('ow2-emre-res').innerText = '0 cm';
+                }
             }
         }
         
@@ -1354,26 +1458,68 @@
             let resChecked = document.getElementById('cs2-res-check').checked;
             document.getElementById('cs2-res-tabs').style.display = resChecked ? 'flex' : 'none';
 
-            if (adv && resChecked && actualBaseCm360 > 0) {
-                let feelsCm = actualBaseCm360;
-                
-                // Divisors for horizontal stretched resolution visual speed multipliers
-                if (currentCs2Res === '43') feelsCm = actualBaseCm360 / 1.3333;
-                else if (currentCs2Res === '54') feelsCm = actualBaseCm360 / 1.4222;
-                else if (currentCs2Res === '1610') feelsCm = actualBaseCm360 / 1.1111;
-
-                document.getElementById('feels-like-val').innerText = `FEELS LIKE ${feelsCm.toFixed(2)} CM/360`;
+            if (adv && resChecked) {
                 document.getElementById('feels-like-box').style.display = 'flex';
+                if (actualBaseCm360 > 0) {
+                    let feelsCm = actualBaseCm360;
+                    
+                    // Divisors for horizontal stretched resolution visual speed multipliers
+                    if (currentCs2Res === '43') feelsCm = actualBaseCm360 / 1.3333;
+                    else if (currentCs2Res === '54') feelsCm = actualBaseCm360 / 1.4222;
+                    else if (currentCs2Res === '1610') feelsCm = actualBaseCm360 / 1.1111;
+
+                    document.getElementById('feels-like-val').innerText = `FEELS LIKE ${feelsCm.toFixed(2)} CM/360`;
+                } else {
+                    document.getElementById('feels-like-val').innerText = `FEELS LIKE 0 CM/360`;
+                }
             }
 
-            if (adv && actualBaseCm360 > 0) {
+            if (adv) {
                 document.getElementById('cs2-ads-results').style.display = 'flex';
-                let zoom = parseInputVal('cs2-zoom');
-                if (isNaN(zoom) || zoom <= 0) zoom = 1;
+                if (actualBaseCm360 > 0) {
+                    let zoom = parseInputVal('cs2-zoom');
+                    if (isNaN(zoom) || zoom <= 0) zoom = 1;
 
-                document.getElementById('cs2-aug-res').innerText = ((actualBaseCm360 * 2) / zoom).toFixed(1) + ' cm';
-                document.getElementById('cs2-snip1-res').innerText = ((actualBaseCm360 * 2.25) / zoom).toFixed(1) + ' cm';
-                document.getElementById('cs2-snip2-res').innerText = ((actualBaseCm360 * 9) / zoom).toFixed(1) + ' cm';
+                    document.getElementById('cs2-aug-res').innerText = ((actualBaseCm360 * 2) / zoom).toFixed(1) + ' cm';
+                    document.getElementById('cs2-snip1-res').innerText = ((actualBaseCm360 * 2.25) / zoom).toFixed(1) + ' cm';
+                    document.getElementById('cs2-snip2-res').innerText = ((actualBaseCm360 * 9) / zoom).toFixed(1) + ' cm';
+                } else {
+                    document.getElementById('cs2-aug-res').innerText = '0 cm';
+                    document.getElementById('cs2-snip1-res').innerText = '0 cm';
+                    document.getElementById('cs2-snip2-res').innerText = '0 cm';
+                }
+            }
+        }
+        
+        // PUBG Logic
+        else if (targetGameKey === 'pubg') {
+            pubgBox.style.display = 'block';
+            const adv = document.getElementById('pubg-advanced-check').checked;
+            document.getElementById('pubg-advanced-content').style.display = adv ? 'block' : 'none';
+            
+            if (adv) {
+                document.getElementById('pubg-ads-results').style.display = 'flex';
+                if (actualBaseCm360 > 0) {
+                    // Extract exactly what the engine applies for the hipfire layout
+                    let hipSlider = convertFromEffectiveYaw('pubg', (360 * 2.54) / (dpi * actualBaseCm360));
+                    let hipConfig = 0.002 * Math.pow(10, hipSlider / 50);
+                    
+                    let s1x = parseInputVal('pubg-1x'); if (isNaN(s1x)) s1x = 50;
+                    let s4x = parseInputVal('pubg-4x'); if (isNaN(s4x)) s4x = 50;
+                    
+                    let conf1x = 0.002 * Math.pow(10, s1x / 50);
+                    let conf4x = 0.002 * Math.pow(10, s4x / 50);
+                    
+                    // Engine multipliers based on fixed hardcoded FOV mappings in PUBG
+                    let mult1x = (70 / 80) * (conf1x / hipConfig);
+                    let mult4x = (19 / 80) * (conf4x / hipConfig);
+                    
+                    document.getElementById('pubg-1x-res').innerText = (actualBaseCm360 / mult1x).toFixed(1) + ' cm';
+                    document.getElementById('pubg-4x-res').innerText = (actualBaseCm360 / mult4x).toFixed(1) + ' cm';
+                } else {
+                    document.getElementById('pubg-1x-res').innerText = '0 cm';
+                    document.getElementById('pubg-4x-res').innerText = '0 cm';
+                }
             }
         }
     }
