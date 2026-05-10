@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>143 Aim Club - Sensitivity Converter</title>
     <style>
-        /* БАЗОВЫЙ ДИЗАЙН И ШРИФТЫ */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
         body {
@@ -20,7 +19,6 @@
             padding-top: 12vh;
             overflow-x: hidden;
             
-            /* ТВОЯ ТЕКСТУРА НА ФОНЕ */
             background-color: #05020a;
             background-image: url('bg.jpg');
             background-size: cover;
@@ -29,7 +27,6 @@
             background-repeat: no-repeat;
         }
 
-        /* ХОЛСТ ДЛЯ АНИМАЦИИ ЧАСТИЦ (поверх картинки) */
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -39,7 +36,6 @@
             z-index: -1;
         }
 
-        /* ГЛАВНАЯ КАРТОЧКА */
         .calculator-card {
             background: rgba(15, 10, 25, 0.6);
             backdrop-filter: blur(16px);
@@ -54,7 +50,6 @@
             z-index: 1;
         }
 
-        /* МИНИ ТУМБЛЕР ЯЗЫКА */
         .lang-switch {
             display: flex;
             justify-content: center;
@@ -90,7 +85,6 @@
             filter: drop-shadow(0 0 8px rgba(96, 81, 155, 0.6));
         }
 
-        /* ТУМБЛЕР РЕЖИМОВ */
         .tabs {
             display: flex;
             background: rgba(0, 0, 0, 0.4);
@@ -121,7 +115,6 @@
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
 
-        /* ПОЛЯ ВВОДА */
         .input-group {
             margin-bottom: 15px;
             display: flex;
@@ -155,7 +148,6 @@
             box-shadow: 0 0 15px rgba(96, 81, 155, 0.5), inset 0 0 10px rgba(0,0,0,0.5);
         }
 
-        /* КНОПКА СМЕНЫ РЕЖИМОВ В CM/360 */
         .swap-btn {
             background: rgba(96, 81, 155, 0.15);
             border: 1px solid rgba(96, 81, 155, 0.4);
@@ -178,7 +170,6 @@
             box-shadow: 0 0 15px rgba(96, 81, 155, 0.5);
         }
 
-        /* РЕЗУЛЬТАТ */
         .result-box {
             margin-top: 25px;
             padding: 20px 15px;
@@ -205,7 +196,6 @@
             text-shadow: 0 0 15px #60519b, 0 0 30px #60519b;
         }
 
-        /* ГАЛОЧКА CS2 */
         .cs2-options {
             display: none;
             margin-top: 15px;
@@ -243,7 +233,6 @@
 </head>
 <body>
 
-<!-- Холст для затемнения картинки и космических частиц -->
 <canvas id="particle-canvas"></canvas>
 
 <div class="calculator-card">
@@ -260,7 +249,6 @@
         <div class="tab" onclick="switchMainTab('cm')" id="tab-cm" data-i18n="tab_cm">cm/360 ↔ Game</div>
     </div>
 
-    <!-- РЕЖИМ 1: GAME TO GAME -->
     <div id="mode-g2g">
         <div class="input-group">
             <label data-i18n="from_game">From Game:</label>
@@ -276,7 +264,6 @@
         </div>
     </div>
 
-    <!-- РЕЖИМ 2: CM/360 to GAME -->
     <div id="mode-cm" class="hidden">
         <button class="swap-btn" onclick="toggleCmMode()" data-i18n="swap_btn">🔁 Swap Direction</button>
         
@@ -327,7 +314,7 @@
 </div>
 
 <script>
-    // === АНИМАЦИЯ ЧАСТИЦ (КОСМОС) ===
+    // === ОБНОВЛЕННАЯ АНИМАЦИЯ ЧАСТИЦ ===
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     let particles =[];
@@ -343,36 +330,46 @@
         constructor() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2 + 0.5;
-            this.speedX = (Math.random() - 0.5) * 0.3;
-            this.speedY = (Math.random() - 0.5) * 0.3;
-            this.alpha = Math.random() * 0.5 + 0.1;
+            // Увеличиваем скорость и задаем падение строго вниз с микро-сдвигом
+            this.speedY = Math.random() * 4 + 2; 
+            this.speedX = (Math.random() - 0.5) * 0.5;
+            this.size = Math.random() * 1.5 + 0.5; // Толщина линии
+            this.alpha = Math.random() * 0.7 + 0.3; // Стали ярче
         }
         update() {
             this.x += this.speedX;
             this.y += this.speedY;
+            
+            // Если частица упала за край экрана, возвращаем её наверх
+            if (this.y > canvas.height) {
+                this.y = 0 - this.speedY; // Спавним чуть выше края
+                this.x = Math.random() * canvas.width;
+            }
             if (this.x < 0) this.x = canvas.width;
             if (this.x > canvas.width) this.x = 0;
-            if (this.y < 0) this.y = canvas.height;
-            if (this.y > canvas.height) this.y = 0;
         }
         draw() {
+            // Рисуем линии со шлейфом вместо точек для максимальной резкости
             ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(138, 118, 223, ${this.alpha})`; 
-            ctx.fill();
+            ctx.moveTo(this.x, this.y);
+            // Длина хвоста зависит от скорости
+            ctx.lineTo(this.x - this.speedX * 3, this.y - this.speedY * 3); 
+            ctx.strokeStyle = `rgba(138, 118, 223, ${this.alpha})`; 
+            ctx.lineWidth = this.size;
+            ctx.lineCap = 'round';
+            ctx.stroke();
         }
     }
 
-    for (let i = 0; i < 100; i++) {
+    // 120 частиц для идеального баланса
+    for (let i = 0; i < 120; i++) {
         particles.push(new Particle());
     }
 
     function animateParticles() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Полупрозрачный слой поверх твоей текстуры (делаем её на 40% темнее)
-        // Чтобы калькулятор хорошо читался
+        // Темная пелена поверх твоей картинки (чтобы текст читался)
         ctx.fillStyle = "rgba(5, 2, 10, 0.4)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -399,176 +396,4 @@
     const i18n = {
         en: {
             tab_g2g: "Game to Game",
-            tab_cm: "cm/360 ↔ Game",
-            from_game: "From Game:",
-            sens_label: "Sensitivity:",
-            to_game: "To Game:",
-            swap_btn: "🔁 Swap Direction",
-            mouse_dpi: "Mouse DPI:",
-            target_cm: "Target cm/360:",
-            game_label: "Game:",
-            game_label_2: "Game:",
-            ingame_sens: "In-game Sensitivity:",
-            result_default: "RESULT:",
-            sens_for: "Sensitivity for",
-            cm_dist: "Distance on mousepad:",
-            cs2_zoom: "Include Zoom (AWP/Scout)",
-            zoom1: "1st Zoom:",
-            zoom2: "2nd Zoom:",
-            placeholder_sens: "e.g. 1.5",
-            placeholder_dpi: "e.g. 800",
-            placeholder_cm: "e.g. 35"
-        },
-        ru: {
-            tab_g2g: "Игра к Игре",
-            tab_cm: "cm/360 ↔ Игра",
-            from_game: "Из игры:",
-            sens_label: "Чувствительность:",
-            to_game: "В игру:",
-            swap_btn: "🔁 Сменить направление",
-            mouse_dpi: "DPI мыши:",
-            target_cm: "Желаемые cm/360:",
-            game_label: "Игра:",
-            game_label_2: "Игра:",
-            ingame_sens: "Сенса в игре:",
-            result_default: "РЕЗУЛЬТАТ:",
-            sens_for: "Сенса для",
-            cm_dist: "Дистанция на коврике:",
-            cs2_zoom: "Учитывать Зум (AWP/Scout)",
-            zoom1: "1-й Зум:",
-            zoom2: "2-й Зум:",
-            placeholder_sens: "Например: 1.5",
-            placeholder_dpi: "Например: 800",
-            placeholder_cm: "Например: 35"
-        }
-    };
-
-    window.onload = () => {
-        populateSelects();
-        changeLang('en'); 
-    };
-
-    function changeLang(lang) {
-        currentLang = lang;
-        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-        document.getElementById('btn-ru').classList.toggle('active', lang === 'ru');
-        
-        document.querySelectorAll('[data-i18n]').forEach(elem => {
-            const key = elem.getAttribute('data-i18n');
-            if(i18n[lang][key]) {
-                elem.innerText = i18n[lang][key];
-            }
-        });
-
-        document.getElementById('tab-g2g').innerText = i18n[lang].tab_g2g;
-        document.getElementById('g2g-sens').placeholder = i18n[lang].placeholder_sens;
-        document.getElementById('cm-input-sens').placeholder = i18n[lang].placeholder_sens;
-        document.getElementById('cm-dpi').placeholder = i18n[lang].placeholder_dpi;
-        document.getElementById('cm-input-cm').placeholder = i18n[lang].placeholder_cm;
-
-        calculate(); 
-    }
-
-    function populateSelects() {
-        const selects =['g2g-game1', 'g2g-game2', 'cm-game1', 'cm-game2'];
-        let optionsHTML = '';
-        for (let key in games) {
-            optionsHTML += `<option value="${key}">${games[key].name}</option>`;
-        }
-        selects.forEach(id => {
-            document.getElementById(id).innerHTML = optionsHTML;
-        });
-        document.getElementById('g2g-game2').value = 'val'; 
-    }
-
-    function switchMainTab(tab) {
-        currentMainTab = tab;
-        document.getElementById('tab-g2g').classList.toggle('active', tab === 'g2g');
-        document.getElementById('tab-cm').classList.toggle('active', tab === 'cm');
-        
-        document.getElementById('mode-g2g').classList.toggle('hidden', tab !== 'g2g');
-        document.getElementById('mode-cm').classList.toggle('hidden', tab !== 'cm');
-        calculate();
-    }
-
-    function toggleCmMode() {
-        isCmToGame = !isCmToGame;
-        document.getElementById('cm-submode-cm2game').classList.toggle('hidden', !isCmToGame);
-        document.getElementById('cm-submode-game2cm').classList.toggle('hidden', isCmToGame);
-        calculate();
-    }
-
-    function calculate() {
-        let resultText = "0.00";
-        let resultLabel = i18n[currentLang].result_default;
-        let showCs2Box = false;
-        let baseCm360 = 0; 
-
-        if (currentMainTab === 'g2g') {
-            let g1 = document.getElementById('g2g-game1').value;
-            let g2 = document.getElementById('g2g-game2').value;
-            let sens = parseFloat(document.getElementById('g2g-sens').value);
-
-            if (!isNaN(sens) && sens > 0) {
-                let converted = (sens * games[g1].yaw) / games[g2].yaw;
-                resultText = converted.toFixed(4); 
-                resultLabel = `${i18n[currentLang].sens_for} ${games[g2].name}:`;
-            }
-            if (g1 === 'cs2' || g2 === 'cs2') showCs2Box = true;
-            
-            if (!isNaN(sens) && sens > 0) {
-                baseCm360 = (360 * 2.54) / (sens * 800 * games[g1].yaw); 
-            }
-
-        } else if (currentMainTab === 'cm') {
-            let dpi = parseFloat(document.getElementById('cm-dpi').value);
-
-            if (isCmToGame) {
-                let cm = parseFloat(document.getElementById('cm-input-cm').value);
-                let g = document.getElementById('cm-game1').value;
-                if (!isNaN(dpi) && !isNaN(cm) && cm > 0 && dpi > 0) {
-                    let sens = (360 * 2.54) / (cm * dpi * games[g].yaw);
-                    resultText = sens.toFixed(4);
-                    resultLabel = `${i18n[currentLang].sens_for} ${games[g].name}:`;
-                    baseCm360 = cm;
-                }
-                if (g === 'cs2') showCs2Box = true;
-            } else {
-                let sens = parseFloat(document.getElementById('cm-input-sens').value);
-                let g = document.getElementById('cm-game2').value;
-                if (!isNaN(dpi) && !isNaN(sens) && sens > 0 && dpi > 0) {
-                    let cm = (360 * 2.54) / (sens * dpi * games[g].yaw);
-                    resultText = cm.toFixed(2) + " cm/360";
-                    resultLabel = i18n[currentLang].cm_dist;
-                    baseCm360 = cm;
-                }
-                if (g === 'cs2') showCs2Box = true;
-            }
-        }
-
-        document.getElementById('result-value').innerText = resultText;
-        document.getElementById('result-label').innerText = resultLabel;
-
-        const cs2Box = document.getElementById('cs2-box');
-        const zoomResults = document.getElementById('cs2-zoom-results');
-        const isChecked = document.getElementById('cs2-zoom-check').checked;
-
-        if (showCs2Box) {
-            cs2Box.style.display = 'block';
-            if (isChecked && baseCm360 > 0) {
-                zoomResults.style.display = 'block';
-                document.getElementById('cs2-z1').innerText = (baseCm360 * 2.25).toFixed(1);
-                document.getElementById('cs2-z2').innerText = (baseCm360 * 6.0).toFixed(1);
-            } else {
-                zoomResults.style.display = 'none';
-            }
-        } else {
-            cs2Box.style.display = 'none';
-            document.getElementById('cs2-zoom-check').checked = false;
-            zoomResults.style.display = 'none';
-        }
-    }
-</script>
-
-</body>
-</html>
+            ta
