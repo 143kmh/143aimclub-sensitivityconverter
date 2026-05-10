@@ -156,7 +156,7 @@
             box-sizing: border-box;
         }
 
-        /* ПОЛЯ ВВОДА */
+        /* ПОЛЯ ВВОДА (ПРИМЕНЯЕТСЯ ТОЛЬКО К ТЕКСТОВЫМ) */
         .input-group {
             margin-bottom: 15px;
             display: flex;
@@ -172,7 +172,7 @@
             letter-spacing: 0.5px;
         }
 
-        input {
+        input[type="text"] {
             background: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(137, 102, 245, 0.3);
             color: #fff;
@@ -188,7 +188,7 @@
             box-sizing: border-box;
         }
 
-        input:focus {
+        input[type="text"]:focus {
             border-color: #A985FF;
             box-shadow: 0 0 15px rgba(169, 133, 255, 0.5), inset 0 0 10px rgba(0,0,0,0.5);
         }
@@ -400,25 +400,17 @@
         .tf-opt-row:last-child {
             margin-bottom: 0;
         }
-        .tf-opt-row label {
-            font-size: 11px;
-            font-weight: 700;
-            color: #aaa;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .tf-opt-row input[type="text"] {
-            width: 70px;
-            padding: 8px;
-            text-align: center;
-            font-size: 14px;
-            margin: 0;
-        }
+        
+        /* СБРОС И СТИЛИЗАЦИЯ ПОЛЗУНКА */
         .tf-opt-row input[type="range"] {
             width: 100%;
             margin-top: 8px;
             accent-color: #A985FF;
             cursor: pointer;
+            background: transparent;
+            border: none;
+            padding: 0;
+            box-shadow: none;
         }
         
         .checkbox-container {
@@ -437,13 +429,17 @@
             color: #fff;
         }
 
-        .checkbox-container input {
+        /* СБРОС СТИЛЕЙ ГАЛОЧКИ */
+        .checkbox-container input[type="checkbox"] {
             cursor: pointer;
             accent-color: #A985FF;
             width: 16px;
             height: 16px;
             margin: 0;
             margin-right: 10px;
+            background: transparent;
+            border: none;
+            box-shadow: none;
         }
 
         /* РЕЗУЛЬТАТ */
@@ -637,7 +633,7 @@
             <div class="tf-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 15px;">
                 <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
                     <div style="display:flex; align-items:center;">
-                        <label style="margin:0;">HIPFIRE FOV:</label>
+                        <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">HIPFIRE FOV:</span>
                         <div class="tooltip">
                             <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
                             <div class="tooltip-text">The Finals uses Vertical FOV.<br><br>Pro players typically use an FOV between <span style="color:#A985FF; font-weight:700;">85 and 100</span>, with <span style="color:#A985FF; font-weight:700;">90</span> being the most common sweet spot.</div>
@@ -650,7 +646,7 @@
 
             <div class="tf-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 10px;">
                 <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
-                    <label style="margin:0;">MOUSE ZOOM SENS. MULTIPLIER:</label>
+                    <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">MOUSE ZOOM SENS. MULTIPLIER:</span>
                     <span id="tf-zoom-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
                 </div>
                 <input type="range" id="tf-zoom-slider" min="1" max="100" value="100" oninput="document.getElementById('tf-zoom-val').innerText = this.value + '%'; calculate()">
@@ -658,7 +654,7 @@
             
             <div class="tf-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 10px;">
                 <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
-                    <label style="margin:0;">SCOPED ZOOM SENS. MULTIPLIER:</label>
+                    <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">SCOPED ZOOM SENS. MULTIPLIER:</span>
                     <span id="tf-scoped-zoom-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
                 </div>
                 <input type="range" id="tf-scoped-zoom-slider" min="1" max="200" value="100" oninput="document.getElementById('tf-scoped-zoom-val').innerText = this.value + '%'; calculate()">
