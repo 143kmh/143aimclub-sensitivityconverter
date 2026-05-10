@@ -118,13 +118,12 @@
             filter: drop-shadow(0 0 8px rgba(96, 81, 155, 0.6));
         }
 
-        /* ИСПРАВЛЕННЫЙ И ОТЦЕНТРИРОВАННЫЙ ТУМБЛЕР */
         .tabs-container {
             position: relative;
             display: flex;
             background: rgba(0, 0, 0, 0.4);
             border-radius: 12px;
-            padding: 4px; /* Внутренние отступы */
+            padding: 4px;
             margin-bottom: 25px;
             border: 1px solid rgba(96, 81, 155, 0.2);
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
@@ -136,13 +135,12 @@
             top: 4px;
             bottom: 4px;
             left: 4px;
-            /* Вычисляем ширину точно с учетом отступов */
             width: calc(50% - 4px);
             background: linear-gradient(135deg, rgba(96, 81, 155, 0.8), rgba(96, 81, 155, 0.2));
             border-radius: 8px;
             transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
             z-index: -1;
-            box-sizing: border-box; /* Это свойство исправило кривизну! */
+            box-sizing: border-box;
             box-shadow: 0 2px 10px rgba(96, 81, 155, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.15);
         }
@@ -197,6 +195,46 @@
         input:focus {
             border-color: #8a76df;
             box-shadow: 0 0 15px rgba(96, 81, 155, 0.5), inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* НОВЫЙ ДИЗАЙН: Кнопка смены + Поле в одну линию */
+        .toggle-input-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .circular-swap {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(96, 81, 155, 0.15);
+            border: 1px solid rgba(96, 81, 155, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: #a985ff;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            flex-shrink: 0;
+        }
+
+        .circular-swap:hover {
+            background: rgba(96, 81, 155, 0.4);
+            box-shadow: 0 0 15px rgba(96, 81, 155, 0.5);
+            color: #fff;
+            /* Вращение при наведении для крутости */
+            transform: rotate(180deg);
+        }
+
+        .circular-swap svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .toggle-input-row input {
+            /* Уменьшаем поле, сдвигаем вправо */
+            width: calc(100% - 60px); 
         }
 
         .combobox {
@@ -264,29 +302,6 @@
         .combobox-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 8px;}
         .combobox-list::-webkit-scrollbar-thumb { background: rgba(96, 81, 155, 0.6); border-radius: 8px; }
         .combobox-list::-webkit-scrollbar-thumb:hover { background: rgba(96, 81, 155, 0.8); }
-
-        /* ИКОНКА СМЕНЫ РЕЖИМА (Стрелочки) */
-        .swap-icon-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 5px 0 15px 0;
-            cursor: pointer;
-            opacity: 0.6;
-            transition: all 0.3s ease;
-        }
-
-        .swap-icon-container:hover {
-            opacity: 1;
-            transform: scale(1.1);
-            filter: drop-shadow(0 0 8px #60519b);
-        }
-
-        .swap-icon {
-            width: 26px;
-            height: 26px;
-            color: #a985ff;
-        }
 
         .result-box {
             margin-top: 25px;
@@ -368,56 +383,39 @@
         </div>
     </div>
 
-    <!-- РЕЖИМ 2: CM/360 to GAME -->
+    <!-- РЕЖИМ 2: CM/360 to GAME (НОВЫЙ ДИЗАЙН) -->
     <div id="mode-cm" class="hidden">
         
-        <!-- DPI ОБЩИЙ ДЛЯ ОБОИХ РЕЖИМОВ -->
+        <!-- 1. ВЫБОР ИГРЫ -->
+        <div class="input-group">
+            <label data-i18n="game_label">Game:</label>
+            <div class="combobox">
+                <input type="text" id="cm-game" autocomplete="off" spellcheck="false" placeholder="Search game...">
+                <div class="combobox-list" id="cm-game-list"></div>
+            </div>
+        </div>
+
+        <!-- 2. DPI МЫШИ -->
         <div class="input-group">
             <label data-i18n="mouse_dpi">Mouse DPI:</label>
             <input type="text" inputmode="decimal" id="cm-dpi" placeholder="e.g. 800" value="800" oninput="calculate()">
         </div>
 
-        <!-- ВЕРХНЕЕ ПОЛЕ (Меняется) -->
-        <div id="cm-top-cm2game">
-            <div class="input-group">
-                <label data-i18n="target_cm">Target cm/360:</label>
-                <input type="text" inputmode="decimal" id="cm-input-cm" placeholder="e.g. 35" oninput="calculate()">
-            </div>
-        </div>
-        <div id="cm-top-game2cm" class="hidden">
-            <div class="input-group">
-                <label data-i18n="game_label_2">Game:</label>
-                <div class="combobox">
-                    <input type="text" id="cm-game2" autocomplete="off" spellcheck="false" placeholder="Search game...">
-                    <div class="combobox-list" id="cm-game2-list"></div>
+        <!-- 3. ДИНАМИЧЕСКОЕ ПОЛЕ + ИКОНКА -->
+        <div class="input-group">
+            <label id="cm-dynamic-label" data-i18n="target_cm">Target cm/360:</label>
+            <div class="toggle-input-row">
+                <!-- Иконка круговых стрелок -->
+                <div class="circular-swap" onclick="toggleCmMode()" title="Swap Input Mode">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
                 </div>
+                <!-- Укороченное поле ввода -->
+                <input type="text" inputmode="decimal" id="cm-dynamic-input" placeholder="e.g. 35" oninput="calculate()">
             </div>
         </div>
 
-        <!-- ИКОНКА СМЕНЫ МЕЖДУ ПОЛЯМИ -->
-        <div class="swap-icon-container" onclick="toggleCmMode()">
-            <!-- SVG Иконка вертикальных стрелочек -->
-            <svg class="swap-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/>
-            </svg>
-        </div>
-
-        <!-- НИЖНЕЕ ПОЛЕ (Меняется) -->
-        <div id="cm-bot-cm2game">
-            <div class="input-group">
-                <label data-i18n="game_label">Game:</label>
-                <div class="combobox">
-                    <input type="text" id="cm-game1" autocomplete="off" spellcheck="false" placeholder="Search game...">
-                    <div class="combobox-list" id="cm-game1-list"></div>
-                </div>
-            </div>
-        </div>
-        <div id="cm-bot-game2cm" class="hidden">
-            <div class="input-group">
-                <label data-i18n="ingame_sens">In-game Sensitivity:</label>
-                <input type="text" inputmode="decimal" id="cm-input-sens" placeholder="e.g. 1.5" oninput="calculate()">
-            </div>
-        </div>
     </div>
 
     <!-- РЕЗУЛЬТАТ -->
@@ -506,11 +504,11 @@
     }
     animateParticles();
 
-    // === БАЗА ИГР ===
+    // === БАЗА ИГР С ОКРУГЛЕНИЕМ (decimals) ===
     const games = {
-        "cs2": { name: "Counter-Strike 2", yaw: 0.022 },
-        "val": { name: "Valorant", yaw: 0.07 },
-        "ow2": { name: "Overwatch 2", yaw: 0.0066 }
+        "cs2": { name: "Counter-Strike 2", yaw: 0.022, decimals: 2 },
+        "val": { name: "Valorant", yaw: 0.07, decimals: 3 },
+        "ow2": { name: "Overwatch 2", yaw: 0.0066, decimals: 2 }
     };
 
     let currentMainTab = 'g2g'; 
@@ -526,9 +524,8 @@
             to_game: "To Game:",
             mouse_dpi: "Mouse DPI:",
             target_cm: "Target cm/360:",
-            game_label: "Game:",
-            game_label_2: "Game:",
             ingame_sens: "In-game Sensitivity:",
+            game_label: "Game:",
             result_default: "RESULT:",
             sens_for: "Sensitivity for",
             cm_dist: "Distance on mousepad:",
@@ -544,9 +541,8 @@
             to_game: "В игру:",
             mouse_dpi: "DPI мыши:",
             target_cm: "Желаемые cm/360:",
-            game_label: "Игра:",
-            game_label_2: "Игра:",
             ingame_sens: "Сенса в игре:",
+            game_label: "Игра:",
             result_default: "РЕЗУЛЬТАТ:",
             sens_for: "Сенса для",
             cm_dist: "Дистанция на коврике:",
@@ -569,7 +565,8 @@
     }
 
     function initComboboxes() {
-        const cBoxes =['g2g-game1', 'g2g-game2', 'cm-game1', 'cm-game2'];
+        // Теперь используем cm-game вместо двух разных полей
+        const cBoxes =['g2g-game1', 'g2g-game2', 'cm-game'];
         cBoxes.forEach(id => {
             const input = document.getElementById(id);
             if (!input.dataset.key) input.dataset.key = 'cs2';
@@ -659,11 +656,27 @@
 
         document.getElementById('tab-g2g').innerText = i18n[lang].tab_g2g;
         document.getElementById('g2g-sens').placeholder = i18n[lang].placeholder_sens;
-        document.getElementById('cm-input-sens').placeholder = i18n[lang].placeholder_sens;
         document.getElementById('cm-dpi').placeholder = i18n[lang].placeholder_dpi;
-        document.getElementById('cm-input-cm').placeholder = i18n[lang].placeholder_cm;
+        
+        // Обновляем динамическое поле
+        updateDynamicFieldLang();
 
         calculate(); 
+    }
+
+    function updateDynamicFieldLang() {
+        const dynLabel = document.getElementById('cm-dynamic-label');
+        const dynInput = document.getElementById('cm-dynamic-input');
+        
+        if (isCmToGame) {
+            dynLabel.innerText = i18n[currentLang].target_cm;
+            dynLabel.setAttribute('data-i18n', 'target_cm');
+            dynInput.placeholder = i18n[currentLang].placeholder_cm;
+        } else {
+            dynLabel.innerText = i18n[currentLang].ingame_sens;
+            dynLabel.setAttribute('data-i18n', 'ingame_sens');
+            dynInput.placeholder = i18n[currentLang].placeholder_sens;
+        }
     }
 
     function switchMainTab(tab) {
@@ -684,12 +697,10 @@
         calculate();
     }
 
+    // НОВАЯ ЛОГИКА ПЕРЕКЛЮЧЕНИЯ ДИНАМИЧЕСКОГО ПОЛЯ
     function toggleCmMode() {
         isCmToGame = !isCmToGame;
-        document.getElementById('cm-top-cm2game').classList.toggle('hidden', !isCmToGame);
-        document.getElementById('cm-bot-cm2game').classList.toggle('hidden', !isCmToGame);
-        document.getElementById('cm-top-game2cm').classList.toggle('hidden', isCmToGame);
-        document.getElementById('cm-bot-game2cm').classList.toggle('hidden', isCmToGame);
+        updateDynamicFieldLang();
         calculate();
     }
 
@@ -704,26 +715,29 @@
 
             if (g1 && g2 && !isNaN(sens) && sens > 0) {
                 let converted = (sens * games[g1].yaw) / games[g2].yaw;
-                resultText = converted.toFixed(4); 
+                
+                // Используем настройку decimals из базы игр
+                let dec = games[g2].decimals || 4; 
+                resultText = converted.toFixed(dec); 
                 resultLabel = `${i18n[currentLang].sens_for} ${games[g2].name}:`;
             }
 
         } else if (currentMainTab === 'cm') {
             let dpi = parseInputVal('cm-dpi');
-
-            if (isCmToGame) {
-                let cm = parseInputVal('cm-input-cm');
-                let g = document.getElementById('cm-game1').dataset.key;
-                if (g && !isNaN(dpi) && !isNaN(cm) && cm > 0 && dpi > 0) {
-                    let sens = (360 * 2.54) / (cm * dpi * games[g].yaw);
-                    resultText = sens.toFixed(4);
+            let val = parseInputVal('cm-dynamic-input');
+            let g = document.getElementById('cm-game').dataset.key;
+            
+            if (g && !isNaN(dpi) && !isNaN(val) && val > 0 && dpi > 0) {
+                if (isCmToGame) {
+                    // Ввели CM -> Считаем сенсу
+                    let sens = (360 * 2.54) / (val * dpi * games[g].yaw);
+                    let dec = games[g].decimals || 4; 
+                    resultText = sens.toFixed(dec);
                     resultLabel = `${i18n[currentLang].sens_for} ${games[g].name}:`;
-                }
-            } else {
-                let sens = parseInputVal('cm-input-sens');
-                let g = document.getElementById('cm-game2').dataset.key;
-                if (g && !isNaN(dpi) && !isNaN(sens) && sens > 0 && dpi > 0) {
-                    let cm = (360 * 2.54) / (sens * dpi * games[g].yaw);
+                } else {
+                    // Ввели Сенсу -> Считаем CM
+                    let cm = (360 * 2.54) / (val * dpi * games[g].yaw);
+                    // Сантиметры обычно всегда округляют до сотых (2 знака)
                     resultText = cm.toFixed(2) + " cm/360";
                     resultLabel = i18n[currentLang].cm_dist;
                 }
