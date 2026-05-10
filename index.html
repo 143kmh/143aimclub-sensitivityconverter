@@ -10,18 +10,18 @@
         /* БАЗОВЫЙ ФОН */
         body {
             margin: 0;
-            padding: 40px 20px; /* Добавили отступы, чтобы карточка не прилипала к краям при скролле */
+            padding: 40px 20px; /* Отступы, чтобы карточка не прилипала к краям при скролле */
             font-family: 'Space Grotesk', sans-serif;
             color: #ffffff;
             
-            min-height: 100vh; /* Теперь минимальная высота, а не жесткая */
+            min-height: 100vh; /* Минимальная высота для нормального скролла */
             overflow-x: hidden;
             overflow-y: auto; /* Включаем скролл по вертикали */
             box-sizing: border-box;
             
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Изменили с center, чтобы не обрезался верх */
+            align-items: flex-start; /* Изменили с center, чтобы верх не обрезался */
             
             background-color: #05020a;
             background-image: url('space-bg.jpg');
@@ -41,7 +41,7 @@
 
         /* КАРТОЧКА КАЛЬКУЛЯТОРА */
         .calculator-card {
-            margin: auto; /* Магия для идеального центрирования с поддержкой скролла */
+            margin: auto; /* Центрируем по всем осям, когда есть скролл */
             background: rgba(15, 10, 25, 0.65);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -578,7 +578,6 @@
                     <label style="margin:0;">MOUSE ZOOM SENS. MULTIPLIER:</label>
                     <span id="tf-zoom-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
                 </div>
-                <!-- ЗДЕСЬ ИЗМЕНИЛИ MAX НА 100 -->
                 <input type="range" id="tf-zoom-slider" min="1" max="100" value="100" oninput="document.getElementById('tf-zoom-val').innerText = this.value + '%'; calculate()">
             </div>
             
@@ -732,7 +731,7 @@
         "tf": { 
             name: "The Finals", 
             aliases:["finals", "the finals", "tf"], 
-            yaw: 0.002, 
+            yaw: 0.001, /* ВЕРНУЛИ КОРРЕКТНЫЙ МНОЖИТЕЛЬ (0.001) */
             decimals: 0 
         },
         "fn": { 
