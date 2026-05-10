@@ -315,7 +315,22 @@
             border: 1px solid rgba(137, 102, 245, 0.3);
             border-radius: 12px;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
         }
+
+        .tf-advanced-content {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(137, 102, 245, 0.2);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .tf-opt-row {
             margin-bottom: 12px;
             display: flex;
@@ -345,6 +360,7 @@
             accent-color: #A985FF;
             cursor: pointer;
         }
+        
         .checkbox-container {
             display: flex;
             align-items: center;
@@ -353,13 +369,21 @@
             color: #ccc;
             cursor: pointer;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.2s;
         }
+
+        .checkbox-container:hover {
+            color: #fff;
+        }
+
         .checkbox-container input {
             cursor: pointer;
             accent-color: #A985FF;
             width: 16px;
             height: 16px;
             margin: 0;
+            margin-right: 10px;
         }
 
         /* РЕЗУЛЬТАТ */
@@ -406,6 +430,7 @@
             margin-top: 20px;
             padding-top: 15px;
             border-top: 1px solid rgba(137, 102, 245, 0.2);
+            animation: fadeIn 0.3s ease;
         }
         .tf-ads-col {
             flex: 1;
@@ -510,24 +535,31 @@
 
     </div>
 
-    <!-- ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ ДЛЯ THE FINALS -->
+    <!-- ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ ДЛЯ THE FINALS (Спрятано под галочку) -->
     <div class="tf-options" id="tf-box">
-        <div class="tf-opt-row">
-            <label>HIPFIRE FOV:</label>
-            <input type="text" inputmode="numeric" id="tf-fov" value="73" oninput="calculate()">
-        </div>
-        <div class="tf-opt-row">
-            <label class="checkbox-container" style="width:100%; display:flex; justify-content: space-between; align-items:center;">
-                <span>FOCAL LENGTH SENSITIVITY SCALING</span>
-                <input type="checkbox" id="tf-fls" checked onchange="calculate()">
-            </label>
-        </div>
-        <div class="tf-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0;">
-            <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
-                <label style="margin:0;">ZOOM SENSITIVITY MULTIPLIER:</label>
-                <span id="tf-zoom-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
+        <label class="checkbox-container" style="justify-content: center;">
+            <input type="checkbox" id="tf-advanced-check" onchange="calculate()">
+            <span>SHOW ADVANCED (FOV, ADS)</span>
+        </label>
+
+        <div class="tf-advanced-content" id="tf-advanced-content">
+            <div class="tf-opt-row">
+                <label>HIPFIRE FOV:</label>
+                <input type="text" inputmode="numeric" id="tf-fov" value="73" oninput="calculate()">
             </div>
-            <input type="range" id="tf-zoom-slider" min="1" max="200" value="100" oninput="document.getElementById('tf-zoom-val').innerText = this.value + '%'; calculate()">
+            <div class="tf-opt-row">
+                <label class="checkbox-container" style="width:100%; display:flex; justify-content: space-between; align-items:center; margin:0;">
+                    <span>FOCAL LENGTH SENSITIVITY SCALING</span>
+                    <input type="checkbox" id="tf-fls" checked onchange="calculate()" style="margin-right:0;">
+                </label>
+            </div>
+            <div class="tf-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 10px;">
+                <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
+                    <label style="margin:0;">ZOOM SENSITIVITY MULTIPLIER:</label>
+                    <span id="tf-zoom-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
+                </div>
+                <input type="range" id="tf-zoom-slider" min="1" max="200" value="100" oninput="document.getElementById('tf-zoom-val').innerText = this.value + '%'; calculate()">
+            </div>
         </div>
     </div>
 
@@ -539,7 +571,7 @@
         <!-- Конфиг-значение для The Finals -->
         <div class="config-value" id="config-result"></div>
 
-        <!-- 3 столбика прицелов для The Finals с правильными названиями -->
+        <!-- 3 столбика прицелов для The Finals (тоже прячутся под галочку) -->
         <div class="tf-ads-results" id="tf-ads-results">
             <div class="tf-ads-col">
                 <div class="tf-ads-title">IRON/HOLO</div>
@@ -820,8 +852,9 @@
         let g2 = document.getElementById('g2g-game2').dataset.key;
         let g_cm = document.getElementById('cm-game').dataset.key;
 
+        // ЛОГИКА: Показываем настройки The Finals ТОЛЬКО когда мы переводим В неё или считаем её CM
         if (currentMainTab === 'g2g') {
-            if (g1 === 'tf' || g2 === 'tf') showTfBox = true;
+            if (g2 === 'tf') showTfBox = true; // Исправленный баг! Только когда цель = TF
             let sens = parseInputVal('g2g-sens'); 
 
             if (g1 && g2 && !isNaN(sens) && sens > 0) {
@@ -874,6 +907,7 @@
             }
         }
 
+        // ОБНОВЛЯЕМ ТЕКСТ РЕЗУЛЬТАТОВ
         document.getElementById('result-value').innerText = resultText;
         document.getElementById('result-label').innerText = resultLabel;
 
@@ -887,38 +921,49 @@
 
         // УПРАВЛЕНИЕ БЛОКОМ THE FINALS
         const tfBox = document.getElementById('tf-box');
+        const tfAdvContent = document.getElementById('tf-advanced-content');
         const tfAdsResults = document.getElementById('tf-ads-results');
+        const isAdvChecked = document.getElementById('tf-advanced-check').checked;
         
         if (showTfBox) {
             tfBox.style.display = 'block';
-            if (baseCm360 > 0) {
-                tfAdsResults.style.display = 'flex';
-                let fov = parseFloat(document.getElementById('tf-fov').value) || 73;
-                let fls_on = document.getElementById('tf-fls').checked;
-                let zoom_mult = parseFloat(document.getElementById('tf-zoom-slider').value) / 100;
+            
+            // Если включена галочка SHOW ADVANCED
+            if (isAdvChecked) {
+                tfAdvContent.style.display = 'block';
                 
-                let getAdsCm = (base, fovMult) => {
-                    if (!fls_on) {
-                        return base / zoom_mult;
-                    } else {
-                        let hip_rad = (fov / 2) * (Math.PI / 180);
-                        let ads_rad = ((fov * fovMult) / 2) * (Math.PI / 180);
-                        let ratio = Math.tan(ads_rad) / Math.tan(hip_rad);
-                        return base / (ratio * zoom_mult);
-                    }
-                };
+                if (baseCm360 > 0) {
+                    tfAdsResults.style.display = 'flex';
+                    let fov = parseFloat(document.getElementById('tf-fov').value) || 73;
+                    let fls_on = document.getElementById('tf-fls').checked;
+                    let zoom_mult = parseFloat(document.getElementById('tf-zoom-slider').value) / 100;
+                    
+                    let getAdsCm = (base, fovMult) => {
+                        if (!fls_on) {
+                            return base / zoom_mult;
+                        } else {
+                            let hip_rad = (fov / 2) * (Math.PI / 180);
+                            let ads_rad = ((fov * fovMult) / 2) * (Math.PI / 180);
+                            let ratio = Math.tan(ads_rad) / Math.tan(hip_rad);
+                            return base / (ratio * zoom_mult);
+                        }
+                    };
 
-                // ТОЧНЫЕ ЗНАЧЕНИЯ ИЗ THE FINALS (SEASON 7)
-                // 100 Hipfire = 78 Iron/Holo, 68 Medium, 58 Sniper
-                document.getElementById('tf-iron-res').innerText = getAdsCm(baseCm360, 0.78).toFixed(1) + ' cm';
-                document.getElementById('tf-med-res').innerText = getAdsCm(baseCm360, 0.68).toFixed(1) + ' cm';
-                document.getElementById('tf-sniper-res').innerText = getAdsCm(baseCm360, 0.58).toFixed(1) + ' cm';
+                    document.getElementById('tf-iron-res').innerText = getAdsCm(baseCm360, 0.78).toFixed(1) + ' cm';
+                    document.getElementById('tf-med-res').innerText = getAdsCm(baseCm360, 0.68).toFixed(1) + ' cm';
+                    document.getElementById('tf-sniper-res').innerText = getAdsCm(baseCm360, 0.58).toFixed(1) + ' cm';
+                } else {
+                    tfAdsResults.style.display = 'none';
+                }
             } else {
+                tfAdvContent.style.display = 'none';
                 tfAdsResults.style.display = 'none';
             }
         } else {
             tfBox.style.display = 'none';
+            tfAdvContent.style.display = 'none';
             tfAdsResults.style.display = 'none';
+            document.getElementById('tf-advanced-check').checked = false; // Сбрасываем галочку при уходе
         }
     }
 </script>
