@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>143 Aim Club - Sensitivity Calculator</title>
+    <title>143 Aim Club - Sensitivity Converter</title>
     <style>
         /* БАЗОВЫЙ ДИЗАЙН И ШРИФТЫ */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -16,50 +16,86 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            /* Космический анимированный фон */
-            background: radial-gradient(circle at 50% 50%, #150924 0%, #05020a 100%);
-            background-size: 200% 200%;
-            animation: spaceGlow 15s ease infinite;
+            /* Выравниваем по верху, чтобы окно не прыгало при смене режимов */
+            align-items: flex-start;
+            padding-top: 12vh; /* Отступ сверху */
+            background-color: #05020a; /* Темный фон под частицами */
+            overflow-x: hidden;
         }
 
-        @keyframes spaceGlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* ХОЛСТ ДЛЯ АНИМАЦИИ ЧАСТИЦ */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
         }
 
-        /* ГЛАВНАЯ КАРТОЧКА (Стекло) */
+        /* ГЛАВНАЯ КАРТОЧКА */
         .calculator-card {
-            background: rgba(20, 15, 30, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(138, 43, 226, 0.2);
+            background: rgba(15, 10, 25, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            /* Рамка цвета #60519b с градиентом */
+            border: 1px solid rgba(96, 81, 155, 0.5);
             border-radius: 20px;
             padding: 30px;
             width: 100%;
             max-width: 400px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(138, 43, 226, 0.1);
+            /* Свечение */
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(96, 81, 155, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* МИНИ ТУМБЛЕР ЯЗЫКА */
+        .lang-switch {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            font-size: 11px;
+            font-weight: 700;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .lang-btn.active {
+            color: #fff;
+            text-shadow: 0 0 10px #60519b, 0 0 20px #60519b;
         }
 
         .logo-title {
             text-align: center;
-            font-size: 14px;
-            font-weight: 600;
-            color: #a985ff;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
+            font-size: 16px;
+            font-weight: 700;
+            /* Градиентный текст */
+            background: linear-gradient(135deg, #ffffff, #60519b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
             text-transform: uppercase;
+            filter: drop-shadow(0 0 8px rgba(96, 81, 155, 0.6));
         }
 
         /* ТУМБЛЕР РЕЖИМОВ */
         .tabs {
             display: flex;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4);
             border-radius: 12px;
             padding: 4px;
             margin-bottom: 25px;
-            border: 1px solid rgba(138, 43, 226, 0.1);
+            border: 1px solid rgba(96, 81, 155, 0.2);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
 
         .tab {
@@ -68,16 +104,18 @@
             padding: 10px;
             cursor: pointer;
             border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 13px;
+            font-weight: 600;
             transition: all 0.3s ease;
             color: #888;
         }
 
         .tab.active {
-            background: rgba(138, 43, 226, 0.3);
+            background: linear-gradient(135deg, rgba(96, 81, 155, 0.8), rgba(96, 81, 155, 0.2));
             color: #fff;
-            box-shadow: 0 0 10px rgba(138, 43, 226, 0.2);
+            box-shadow: 0 0 15px rgba(96, 81, 155, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
 
         /* ПОЛЯ ВВОДА */
@@ -88,66 +126,80 @@
         }
 
         .input-group label {
-            font-size: 12px;
+            font-size: 11px;
+            font-weight: 600;
             color: #aaa;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         select, input {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(96, 81, 155, 0.3);
             color: #fff;
             padding: 12px;
             border-radius: 8px;
             font-size: 14px;
             font-family: 'Inter', sans-serif;
             outline: none;
-            transition: border 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
 
         select:focus, input:focus {
-            border-color: #a985ff;
+            border-color: #8a76df;
+            box-shadow: 0 0 15px rgba(96, 81, 155, 0.5), inset 0 0 10px rgba(0,0,0,0.5);
         }
 
         /* КНОПКА СМЕНЫ РЕЖИМОВ В CM/360 */
         .swap-btn {
-            background: rgba(138, 43, 226, 0.1);
-            border: 1px solid rgba(138, 43, 226, 0.3);
-            color: #a985ff;
+            background: rgba(96, 81, 155, 0.15);
+            border: 1px solid rgba(96, 81, 155, 0.4);
+            color: #fff;
             width: 100%;
             padding: 10px;
             border-radius: 8px;
             cursor: pointer;
             margin-bottom: 15px;
-            font-size: 18px;
-            transition: 0.2s;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px rgba(96, 81, 155, 0.8);
         }
 
         .swap-btn:hover {
-            background: rgba(138, 43, 226, 0.3);
+            background: rgba(96, 81, 155, 0.4);
+            box-shadow: 0 0 15px rgba(96, 81, 155, 0.5);
         }
 
         /* РЕЗУЛЬТАТ */
         .result-box {
             margin-top: 25px;
-            padding: 15px;
-            background: rgba(138, 43, 226, 0.1);
+            padding: 20px 15px;
+            background: linear-gradient(180deg, rgba(96, 81, 155, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
             border-radius: 12px;
             text-align: center;
-            border: 1px solid rgba(138, 43, 226, 0.2);
+            border: 1px solid rgba(96, 81, 155, 0.4);
+            box-shadow: inset 0 0 20px rgba(96, 81, 155, 0.1);
         }
 
         .result-title {
-            font-size: 12px;
+            font-size: 11px;
+            font-weight: 600;
             color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .result-value {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
             color: #fff;
             margin-top: 5px;
-            text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+            text-shadow: 0 0 15px #60519b, 0 0 30px #60519b;
         }
 
         /* ГАЛОЧКА CS2 */
@@ -155,13 +207,13 @@
             display: none;
             margin-top: 15px;
             padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(96, 81, 155, 0.3);
         }
 
         .checkbox-container {
             display: flex;
             align-items: center;
-            font-size: 13px;
+            font-size: 12px;
             color: #ccc;
             cursor: pointer;
         }
@@ -169,13 +221,18 @@
         .checkbox-container input {
             margin-right: 10px;
             cursor: pointer;
+            accent-color: #60519b;
         }
 
         .zoom-results {
             margin-top: 10px;
             font-size: 13px;
-            color: #a985ff;
+            color: #d8cfff;
             display: none;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(96, 81, 155, 0.2);
         }
 
         .hidden { display: none !important; }
@@ -183,48 +240,58 @@
 </head>
 <body>
 
+<!-- Холст для космических частиц -->
+<canvas id="particle-canvas"></canvas>
+
 <div class="calculator-card">
+    
+    <!-- Переключатель языка -->
+    <div class="lang-switch">
+        <span class="lang-btn active" id="btn-en" onclick="changeLang('en')">EN</span>
+        <span class="lang-btn" id="btn-ru" onclick="changeLang('ru')">RU</span>
+    </div>
+
     <div class="logo-title">143 Aim Club</div>
 
     <!-- Тумблер режимов -->
     <div class="tabs">
         <div class="tab active" onclick="switchMainTab('g2g')" id="tab-g2g">Game to Game</div>
-        <div class="tab" onclick="switchMainTab('cm')" id="tab-cm">cm/360 ↔ Game</div>
+        <div class="tab" onclick="switchMainTab('cm')" id="tab-cm" data-i18n="tab_cm">cm/360 ↔ Game</div>
     </div>
 
     <!-- РЕЖИМ 1: GAME TO GAME -->
     <div id="mode-g2g">
         <div class="input-group">
-            <label>Из игры:</label>
+            <label data-i18n="from_game">From Game:</label>
             <select id="g2g-game1" onchange="calculate()"></select>
         </div>
         <div class="input-group">
-            <label>Чувствительность:</label>
-            <input type="number" id="g2g-sens" step="any" placeholder="Например: 1.5" oninput="calculate()">
+            <label data-i18n="sens_label">Sensitivity:</label>
+            <input type="number" id="g2g-sens" step="any" placeholder="e.g. 1.5" oninput="calculate()">
         </div>
         <div class="input-group">
-            <label>В игру:</label>
+            <label data-i18n="to_game">To Game:</label>
             <select id="g2g-game2" onchange="calculate()"></select>
         </div>
     </div>
 
     <!-- РЕЖИМ 2: CM/360 to GAME -->
     <div id="mode-cm" class="hidden">
-        <button class="swap-btn" onclick="toggleCmMode()">🔁 Сменить направление</button>
+        <button class="swap-btn" onclick="toggleCmMode()" data-i18n="swap_btn">🔁 Swap Direction</button>
         
         <div class="input-group">
-            <label>DPI мыши:</label>
-            <input type="number" id="cm-dpi" step="any" placeholder="Например: 800" value="800" oninput="calculate()">
+            <label data-i18n="mouse_dpi">Mouse DPI:</label>
+            <input type="number" id="cm-dpi" step="any" placeholder="e.g. 800" value="800" oninput="calculate()">
         </div>
 
         <!-- Подрежим А: Ввод CM -> Вывод Сенсы -->
         <div id="cm-submode-cm2game">
             <div class="input-group">
-                <label>Желаемые cm/360:</label>
-                <input type="number" id="cm-input-cm" step="any" placeholder="Например: 35" oninput="calculate()">
+                <label data-i18n="target_cm">Target cm/360:</label>
+                <input type="number" id="cm-input-cm" step="any" placeholder="e.g. 35" oninput="calculate()">
             </div>
             <div class="input-group">
-                <label>Игра:</label>
+                <label data-i18n="game_label">Game:</label>
                 <select id="cm-game1" onchange="calculate()"></select>
             </div>
         </div>
@@ -232,38 +299,100 @@
         <!-- Подрежим Б: Ввод Сенсы -> Вывод CM -->
         <div id="cm-submode-game2cm" class="hidden">
             <div class="input-group">
-                <label>Игра:</label>
+                <label data-i18n="game_label_2">Game:</label>
                 <select id="cm-game2" onchange="calculate()"></select>
             </div>
             <div class="input-group">
-                <label>Чувствительность в игре:</label>
-                <input type="number" id="cm-input-sens" step="any" placeholder="Например: 1.5" oninput="calculate()">
+                <label data-i18n="ingame_sens">In-game Sensitivity:</label>
+                <input type="number" id="cm-input-sens" step="any" placeholder="e.g. 1.5" oninput="calculate()">
             </div>
         </div>
     </div>
 
     <!-- БЛОК РЕЗУЛЬТАТА -->
     <div class="result-box">
-        <div class="result-title" id="result-label">РЕЗУЛЬТАТ:</div>
+        <div class="result-title" id="result-label" data-i18n="result_default">RESULT:</div>
         <div class="result-value" id="result-value">0.00</div>
     </div>
 
     <!-- Опции для CS2 (Зум) -->
     <div class="cs2-options" id="cs2-box">
         <label class="checkbox-container">
-            <input type="checkbox" id="cs2-zoom-check" onchange="calculate()"> Учитывать Зум (AWP/Scout)
+            <input type="checkbox" id="cs2-zoom-check" onchange="calculate()"> 
+            <span data-i18n="cs2_zoom">Include Zoom (AWP/Scout)</span>
         </label>
         <div class="zoom-results" id="cs2-zoom-results">
-            1-й Зум: <span id="cs2-z1">0</span> cm/360<br>
-            2-й Зум: <span id="cs2-z2">0</span> cm/360
+            <span data-i18n="zoom1">1st Zoom:</span> <span id="cs2-z1">0</span> cm/360<br>
+            <span data-i18n="zoom2">2nd Zoom:</span> <span id="cs2-z2">0</span> cm/360
         </div>
     </div>
 
 </div>
 
 <script>
-    // БАЗА ДАННЫХ ИГР (Сюда будем добавлять новые!)
-    // yaw - это математический коэффициент поворота камеры в движке
+    // === АНИМАЦИЯ ЧАСТИЦ (КОСМОС) ===
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles =[];
+    
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 0.5;
+            this.speedX = (Math.random() - 0.5) * 0.3;
+            this.speedY = (Math.random() - 0.5) * 0.3;
+            this.alpha = Math.random() * 0.5 + 0.1;
+        }
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            // Возврат на экран при выходе за края
+            if (this.x < 0) this.x = canvas.width;
+            if (this.x > canvas.width) this.x = 0;
+            if (this.y < 0) this.y = canvas.height;
+            if (this.y > canvas.height) this.y = 0;
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(138, 118, 223, ${this.alpha})`; // Оттенок, родственный #60519b
+            ctx.fill();
+        }
+    }
+
+    // Создаем 150 частиц
+    for (let i = 0; i < 150; i++) {
+        particles.push(new Particle());
+    }
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Рисуем легкое свечение-туманность
+        let gradient = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, canvas.width);
+        gradient.addColorStop(0, "rgba(96, 81, 155, 0.08)");
+        gradient.addColorStop(1, "rgba(5, 2, 10, 1)");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+
+    // === ЛОГИКА КАЛЬКУЛЯТОРА И ПЕРЕВОДА ===
     const games = {
         "cs2": { name: "Counter-Strike 2", yaw: 0.022 },
         "val": { name: "Valorant", yaw: 0.07 },
@@ -271,15 +400,89 @@
     };
 
     let currentMainTab = 'g2g'; 
-    let isCmToGame = true; // true = cm -> game, false = game -> cm
+    let isCmToGame = true; 
+    let currentLang = 'en';
 
-    // Инициализация сайта при загрузке
-    window.onload = () => {
-        populateSelects();
-        calculate();
+    // СЛОВАРЬ ПЕРЕВОДОВ
+    const i18n = {
+        en: {
+            tab_g2g: "Game to Game",
+            tab_cm: "cm/360 ↔ Game",
+            from_game: "From Game:",
+            sens_label: "Sensitivity:",
+            to_game: "To Game:",
+            swap_btn: "🔁 Swap Direction",
+            mouse_dpi: "Mouse DPI:",
+            target_cm: "Target cm/360:",
+            game_label: "Game:",
+            game_label_2: "Game:",
+            ingame_sens: "In-game Sensitivity:",
+            result_default: "RESULT:",
+            sens_for: "Sensitivity for",
+            cm_dist: "Distance on mousepad:",
+            cs2_zoom: "Include Zoom (AWP/Scout)",
+            zoom1: "1st Zoom:",
+            zoom2: "2nd Zoom:",
+            placeholder_sens: "e.g. 1.5",
+            placeholder_dpi: "e.g. 800",
+            placeholder_cm: "e.g. 35"
+        },
+        ru: {
+            tab_g2g: "Игра к Игре",
+            tab_cm: "cm/360 ↔ Игра",
+            from_game: "Из игры:",
+            sens_label: "Чувствительность:",
+            to_game: "В игру:",
+            swap_btn: "🔁 Сменить направление",
+            mouse_dpi: "DPI мыши:",
+            target_cm: "Желаемые cm/360:",
+            game_label: "Игра:",
+            game_label_2: "Игра:",
+            ingame_sens: "Сенса в игре:",
+            result_default: "РЕЗУЛЬТАТ:",
+            sens_for: "Сенса для",
+            cm_dist: "Дистанция на коврике:",
+            cs2_zoom: "Учитывать Зум (AWP/Scout)",
+            zoom1: "1-й Зум:",
+            zoom2: "2-й Зум:",
+            placeholder_sens: "Например: 1.5",
+            placeholder_dpi: "Например: 800",
+            placeholder_cm: "Например: 35"
+        }
     };
 
-    // Заполнение выпадающих списков играми
+    window.onload = () => {
+        populateSelects();
+        changeLang('en'); // При загрузке английский
+    };
+
+    // Смена языка
+    function changeLang(lang) {
+        currentLang = lang;
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        document.getElementById('btn-ru').classList.toggle('active', lang === 'ru');
+        
+        // Обновляем текст в HTML элементах
+        document.querySelectorAll('[data-i18n]').forEach(elem => {
+            const key = elem.getAttribute('data-i18n');
+            if(i18n[lang][key]) {
+                elem.innerText = i18n[lang][key];
+            }
+        });
+
+        // Обновляем текст в табе "Game to Game"
+        document.getElementById('tab-g2g').innerText = i18n[lang].tab_g2g;
+
+        // Обновляем плейсхолдеры
+        document.getElementById('g2g-sens').placeholder = i18n[lang].placeholder_sens;
+        document.getElementById('cm-input-sens').placeholder = i18n[lang].placeholder_sens;
+        document.getElementById('cm-dpi').placeholder = i18n[lang].placeholder_dpi;
+        document.getElementById('cm-input-cm').placeholder = i18n[lang].placeholder_cm;
+
+        calculate(); // Пересчитываем, чтобы обновить заголовок результата
+    }
+
+    // Заполнение выпадающих списков
     function populateSelects() {
         const selects =['g2g-game1', 'g2g-game2', 'cm-game1', 'cm-game2'];
         let optionsHTML = '';
@@ -289,7 +492,6 @@
         selects.forEach(id => {
             document.getElementById(id).innerHTML = optionsHTML;
         });
-        // Поставим разные игры по умолчанию
         document.getElementById('g2g-game2').value = 'val'; 
     }
 
@@ -312,12 +514,12 @@
         calculate();
     }
 
-    // ГЛАВНАЯ ФУНКЦИЯ МАТЕМАТИКИ
+    // Главная математика
     function calculate() {
         let resultText = "0.00";
-        let resultLabel = "РЕЗУЛЬТАТ:";
+        let resultLabel = i18n[currentLang].result_default;
         let showCs2Box = false;
-        let baseCm360 = 0; // Для расчетов зума в CS2
+        let baseCm360 = 0; 
 
         if (currentMainTab === 'g2g') {
             let g1 = document.getElementById('g2g-game1').value;
@@ -325,15 +527,13 @@
             let sens = parseFloat(document.getElementById('g2g-sens').value);
 
             if (!isNaN(sens) && sens > 0) {
-                // Формула перевода: (Сенса1 * Yaw1) / Yaw2
                 let converted = (sens * games[g1].yaw) / games[g2].yaw;
-                resultText = converted.toFixed(4); // 4 знака после запятой
+                resultText = converted.toFixed(4); 
+                resultLabel = `${i18n[currentLang].sens_for} ${games[g2].name}:`;
             }
             if (g1 === 'cs2' || g2 === 'cs2') showCs2Box = true;
             
-            // Считаем cm/360 "в фоне" для зума
             if (!isNaN(sens) && sens > 0) {
-                let dpi = 800; // Условный DPI для расчета зума без ввода DPI
                 baseCm360 = (360 * 2.54) / (sens * 800 * games[g1].yaw); 
             }
 
@@ -344,10 +544,9 @@
                 let cm = parseFloat(document.getElementById('cm-input-cm').value);
                 let g = document.getElementById('cm-game1').value;
                 if (!isNaN(dpi) && !isNaN(cm) && cm > 0 && dpi > 0) {
-                    // Из см в сенсу
                     let sens = (360 * 2.54) / (cm * dpi * games[g].yaw);
                     resultText = sens.toFixed(4);
-                    resultLabel = `Сенса для ${games[g].name}:`;
+                    resultLabel = `${i18n[currentLang].sens_for} ${games[g].name}:`;
                     baseCm360 = cm;
                 }
                 if (g === 'cs2') showCs2Box = true;
@@ -355,21 +554,19 @@
                 let sens = parseFloat(document.getElementById('cm-input-sens').value);
                 let g = document.getElementById('cm-game2').value;
                 if (!isNaN(dpi) && !isNaN(sens) && sens > 0 && dpi > 0) {
-                    // Из сенсы в см
                     let cm = (360 * 2.54) / (sens * dpi * games[g].yaw);
                     resultText = cm.toFixed(2) + " cm/360";
-                    resultLabel = "Дистанция на коврике:";
+                    resultLabel = i18n[currentLang].cm_dist;
                     baseCm360 = cm;
                 }
                 if (g === 'cs2') showCs2Box = true;
             }
         }
 
-        // Обновляем текст
         document.getElementById('result-value').innerText = resultText;
         document.getElementById('result-label').innerText = resultLabel;
 
-        // Логика отображения блока CS2 (Зум)
+        // Логика отображения блока CS2
         const cs2Box = document.getElementById('cs2-box');
         const zoomResults = document.getElementById('cs2-zoom-results');
         const isChecked = document.getElementById('cs2-zoom-check').checked;
@@ -378,7 +575,6 @@
             cs2Box.style.display = 'block';
             if (isChecked && baseCm360 > 0) {
                 zoomResults.style.display = 'block';
-                // В CS2 при базовом zoom_sens 1.0, 1-й зум AWP требует в ~2.25 раза больше см для 360, 2-й зум в ~6 раз
                 document.getElementById('cs2-z1').innerText = (baseCm360 * 2.25).toFixed(1);
                 document.getElementById('cs2-z2').innerText = (baseCm360 * 6.0).toFixed(1);
             } else {
