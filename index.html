@@ -194,6 +194,8 @@
         /* ADVANCED MINI INPUTS OVERRIDE */
         input[type="text"].mini-input {
             width: 70px !important; 
+            min-width: 70px !important;
+            flex-shrink: 0;
             padding: 6px 10px; 
             font-size: 14px;
             text-align: center; 
@@ -365,10 +367,14 @@
             position: relative; 
             display: inline-flex; 
             align-items: center; 
+            margin-left: 10px; 
+            flex-shrink: 0;
             cursor: help; 
         }
 
         .tooltip svg { 
+            width: 18px; 
+            height: 18px; 
             fill: #A985FF; 
             transition: fill 0.2s, transform 0.2s; 
         }
@@ -553,7 +559,7 @@
             text-shadow: 0 0 8px rgba(255, 152, 0, 0.5); 
         }
 
-        /* ADS COLUMNS FIX (CSS Grid to prevent breaking wrap) */
+        /* ADS COLUMNS FIX: Using strict flex-wrap instead of grid to prevent Safari/Chromium collapse */
         .ads-results {
             display: none; 
             flex-direction: column; 
@@ -574,13 +580,16 @@
         }
 
         .ads-row { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); 
+            display: flex; 
+            flex-wrap: wrap; /* Safe and 100% supported wrap */
             gap: 8px; 
             width: 100%; 
+            justify-content: center;
         }
 
         .ads-col {
+            flex: 1 1 calc(30% - 8px); /* Take up available space, min ~30% width */
+            min-width: 85px; /* Hard protection against shrinking to 0 */
             background: rgba(0,0,0,0.4); 
             border: 1px solid rgba(137, 102, 245, 0.2); 
             border-radius: 8px; 
@@ -718,7 +727,7 @@
                 <div style="display:flex; align-items:center; gap: 8px;">
                     <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa; line-height: 1.3;">ZOOM SENSITIVITY MULTIPLIER:</span>
                     <div class="tooltip">
-                        <svg viewBox="0 0 24 24" style="width: 18px; height: 18px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
                         <div class="tooltip-text" style="width:240px;">
                             For a 1:1 feel (MDH 0%), it is recommended to use <span style="color:#A985FF; font-weight:700;">0.818933</span>.<br><br>In CS, sensitivity naturally drops when scoping. This multiplier is used for precise compensation.
                         </div>
@@ -741,7 +750,7 @@
                 <div style="display:flex; align-items:center; gap: 8px;">
                     <span style="font-size: 11px; font-weight: 700; color: #aaa;">ANA & WIDOWMAKER:</span>
                     <div class="tooltip">
-                        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
                         <div class="tooltip-text">Optimal tracking feel (1:1 MDH 0%):<br><span style="color:#A985FF; font-weight:700;">37.89%</span></div>
                     </div>
                 </div>
@@ -754,7 +763,7 @@
                 <div style="display:flex; align-items:center; gap: 8px;">
                     <span style="font-size: 11px; font-weight: 700; color: #aaa;">ASHE & CASSIDY:</span>
                     <div class="tooltip">
-                        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
                         <div class="tooltip-text">Optimal tracking feel (1:1 MDH 0%):<br><span style="color:#A985FF; font-weight:700;">51.47%</span></div>
                     </div>
                 </div>
@@ -767,7 +776,7 @@
                 <div style="display:flex; align-items:center; gap: 8px;">
                     <span style="font-size: 11px; font-weight: 700; color: #aaa;">FREJA:</span>
                     <div class="tooltip">
-                        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
                         <div class="tooltip-text">Optimal tracking feel (1:1 MDH 0%):<br><span style="color:#A985FF; font-weight:700;">62.22%</span></div>
                     </div>
                 </div>
@@ -780,7 +789,7 @@
                 <div style="display:flex; align-items:center; gap: 8px;">
                     <span style="font-size: 11px; font-weight: 700; color: #aaa;">EMRE:</span>
                     <div class="tooltip">
-                        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
                         <div class="tooltip-text">Optimal tracking feel (1:1 MDH 0%):<br><span style="color:#A985FF; font-weight:700;">54.99%</span></div>
                     </div>
                 </div>
@@ -803,7 +812,7 @@
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <span>FOCAL LENGTH SENSITIVITY SCALING</span>
                         <div class="tooltip">
-                            <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
                             <div class="tooltip-text">
                                 <span style="color:#A985FF; font-weight:700;">ON (Recommended):</span><br>Scales sens to match physical mouse movement with visual FOV (MDH 0%).<br><br>
                                 <span style="color:#A985FF; font-weight:700;">OFF:</span><br>Ignores FOV, uses flat multipliers.
@@ -818,7 +827,7 @@
                     <div style="display:flex; align-items:center; gap: 8px;">
                         <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">HIPFIRE FOV:</span>
                         <div class="tooltip">
-                            <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
                             <div class="tooltip-text">The Finals uses Vertical FOV.<br><br>Pro players typically use an FOV between <span style="color:#A985FF; font-weight:700;">85 and 100</span>.</div>
                         </div>
                     </div>
@@ -855,8 +864,8 @@
                     <div style="display:flex; align-items:center; gap: 8px;">
                         <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">HIPFIRE FOV:</span>
                         <div class="tooltip">
-                            <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
-                            <div class="tooltip-text">PUBG uses Horizontal FOV.<br><br>Regardless of your Hipfire FOV, scopes always automatically scale based on a hardcoded 80 FOV rule natively in the engine.</div>
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                            <div class="tooltip-text">PUBG dynamically scales Hipfire Sensitivity based on your FOV.<br><br>Regardless of your Hipfire FOV, scopes always automatically scale natively in the engine based on an 80 FOV focal rule.</div>
                         </div>
                     </div>
                     <span id="pubg-fov-val" style="color:#fff; font-size:12px; font-weight:700;">90</span>
@@ -1283,17 +1292,24 @@
     }
 
     // YAW & GAME SPECIFIC CONVERSION HELPERS
+    function getPubgFov() {
+        let el = document.getElementById('pubg-fov');
+        return el ? (parseFloat(el.value) || 90) : 90;
+    }
+
     function getEffectiveYaw(gameKey, sens) {
         if (gameKey === 'pubg') {
+            let fov = getPubgFov();
             let configSens = 0.002 * Math.pow(10, sens / 50);
-            return configSens * 2.5; // UE4 Engine default scaling
+            return configSens * (fov / 80); 
         }
         return sens * games[gameKey].yaw;
     }
 
     function convertFromEffectiveYaw(gameKey, effectiveYaw) {
         if (gameKey === 'pubg') {
-            let configSens = effectiveYaw / 2.5;
+            let fov = getPubgFov();
+            let configSens = effectiveYaw / (fov / 80);
             if (configSens <= 0) return 0;
             let sens = 50 * Math.log10(configSens / 0.002);
             return sens;
@@ -1328,13 +1344,13 @@
                     let roundedSens = Math.round(converted);
                     if (g2 === 'pubg') {
                         resultText = converted.toFixed(1); 
-                        let configSens = (getEffectiveYaw('pubg', converted) / 2.5).toFixed(6);
-                        configText = `FOR CONFIG FILE: ${configSens}`;
+                        let pubgConfigSens = 0.002 * Math.pow(10, converted / 50);
+                        configText = `FOR CONFIG FILE: ${pubgConfigSens.toFixed(6)}`;
                     } else {
                         resultText = roundedSens.toString(); 
                         configText = `FOR CONFIG FILE: ${(converted / 100).toFixed(6)}`; 
                     }
-                    actualBaseCm360 = (360 * 2.54) / (dpi * getEffectiveYaw(g2, roundedSens));
+                    actualBaseCm360 = (360 * 2.54) / (dpi * getEffectiveYaw(g2, converted));
                 } else {
                     let dec = targetGame.decimals !== undefined ? targetGame.decimals : 4; 
                     resultText = converted.toFixed(dec); 
@@ -1357,13 +1373,13 @@
                         let roundedSens = Math.round(converted);
                         if (g_cm === 'pubg') {
                             resultText = converted.toFixed(1); 
-                            let configSens = (getEffectiveYaw('pubg', converted) / 2.5).toFixed(6);
-                            configText = `FOR CONFIG FILE: ${configSens}`;
+                            let pubgConfigSens = 0.002 * Math.pow(10, converted / 50);
+                            configText = `FOR CONFIG FILE: ${pubgConfigSens.toFixed(6)}`;
                         } else {
                             resultText = roundedSens.toString();
                             configText = `FOR CONFIG FILE: ${(converted / 100).toFixed(6)}`;
                         }
-                        actualBaseCm360 = val; // CM input directly defines base tracking distance
+                        actualBaseCm360 = val; // CM input defines physical 360
                     } else {
                         let dec = targetGame.decimals !== undefined ? targetGame.decimals : 4; 
                         resultText = converted.toFixed(dec);
@@ -1535,10 +1551,9 @@
                         let sliderVal = parseFloat(document.getElementById(`pubg-${scope}`).value) || 50;
                         let scopeFov = pubgScopes[scope];
                         
-                        let engineScale = scopeFov / 80;
-                        let userScale = Math.pow(10, (sliderVal - 50) / 50);
-                        
-                        let scopeCm = actualBaseCm360 / (engineScale * userScale);
+                        let configSens = 0.002 * Math.pow(10, sliderVal / 50);
+                        let scopeYaw = configSens * (scopeFov / 80);
+                        let scopeCm = (360 * 2.54) / (dpi * scopeYaw);
                         
                         let resEl = document.getElementById(`pubg-${scope}-res`);
                         if (resEl) resEl.innerText = scopeCm.toFixed(1) + ' cm';
