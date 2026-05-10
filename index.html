@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>143 Aim Club - Sensitivity Calculator</title>
+    <style>
+        /* БАЗОВЫЙ ДИЗАЙН И ШРИФТЫ */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Космический анимированный фон */
+            background: radial-gradient(circle at 50% 50%, #150924 0%, #05020a 100%);
+            background-size: 200% 200%;
+            animation: spaceGlow 15s ease infinite;
+        }
+
+        @keyframes spaceGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ГЛАВНАЯ КАРТОЧКА (Стекло) */
+        .calculator-card {
+            background: rgba(20, 15, 30, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(138, 43, 226, 0.1);
+        }
+
+        .logo-title {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #a985ff;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ТУМБЛЕР РЕЖИМОВ */
+        .tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(138, 43, 226, 0.1);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: #888;
+        }
+
+        .tab.active {
+            background: rgba(138, 43, 226, 0.3);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.2);
+        }
+
+        /* ПОЛЯ ВВОДА */
+        .input-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+
+        select, input {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border 0.3s ease;
+        }
+
+        select:focus, input:focus {
+            border-color: #a985ff;
+        }
+
+        /* КНОПКА СМЕНЫ РЕЖИМОВ В CM/360 */
+        .swap-btn {
+            background: rgba(138, 43, 226, 0.1);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            color: #a985ff;
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            font-size: 18px;
+            transition: 0.2s;
+        }
+
+        .swap-btn:hover {
+            background: rgba(138, 43, 226, 0.3);
+        }
+
+        /* РЕЗУЛЬТАТ */
+        .result-box {
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(138, 43, 226, 0.1);
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+        }
+
+        .result-title {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .result-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            margin-top: 5px;
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+        }
+
+        /* ГАЛОЧКА CS2 */
+        .cs2-options {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .checkbox-container input {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .zoom-results {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #a985ff;
+            display: none;
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="calculator-card">
+    <div class="logo-title">143 Aim Club</div>
+
+    <!-- Тумблер режимов -->
+    <div class="tabs">
+        <div class="tab active" onclick="switchMainTab('g2g')" id="tab-g2g">Game to Game</div>
+        <div class="tab" onclick="switchMainTab('cm')" id="tab-cm">cm/360 ↔ Game</div>
+    </div>
+
+    <!-- РЕЖИМ 1: GAME TO GAME -->
+    <div id="mode-g2g">
+        <div class="input-group">
+            <label>Из игры:</label>
+            <select id="g2g-game1" onchange="calculate()"></select>
+        </div>
+        <div class="input-group">
+            <label>Чувствительность:</label>
+            <input type="number" id="g2g-sens" step="any" placeholder="Например: 1.5" oninput="calculate()">
+        </div>
+        <div class="input-group">
+            <label>В игру:</label>
+            <select id="g2g-game2" onchange="calculate()"></select>
+        </div>
+    </div>
+
+    <!-- РЕЖИМ 2: CM/360 to GAME -->
+    <div id="mode-cm" class="hidden">
+        <button class="swap-btn" onclick="toggleCmMode()">🔁 Сменить направление</button>
+        
+        <div class="input-group">
+            <label>DPI мыши:</label>
+            <input type="number" id="cm-dpi" step="any" placeholder="Например: 800" value="800" oninput="calculate()">
+        </div>
+
+        <!-- Подрежим А: Ввод CM -> Вывод Сенсы -->
+        <div id="cm-submode-cm2game">
+            <div class="input-group">
+                <label>Желаемые cm/360:</label>
+                <input type="number" id="cm-input-cm" step="any" placeholder="Например: 35" oninput="calculate()">
+            </div>
+            <div class="input-group">
+                <label>Игра:</label>
+                <select id="cm-game1" onchange="calculate()"></select>
+            </div>
+        </div>
+
+        <!-- Подрежим Б: Ввод Сенсы -> Вывод CM -->
+        <div id="cm-submode-game2cm" class="hidden">
+            <div class="input-group">
+                <label>Игра:</label>
+                <select id="cm-game2" onchange="calculate()"></select>
+            </div>
+            <div class="input-group">
+                <label>Чувствительность в игре:</label>
+                <input type="number" id="cm-input-sens" step="any" placeholder="Например: 1.5" oninput="calculate()">
+            </div>
+        </div>
+    </div>
+
+    <!-- БЛОК РЕЗУЛЬТАТА -->
+    <div class="result-box">
+        <div class="result-title" id="result-label">РЕЗУЛЬТАТ:</div>
+        <div class="result-value" id="result-value">0.00</div>
+    </div>
+
+    <!-- Опции для CS2 (Зум) -->
+    <div class="cs2-options" id="cs2-box">
+        <label class="checkbox-container">
+            <input type="checkbox" id="cs2-zoom-check" onchange="calculate()"> Учитывать Зум (AWP/Scout)
+        </label>
+        <div class="zoom-results" id="cs2-zoom-results">
+            1-й Зум: <span id="cs2-z1">0</span> cm/360<br>
+            2-й Зум: <span id="cs2-z2">0</span> cm/360
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // БАЗА ДАННЫХ ИГР (Сюда будем добавлять новые!)
+    // yaw - это математический коэффициент поворота камеры в движке
+    const games = {
+        "cs2": { name: "Counter-Strike 2", yaw: 0.022 },
+        "val": { name: "Valorant", yaw: 0.07 },
+        "ow2": { name: "Overwatch 2", yaw: 0.0066 }
+    };
+
+    let currentMainTab = 'g2g'; 
+    let isCmToGame = true; // true = cm -> game, false = game -> cm
+
+    // Инициализация сайта при загрузке
+    window.onload = () => {
+        populateSelects();
+        calculate();
+    };
+
+    // Заполнение выпадающих списков играми
+    function populateSelects() {
+        const selects =['g2g-game1', 'g2g-game2', 'cm-game1', 'cm-game2'];
+        let optionsHTML = '';
+        for (let key in games) {
+            optionsHTML += `<option value="${key}">${games[key].name}</option>`;
+        }
+        selects.forEach(id => {
+            document.getElementById(id).innerHTML = optionsHTML;
+        });
+        // Поставим разные игры по умолчанию
+        document.getElementById('g2g-game2').value = 'val'; 
+    }
+
+    // Переключение главных вкладок
+    function switchMainTab(tab) {
+        currentMainTab = tab;
+        document.getElementById('tab-g2g').classList.toggle('active', tab === 'g2g');
+        document.getElementById('tab-cm').classList.toggle('active', tab === 'cm');
+        
+        document.getElementById('mode-g2g').classList.toggle('hidden', tab !== 'g2g');
+        document.getElementById('mode-cm').classList.toggle('hidden', tab !== 'cm');
+        calculate();
+    }
+
+    // Переключение внутри режима cm/360
+    function toggleCmMode() {
+        isCmToGame = !isCmToGame;
+        document.getElementById('cm-submode-cm2game').classList.toggle('hidden', !isCmToGame);
+        document.getElementById('cm-submode-game2cm').classList.toggle('hidden', isCmToGame);
+        calculate();
+    }
+
+    // ГЛАВНАЯ ФУНКЦИЯ МАТЕМАТИКИ
+    function calculate() {
+        let resultText = "0.00";
+        let resultLabel = "РЕЗУЛЬТАТ:";
+        let showCs2Box = false;
+        let baseCm360 = 0; // Для расчетов зума в CS2
+
+        if (currentMainTab === 'g2g') {
+            let g1 = document.getElementById('g2g-game1').value;
+            let g2 = document.getElementById('g2g-game2').value;
+            let sens = parseFloat(document.getElementById('g2g-sens').value);
+
+            if (!isNaN(sens) && sens > 0) {
+                // Формула перевода: (Сенса1 * Yaw1) / Yaw2
+                let converted = (sens * games[g1].yaw) / games[g2].yaw;
+                resultText = converted.toFixed(4); // 4 знака после запятой
+            }
+            if (g1 === 'cs2' || g2 === 'cs2') showCs2Box = true;
+            
+            // Считаем cm/360 "в фоне" для зума
+            if (!isNaN(sens) && sens > 0) {
+                let dpi = 800; // Условный DPI для расчета зума без ввода DPI
+                baseCm360 = (360 * 2.54) / (sens * 800 * games[g1].yaw); 
+            }
+
+        } else if (currentMainTab === 'cm') {
+            let dpi = parseFloat(document.getElementById('cm-dpi').value);
+
+            if (isCmToGame) {
+                let cm = parseFloat(document.getElementById('cm-input-cm').value);
+                let g = document.getElementById('cm-game1').value;
+                if (!isNaN(dpi) && !isNaN(cm) && cm > 0 && dpi > 0) {
+                    // Из см в сенсу
+                    let sens = (360 * 2.54) / (cm * dpi * games[g].yaw);
+                    resultText = sens.toFixed(4);
+                    resultLabel = `Сенса для ${games[g].name}:`;
+                    baseCm360 = cm;
+                }
+                if (g === 'cs2') showCs2Box = true;
+            } else {
+                let sens = parseFloat(document.getElementById('cm-input-sens').value);
+                let g = document.getElementById('cm-game2').value;
+                if (!isNaN(dpi) && !isNaN(sens) && sens > 0 && dpi > 0) {
+                    // Из сенсы в см
+                    let cm = (360 * 2.54) / (sens * dpi * games[g].yaw);
+                    resultText = cm.toFixed(2) + " cm/360";
+                    resultLabel = "Дистанция на коврике:";
+                    baseCm360 = cm;
+                }
+                if (g === 'cs2') showCs2Box = true;
+            }
+        }
+
+        // Обновляем текст
+        document.getElementById('result-value').innerText = resultText;
+        document.getElementById('result-label').innerText = resultLabel;
+
+        // Логика отображения блока CS2 (Зум)
+        const cs2Box = document.getElementById('cs2-box');
+        const zoomResults = document.getElementById('cs2-zoom-results');
+        const isChecked = document.getElementById('cs2-zoom-check').checked;
+
+        if (showCs2Box) {
+            cs2Box.style.display = 'block';
+            if (isChecked && baseCm360 > 0) {
+                zoomResults.style.display = 'block';
+                // В CS2 при базовом zoom_sens 1.0, 1-й зум AWP требует в ~2.25 раза больше см для 360, 2-й зум в ~6 раз
+                document.getElementById('cs2-z1').innerText = (baseCm360 * 2.25).toFixed(1);
+                document.getElementById('cs2-z2').innerText = (baseCm360 * 6.0).toFixed(1);
+            } else {
+                zoomResults.style.display = 'none';
+            }
+        } else {
+            cs2Box.style.display = 'none';
+            document.getElementById('cs2-zoom-check').checked = false;
+            zoomResults.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
