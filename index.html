@@ -10,18 +10,18 @@
         /* БАЗОВЫЙ ФОН */
         body {
             margin: 0;
-            padding: 0;
+            padding: 40px 20px; /* Добавили отступы, чтобы карточка не прилипала к краям при скролле */
             font-family: 'Space Grotesk', sans-serif;
             color: #ffffff;
             
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
+            min-height: 100vh; /* Теперь минимальная высота, а не жесткая */
+            overflow-x: hidden;
+            overflow-y: auto; /* Включаем скролл по вертикали */
             box-sizing: border-box;
             
             display: flex;
             justify-content: center;
-            align-items: center; 
+            align-items: flex-start; /* Изменили с center, чтобы не обрезался верх */
             
             background-color: #05020a;
             background-image: url('space-bg.jpg');
@@ -41,6 +41,7 @@
 
         /* КАРТОЧКА КАЛЬКУЛЯТОРА */
         .calculator-card {
+            margin: auto; /* Магия для идеального центрирования с поддержкой скролла */
             background: rgba(15, 10, 25, 0.65);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -577,7 +578,8 @@
                     <label style="margin:0;">MOUSE ZOOM SENS. MULTIPLIER:</label>
                     <span id="tf-zoom-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
                 </div>
-                <input type="range" id="tf-zoom-slider" min="1" max="200" value="100" oninput="document.getElementById('tf-zoom-val').innerText = this.value + '%'; calculate()">
+                <!-- ЗДЕСЬ ИЗМЕНИЛИ MAX НА 100 -->
+                <input type="range" id="tf-zoom-slider" min="1" max="100" value="100" oninput="document.getElementById('tf-zoom-val').innerText = this.value + '%'; calculate()">
             </div>
             
             <div class="tf-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 10px;">
@@ -730,7 +732,7 @@
         "tf": { 
             name: "The Finals", 
             aliases:["finals", "the finals", "tf"], 
-            yaw: 0.002, /* Исправлено с 0.001 на правильные 0.002 на основе математики */
+            yaw: 0.002, 
             decimals: 0 
         },
         "fn": { 
