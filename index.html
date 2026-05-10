@@ -191,7 +191,16 @@
             box-shadow: 0 0 15px rgba(169, 133, 255, 0.5), inset 0 0 10px rgba(0,0,0,0.5);
         }
 
-        /* LIMIT HIGHLIGHTS & ERRORS (OW2 / CS2) */
+        /* ADVANCED MINI INPUTS OVERRIDE (Fix for 100% width bug) */
+        input[type="text"].mini-input {
+            width: 70px !important; 
+            padding: 6px 10px; 
+            font-size: 14px;
+            text-align: center; 
+            border-radius: 6px; 
+        }
+
+        /* LIMIT HIGHLIGHTS & ERRORS */
         .input-error {
             border-color: #ff9800 !important;
             box-shadow: 0 0 15px rgba(255, 152, 0, 0.5), inset 0 0 10px rgba(0,0,0,0.5) !important;
@@ -356,13 +365,13 @@
             position: relative; 
             display: inline-flex; 
             align-items: center; 
-            margin-left: 6px; 
+            margin-left: 10px; /* Увеличен отступ от текста */
             cursor: help; 
         }
 
         .tooltip svg { 
-            width: 14px; 
-            height: 14px; 
+            width: 18px; /* Иконка стала больше */
+            height: 18px; 
             fill: #A985FF; 
             transition: fill 0.2s, transform 0.2s; 
         }
@@ -488,28 +497,6 @@
             border: none; 
             box-shadow: none;
         }
-        
-        /* Small inputs for multipliers */
-        .mini-input {
-            width: 50px; 
-            background: rgba(0,0,0,0.5); 
-            border: 1px solid rgba(137, 102, 245, 0.4);
-            color: #fff; 
-            padding: 3px 5px; 
-            border-radius: 6px; 
-            text-align: center; 
-            font-size: 12px;
-            font-family: 'Space Grotesk', sans-serif; 
-            font-weight: 600; 
-            outline: none; 
-            transition: 0.2s;
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
-        }
-
-        .mini-input:focus { 
-            border-color: #A985FF; 
-            box-shadow: 0 0 8px rgba(169, 133, 255, 0.5); 
-        }
 
         /* RESULT AREA */
         .result-box {
@@ -565,7 +552,7 @@
             text-shadow: 0 0 8px rgba(255, 152, 0, 0.5); 
         }
 
-        /* ADS COLUMNS */
+        /* ADS COLUMNS FIX */
         .ads-results {
             display: none; 
             flex-direction: column; 
@@ -582,28 +569,33 @@
             font-weight: 700; 
             letter-spacing: 1px; 
             text-align: center; 
-            margin-bottom: -4px; 
+            margin-bottom: 6px; /* Исправлен отступ */
         }
 
+        /* Полностью переписана сетка чтобы блоки никогда не пропадали */
         .ads-row { 
             display: flex; 
+            flex-wrap: wrap; /* Позволяет блокам переноситься если нет места */
             gap: 8px; 
             width: 100%; 
+            justify-content: center;
         }
 
         .ads-col {
             flex: 1; 
+            min-width: 85px; /* Защита от схлопывания в ноль */
             background: rgba(0,0,0,0.4); 
             border: 1px solid rgba(137, 102, 245, 0.2); 
             border-radius: 8px; 
-            padding: 8px 5px; 
+            padding: 10px 5px; 
             text-align: center;
+            box-sizing: border-box;
         }
 
         .ads-title { 
             font-size: 9px; 
             color: #aaa; 
-            margin-bottom: 5px; 
+            margin-bottom: 6px; 
             font-weight: 700; 
             letter-spacing: 0.5px; 
             display: flex; 
@@ -718,17 +710,17 @@
                 <span>I USE STRETCHED RES</span>
             </label>
             
-            <div class="mini-tabs" id="cs2-res-tabs" style="display:none; margin-top:8px;">
+            <div class="mini-tabs" id="cs2-res-tabs" style="display:none; margin-top:12px;">
                 <div class="mini-slider mini-slider-3" id="cs2-res-slider"></div>
                 <div class="mini-tab active" id="rtab-43" onclick="setCs2Res('43')">4:3</div>
                 <div class="mini-tab" id="rtab-54" onclick="setCs2Res('54')">5:4</div>
                 <div class="mini-tab" id="rtab-1610" onclick="setCs2Res('1610')">16:10</div>
             </div>
 
-            <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-top:15px; margin-bottom:5px;">
-                <div style="display:flex; align-items:center;">
-                    <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">ZOOM SENSITIVITY MULTIPLIER:</span>
-                    <div class="tooltip">
+            <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-top:20px; margin-bottom:5px;">
+                <div style="display:flex; align-items:center; flex: 1;">
+                    <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa; line-height: 1.3;">ZOOM SENSITIVITY MULTIPLIER:</span>
+                    <div class="tooltip" style="margin-right: 15px;">
                         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
                         <div class="tooltip-text" style="width:240px;">
                             For a 1:1 feel (MDH 0%), it is recommended to use <span style="color:#A985FF; font-weight:700;">0.818933</span>.<br><br>In CS, sensitivity naturally drops when scoping. This multiplier is used for precise compensation.
