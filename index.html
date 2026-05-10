@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>143 aim club - Sensitivity Converter</title>
-    <!-- ПОДКЛЮЧИЛ НОВЫЙ ШРИФТ ORBITRON ДЛЯ ЛОГОТИПА -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -19,7 +18,6 @@
             overflow: hidden;
             box-sizing: border-box;
             
-            /* ИДЕАЛЬНОЕ ЦЕНТРИРОВАНИЕ ПО ВЕРТИКАЛИ И ГОРИЗОНТАЛИ */
             display: flex;
             justify-content: center;
             align-items: center; 
@@ -52,6 +50,7 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(96, 81, 155, 0.3);
             position: relative;
             z-index: 1;
+            box-sizing: border-box;
         }
 
         .top-bar {
@@ -106,7 +105,6 @@
             fill: currentColor;
         }
 
-        /* НОВЫЙ ДИЗАЙН ЛОГОТИПА */
         .logo-title {
             text-align: center;
             font-family: 'Orbitron', sans-serif;
@@ -121,7 +119,7 @@
             filter: drop-shadow(0 0 10px rgba(96, 81, 155, 0.6));
         }
 
-        /* ГЛАВНЫЙ ТУМБЛЕР (ПОЛНОСТЬЮ ИСПРАВЛЕННАЯ ГЕОМЕТРИЯ) */
+        /* --- ГЛАВНЫЙ ТУМБЛЕР --- */
         .tabs-container {
             position: relative;
             display: flex;
@@ -132,21 +130,24 @@
             border: 1px solid rgba(96, 81, 155, 0.2);
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
             z-index: 1;
+            box-sizing: border-box;
         }
 
         .tabs-slider {
             position: absolute;
             top: 4px;
             bottom: 4px;
-            left: 4px; /* Стартовая позиция */
-            width: calc(50% - 4px); /* Точная ширина */
-            background: linear-gradient(135deg, rgba(96, 81, 155, 0.8), rgba(96, 81, 155, 0.2));
+            left: 4px;
+            width: calc(50% - 4px);
+            /* Градиент 180deg (сверху вниз) решает проблему оптического перекоса */
+            background: linear-gradient(180deg, rgba(138, 118, 223, 0.6), rgba(96, 81, 155, 0.15));
             border-radius: 8px;
-            /* Изменил transform на left, чтобы он ездил абсолютно идеально */
             transition: left 0.35s cubic-bezier(0.25, 1, 0.5, 1);
             z-index: -1;
-            box-shadow: 0 2px 10px rgba(96, 81, 155, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            /* Равномерное свечение */
+            box-shadow: 0 0 12px rgba(138, 118, 223, 0.4);
+            border: 1px solid rgba(138, 118, 223, 0.4);
+            box-sizing: border-box;
         }
 
         .tab {
@@ -165,10 +166,10 @@
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
 
-        /* ОБОЛОЧКА ДЛЯ ФИКСАЦИИ ВЫСОТЫ (ЧТОБЫ ОКНО НЕ ПРЫГАЛО) */
         .modes-wrapper {
             min-height: 250px;
             position: relative;
+            box-sizing: border-box;
         }
 
         .input-group {
@@ -207,7 +208,7 @@
             box-shadow: 0 0 15px rgba(96, 81, 155, 0.5), inset 0 0 10px rgba(0,0,0,0.5);
         }
 
-        /* ТОНКИЙ МИНИ-ТУМБЛЕР ДЛЯ 3-ГО ПОЛЯ */
+        /* --- МИНИ-ТУМБЛЕР --- */
         .mini-tabs {
             position: relative;
             display: flex;
@@ -218,6 +219,7 @@
             border: 1px solid rgba(96, 81, 155, 0.2);
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
             z-index: 1;
+            box-sizing: border-box;
         }
 
         .mini-slider {
@@ -226,10 +228,14 @@
             bottom: 3px;
             left: 3px;
             width: calc(50% - 3px);
-            background: rgba(96, 81, 155, 0.3);
+            /* Добавлен градиент и неоновое свечение */
+            background: linear-gradient(180deg, rgba(138, 118, 223, 0.5), rgba(96, 81, 155, 0.15));
             border-radius: 6px;
             transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             z-index: -1;
+            box-shadow: 0 0 10px rgba(138, 118, 223, 0.4);
+            border: 1px solid rgba(138, 118, 223, 0.3);
+            box-sizing: border-box;
         }
 
         .mini-tab {
@@ -245,9 +251,10 @@
 
         .mini-tab.active {
             color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
 
-        /* COMBOBOX (Поиск игр) */
+        /* COMBOBOX */
         .combobox {
             position: relative;
             width: 100%;
@@ -314,7 +321,6 @@
         .combobox-list::-webkit-scrollbar-thumb { background: rgba(96, 81, 155, 0.6); border-radius: 8px; }
         .combobox-list::-webkit-scrollbar-thumb:hover { background: rgba(96, 81, 155, 0.8); }
 
-        /* РЕЗУЛЬТАТ */
         .result-box {
             margin-top: 20px;
             padding: 20px 15px;
@@ -365,19 +371,19 @@
         </div>
     </div>
 
-    <!-- Твой новый креативный логотип -->
+    <!-- Логотип с новым шрифтом -->
     <div class="logo-title">143 aim club</div>
 
+    <!-- Главный тумблер -->
     <div class="tabs-container">
         <div class="tabs-slider" id="tabs-slider"></div>
-        <div class="tab" onclick="switchMainTab('cm')" id="tab-cm">cm/360 to game</div>
+        <div class="tab active" onclick="switchMainTab('cm')" id="tab-cm">cm/360 to game</div>
         <div class="tab" onclick="switchMainTab('g2g')" id="tab-g2g">game to game</div>
     </div>
 
-    <!-- Обертка для фиксации высоты окна -->
     <div class="modes-wrapper">
         
-        <!-- РЕЖИМ 1: CM/360 to GAME (Теперь по умолчанию) -->
+        <!-- РЕЖИМ 1: CM/360 to GAME -->
         <div id="mode-cm">
             <div class="input-group">
                 <label data-i18n="game_label">Game:</label>
@@ -393,13 +399,12 @@
             </div>
 
             <div class="input-group">
-                <!-- Тонкий мини-тумблер, который заменяет текст -->
+                <!-- Тонкий мини-тумблер -->
                 <div class="mini-tabs">
                     <div class="mini-slider" id="mini-slider"></div>
                     <div class="mini-tab active" id="mtab-cm2game" onclick="setSubMode(true)">cm to game</div>
                     <div class="mini-tab" id="mtab-game2cm" onclick="setSubMode(false)">game to cm</div>
                 </div>
-                <!-- Единое поле ввода -->
                 <input type="text" inputmode="decimal" id="cm-dynamic-input" placeholder="e.g. 35" oninput="calculate()">
             </div>
         </div>
@@ -428,6 +433,7 @@
 
     </div>
 
+    <!-- РЕЗУЛЬТАТ -->
     <div class="result-box">
         <div class="result-title" id="result-label" data-i18n="result_default">RESULT:</div>
         <div class="result-value" id="result-value">0.00</div>
@@ -520,7 +526,6 @@
         "ow2": { name: "Overwatch 2", yaw: 0.0066, decimals: 2 }
     };
 
-    // Теперь 'cm' режим по умолчанию
     let currentMainTab = 'cm'; 
     let isCmToGame = true; 
     let currentLang = 'en';
@@ -557,7 +562,7 @@
     window.onload = () => {
         initComboboxes();
         changeLang('en'); 
-        switchMainTab('cm'); // Жестко включаем CM при старте
+        switchMainTab('cm'); 
     };
 
     function parseInputVal(id) {
@@ -665,12 +670,10 @@
         calculate(); 
     }
 
-    // Идеальная геометрия ползунка главного меню
     function switchMainTab(tab) {
         currentMainTab = tab;
         
         const slider = document.getElementById('tabs-slider');
-        // Изменил логику из-за смены вкладок местами в HTML
         if (tab === 'cm') {
             slider.style.left = '4px';
         } else {
@@ -685,7 +688,6 @@
         calculate();
     }
 
-    // НОВЫЙ ТОНКИЙ МИНИ-ТУМБЛЕР
     function setSubMode(isCm) {
         isCmToGame = isCm;
         
@@ -698,6 +700,8 @@
         const dynInput = document.getElementById('cm-dynamic-input');
         dynInput.placeholder = isCm ? i18n[currentLang].placeholder_cm : i18n[currentLang].placeholder_sens;
         
+        // Очищаем поле при смене режима для удобства
+        dynInput.value = '';
         calculate();
     }
 
