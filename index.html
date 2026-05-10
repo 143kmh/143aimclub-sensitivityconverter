@@ -10,18 +10,18 @@
         /* БАЗОВЫЙ ФОН */
         body {
             margin: 0;
-            padding: 40px 20px; /* Отступы, чтобы карточка не прилипала к краям при скролле */
+            padding: 40px 20px; 
             font-family: 'Space Grotesk', sans-serif;
             color: #ffffff;
             
-            min-height: 100vh; /* Минимальная высота для нормального скролла */
+            min-height: 100vh; 
             overflow-x: hidden;
-            overflow-y: auto; /* Включаем скролл по вертикали */
+            overflow-y: auto; 
             box-sizing: border-box;
             
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Изменили с center, чтобы верх не обрезался */
+            align-items: flex-start; 
             
             background-color: #05020a;
             background-image: url('space-bg.jpg');
@@ -41,7 +41,7 @@
 
         /* КАРТОЧКА КАЛЬКУЛЯТОРА */
         .calculator-card {
-            margin: auto; /* Центрируем по всем осям, когда есть скролл */
+            margin: auto; 
             background: rgba(15, 10, 25, 0.65);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -731,7 +731,7 @@
         "tf": { 
             name: "The Finals", 
             aliases:["finals", "the finals", "tf"], 
-            yaw: 0.001, /* ВЕРНУЛИ КОРРЕКТНЫЙ МНОЖИТЕЛЬ (0.001) */
+            yaw: 0.001, /* ВЕРНУЛ ПРАВИЛЬНЫЙ МНОЖИТЕЛЬ (0.001) */
             decimals: 0 
         },
         "fn": { 
@@ -962,7 +962,6 @@
         if (showTfBox) {
             tfBox.style.display = 'block';
             
-            // Если включена галочка SHOW ADVANCED
             if (isAdvChecked) {
                 tfAdvContent.style.display = 'block';
                 
@@ -978,7 +977,8 @@
                             return base / zoomMult;
                         } else {
                             let hip_rad = (fov / 2) * (Math.PI / 180);
-                            let ads_rad = isSniper ? (25 / 2) * (Math.PI / 180) : ((fov * fovMult) / 2) * (Math.PI / 180);
+                            // ИСПРАВЛЕН FOV СНАЙПЕРКИ: ТЕПЕРЬ РОВНО 20 ГРАДУСОВ
+                            let ads_rad = isSniper ? (20 / 2) * (Math.PI / 180) : ((fov * fovMult) / 2) * (Math.PI / 180);
                             let ratio = Math.tan(ads_rad) / Math.tan(hip_rad);
                             return base / (ratio * zoomMult);
                         }
@@ -998,7 +998,7 @@
             tfBox.style.display = 'none';
             tfAdvContent.style.display = 'none';
             tfAdsResults.style.display = 'none';
-            document.getElementById('tf-advanced-check').checked = false; // Сбрасываем галочку при уходе
+            document.getElementById('tf-advanced-check').checked = false;
         }
     }
 </script>
