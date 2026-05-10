@@ -426,11 +426,25 @@
         /* СТОЛБИКИ ПРИЦЕЛОВ (THE FINALS) */
         .tf-ads-results {
             display: none;
-            gap: 8px;
+            flex-direction: column;
+            gap: 12px;
             margin-top: 20px;
             padding-top: 15px;
             border-top: 1px solid rgba(137, 102, 245, 0.2);
             animation: fadeIn 0.3s ease;
+        }
+        .tf-ads-cat-title {
+            font-size: 10px;
+            color: #A985FF;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-align: center;
+            margin-bottom: -4px;
+        }
+        .tf-ads-row {
+            display: flex;
+            gap: 8px;
+            width: 100%;
         }
         .tf-ads-col {
             flex: 1;
@@ -544,21 +558,34 @@
 
         <div class="tf-advanced-content" id="tf-advanced-content">
             <div class="tf-opt-row">
-                <label>HIPFIRE FOV:</label>
-                <input type="text" inputmode="numeric" id="tf-fov" value="73" oninput="calculate()">
-            </div>
-            <div class="tf-opt-row">
                 <label class="checkbox-container" style="width:100%; display:flex; justify-content: space-between; align-items:center; margin:0;">
                     <span>FOCAL LENGTH SENSITIVITY SCALING</span>
                     <input type="checkbox" id="tf-fls" checked onchange="calculate()" style="margin-right:0;">
                 </label>
             </div>
+            
+            <div class="tf-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 15px;">
+                <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
+                    <label style="margin:0;">HIPFIRE FOV:</label>
+                    <span id="tf-fov-val" style="color:#fff; font-size:12px; font-weight:700;">71</span>
+                </div>
+                <input type="range" id="tf-fov" min="45" max="100" value="71" oninput="document.getElementById('tf-fov-val').innerText = this.value; calculate()">
+            </div>
+
             <div class="tf-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 10px;">
                 <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
-                    <label style="margin:0;">ZOOM SENSITIVITY MULTIPLIER:</label>
+                    <label style="margin:0;">MOUSE ZOOM SENS. MULTIPLIER:</label>
                     <span id="tf-zoom-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
                 </div>
                 <input type="range" id="tf-zoom-slider" min="1" max="200" value="100" oninput="document.getElementById('tf-zoom-val').innerText = this.value + '%'; calculate()">
+            </div>
+            
+            <div class="tf-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 10px;">
+                <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
+                    <label style="margin:0;">SCOPED ZOOM SENS. MULTIPLIER:</label>
+                    <span id="tf-scoped-zoom-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
+                </div>
+                <input type="range" id="tf-scoped-zoom-slider" min="1" max="200" value="100" oninput="document.getElementById('tf-scoped-zoom-val').innerText = this.value + '%'; calculate()">
             </div>
         </div>
     </div>
@@ -571,19 +598,25 @@
         <!-- Конфиг-значение для The Finals -->
         <div class="config-value" id="config-result"></div>
 
-        <!-- 3 столбика прицелов для The Finals (тоже прячутся под галочку) -->
+        <!-- Столбики прицелов для The Finals (тоже прячутся под галочку) -->
         <div class="tf-ads-results" id="tf-ads-results">
-            <div class="tf-ads-col">
-                <div class="tf-ads-title">IRON/HOLO</div>
-                <div class="tf-ads-val" id="tf-iron-res">0 cm</div>
+            <div class="tf-ads-cat-title">MOUSE ZOOM SENSITIVITY</div>
+            <div class="tf-ads-row">
+                <div class="tf-ads-col">
+                    <div class="tf-ads-title">IRON/RED DOT</div>
+                    <div class="tf-ads-val" id="tf-iron-res">0 cm</div>
+                </div>
+                <div class="tf-ads-col">
+                    <div class="tf-ads-title">MAGNIFEX</div>
+                    <div class="tf-ads-val" id="tf-med-res">0 cm</div>
+                </div>
             </div>
-            <div class="tf-ads-col">
-                <div class="tf-ads-title">MEDIUM ZOOM</div>
-                <div class="tf-ads-val" id="tf-med-res">0 cm</div>
-            </div>
-            <div class="tf-ads-col">
-                <div class="tf-ads-title">SCOPED/SNIPER</div>
-                <div class="tf-ads-val" id="tf-sniper-res">0 cm</div>
+            <div class="tf-ads-cat-title" style="margin-top: 5px;">SCOPED ZOOM SENSITIVITY</div>
+            <div class="tf-ads-row">
+                <div class="tf-ads-col">
+                    <div class="tf-ads-title">SR-84 (SNIPER)</div>
+                    <div class="tf-ads-val" id="tf-sniper-res">0 cm</div>
+                </div>
             </div>
         </div>
     </div>
@@ -696,8 +729,8 @@
         },
         "tf": { 
             name: "The Finals", 
-            aliases: ["finals", "the finals", "tf"], 
-            yaw: 0.001, 
+            aliases:["finals", "the finals", "tf"], 
+            yaw: 0.002, /* Исправлено с 0.001 на правильные 0.002 на основе математики */
             decimals: 0 
         },
         "fn": { 
@@ -854,7 +887,7 @@
 
         // ЛОГИКА: Показываем настройки The Finals ТОЛЬКО когда мы переводим В неё или считаем её CM
         if (currentMainTab === 'g2g') {
-            if (g2 === 'tf') showTfBox = true; // Исправленный баг! Только когда цель = TF
+            if (g2 === 'tf') showTfBox = true; // Только когда цель = TF
             let sens = parseInputVal('g2g-sens'); 
 
             if (g1 && g2 && !isNaN(sens) && sens > 0) {
@@ -934,24 +967,25 @@
                 
                 if (baseCm360 > 0) {
                     tfAdsResults.style.display = 'flex';
-                    let fov = parseFloat(document.getElementById('tf-fov').value) || 73;
+                    let fov = parseFloat(document.getElementById('tf-fov').value) || 71;
                     let fls_on = document.getElementById('tf-fls').checked;
-                    let zoom_mult = parseFloat(document.getElementById('tf-zoom-slider').value) / 100;
+                    let mouse_zoom = parseFloat(document.getElementById('tf-zoom-slider').value) / 100;
+                    let scoped_zoom = parseFloat(document.getElementById('tf-scoped-zoom-slider').value) / 100;
                     
-                    let getAdsCm = (base, fovMult) => {
+                    let getAdsCm = (base, fovMult, isSniper, zoomMult) => {
                         if (!fls_on) {
-                            return base / zoom_mult;
+                            return base / zoomMult;
                         } else {
                             let hip_rad = (fov / 2) * (Math.PI / 180);
-                            let ads_rad = ((fov * fovMult) / 2) * (Math.PI / 180);
+                            let ads_rad = isSniper ? (25 / 2) * (Math.PI / 180) : ((fov * fovMult) / 2) * (Math.PI / 180);
                             let ratio = Math.tan(ads_rad) / Math.tan(hip_rad);
-                            return base / (ratio * zoom_mult);
+                            return base / (ratio * zoomMult);
                         }
                     };
 
-                    document.getElementById('tf-iron-res').innerText = getAdsCm(baseCm360, 0.78).toFixed(1) + ' cm';
-                    document.getElementById('tf-med-res').innerText = getAdsCm(baseCm360, 0.68).toFixed(1) + ' cm';
-                    document.getElementById('tf-sniper-res').innerText = getAdsCm(baseCm360, 0.58).toFixed(1) + ' cm';
+                    document.getElementById('tf-iron-res').innerText = getAdsCm(baseCm360, 0.78, false, mouse_zoom).toFixed(1) + ' cm';
+                    document.getElementById('tf-med-res').innerText = getAdsCm(baseCm360, 0.68, false, mouse_zoom).toFixed(1) + ' cm';
+                    document.getElementById('tf-sniper-res').innerText = getAdsCm(baseCm360, null, true, scoped_zoom).toFixed(1) + ' cm';
                 } else {
                     tfAdsResults.style.display = 'none';
                 }
