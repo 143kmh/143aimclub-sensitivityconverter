@@ -44,14 +44,13 @@
             background: rgba(15, 10, 25, 0.65);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            /* Розово-фиолетовая рамка */
-            border: 1px solid rgba(168, 85, 247, 0.5);
+            /* Яркий фиолетовый */
+            border: 1px solid rgba(137, 102, 245, 0.5);
             border-radius: 20px;
             padding: 30px;
             width: 100%;
             max-width: 400px;
-            /* Свечение уходит в розовый (#a855f7) */
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(168, 85, 247, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(137, 102, 245, 0.3);
             position: relative;
             z-index: 1;
             box-sizing: border-box;
@@ -60,7 +59,6 @@
         /* ВЕРХНЯЯ ПАНЕЛЬ С ИКОНКАМИ */
         .top-bar {
             display: flex;
-            /* Выравниваем иконки по правому краю */
             justify-content: flex-end; 
             align-items: center;
             margin-bottom: 20px;
@@ -81,8 +79,7 @@
 
         .social-links a:hover {
             color: #fff;
-            /* Розовое свечение при наведении */
-            filter: drop-shadow(0 0 8px #d946ef);
+            filter: drop-shadow(0 0 8px #A985FF);
             transform: translateY(-2px);
         }
 
@@ -92,20 +89,19 @@
             fill: currentColor;
         }
 
-        /* ЛОГОТИП (КАПСОМ, НОВЫЙ ЦВЕТ) */
+        /* ЛОГОТИП */
         .logo-title {
             text-align: center;
             font-family: 'Orbitron', sans-serif;
             font-size: 22px;
             font-weight: 700;
-            /* Градиент в яркий мажента-розовый */
-            background: linear-gradient(135deg, #ffffff, #d946ef);
+            background: linear-gradient(135deg, #ffffff, #A985FF);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 25px;
             letter-spacing: 2px;
             text-transform: uppercase;
-            filter: drop-shadow(0 0 10px rgba(217, 70, 239, 0.6));
+            filter: drop-shadow(0 0 10px rgba(169, 133, 255, 0.6));
         }
 
         /* --- ГЛАВНЫЙ ТУМБЛЕР --- */
@@ -116,7 +112,7 @@
             border-radius: 12px;
             padding: 4px;
             margin-bottom: 25px;
-            border: 1px solid rgba(168, 85, 247, 0.2);
+            border: 1px solid rgba(137, 102, 245, 0.2);
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
             z-index: 1;
             box-sizing: border-box;
@@ -128,13 +124,12 @@
             bottom: 4px;
             left: 4px;
             width: calc(50% - 4px);
-            /* Яркий розово-фиолетовый градиент */
-            background: linear-gradient(180deg, rgba(217, 70, 239, 0.6), rgba(168, 85, 247, 0.15));
+            background: linear-gradient(180deg, rgba(169, 133, 255, 0.6), rgba(137, 102, 245, 0.15));
             border-radius: 8px;
             transition: left 0.35s cubic-bezier(0.25, 1, 0.5, 1);
             z-index: -1;
-            box-shadow: 0 0 12px rgba(217, 70, 239, 0.4);
-            border: 1px solid rgba(217, 70, 239, 0.4);
+            box-shadow: 0 0 12px rgba(169, 133, 255, 0.4);
+            border: 1px solid rgba(169, 133, 255, 0.4);
             box-sizing: border-box;
         }
 
@@ -147,7 +142,6 @@
             font-weight: 700;
             transition: color 0.3s ease;
             color: #888;
-            /* Капс для вкладок */
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -181,7 +175,7 @@
 
         input {
             background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(168, 85, 247, 0.3);
+            border: 1px solid rgba(137, 102, 245, 0.3);
             color: #fff;
             padding: 12px;
             border-radius: 8px;
@@ -196,9 +190,8 @@
         }
 
         input:focus {
-            /* Подсветка розовым при вводе текста */
-            border-color: #d946ef;
-            box-shadow: 0 0 15px rgba(217, 70, 239, 0.5), inset 0 0 10px rgba(0,0,0,0.5);
+            border-color: #A985FF;
+            box-shadow: 0 0 15px rgba(169, 133, 255, 0.5), inset 0 0 10px rgba(0,0,0,0.5);
         }
 
         /* --- МИНИ-ТУМБЛЕР --- */
@@ -209,7 +202,7 @@
             border-radius: 8px;
             padding: 3px;
             margin-bottom: 8px;
-            border: 1px solid rgba(168, 85, 247, 0.2);
+            border: 1px solid rgba(137, 102, 245, 0.2);
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
             z-index: 1;
             box-sizing: border-box;
@@ -221,12 +214,12 @@
             bottom: 3px;
             left: 3px;
             width: calc(50% - 3px);
-            background: linear-gradient(180deg, rgba(217, 70, 239, 0.5), rgba(168, 85, 247, 0.15));
+            background: linear-gradient(180deg, rgba(169, 133, 255, 0.5), rgba(137, 102, 245, 0.15));
             border-radius: 6px;
             transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             z-index: -1;
-            box-shadow: 0 0 10px rgba(217, 70, 239, 0.4);
-            border: 1px solid rgba(217, 70, 239, 0.3);
+            box-shadow: 0 0 10px rgba(169, 133, 255, 0.4);
+            border: 1px solid rgba(169, 133, 255, 0.3);
             box-sizing: border-box;
         }
 
@@ -239,7 +232,6 @@
             cursor: pointer;
             color: #888;
             transition: color 0.3s;
-            /* Капс для мини-тумблера */
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -268,7 +260,7 @@
         }
 
         .combobox:hover::after {
-            color: #d946ef;
+            color: #A985FF;
         }
 
         .combobox-list {
@@ -278,7 +270,7 @@
             right: 0;
             background: rgba(15, 10, 25, 0.95);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(168, 85, 247, 0.4);
+            border: 1px solid rgba(137, 102, 245, 0.4);
             border-radius: 8px;
             margin-top: 6px;
             max-height: 200px;
@@ -306,25 +298,25 @@
         }
 
         .combobox-option:hover {
-            background: rgba(168, 85, 247, 0.4);
+            background: rgba(137, 102, 245, 0.4);
             color: #fff;
             padding-left: 20px;
         }
 
         .combobox-list::-webkit-scrollbar { width: 6px; }
         .combobox-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 8px;}
-        .combobox-list::-webkit-scrollbar-thumb { background: rgba(168, 85, 247, 0.6); border-radius: 8px; }
-        .combobox-list::-webkit-scrollbar-thumb:hover { background: rgba(217, 70, 239, 0.8); }
+        .combobox-list::-webkit-scrollbar-thumb { background: rgba(137, 102, 245, 0.6); border-radius: 8px; }
+        .combobox-list::-webkit-scrollbar-thumb:hover { background: rgba(169, 133, 255, 0.8); }
 
         /* РЕЗУЛЬТАТ */
         .result-box {
             margin-top: 20px;
             padding: 20px 15px;
-            background: linear-gradient(180deg, rgba(168, 85, 247, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
+            background: linear-gradient(180deg, rgba(137, 102, 245, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
             border-radius: 12px;
             text-align: center;
-            border: 1px solid rgba(168, 85, 247, 0.4);
-            box-shadow: inset 0 0 20px rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(137, 102, 245, 0.4);
+            box-shadow: inset 0 0 20px rgba(137, 102, 245, 0.1);
             position: relative;
         }
 
@@ -341,13 +333,12 @@
             font-weight: 700;
             color: #fff;
             margin-top: 5px;
-            /* Свечение результата в розово-мажентовый */
-            text-shadow: 0 0 15px #a855f7, 0 0 30px #d946ef;
+            text-shadow: 0 0 15px #8966f5, 0 0 30px #A985FF;
         }
 
         .config-value {
             font-size: 12px;
-            color: #d946ef;
+            color: #A985FF;
             margin-top: 8px;
             font-weight: 500;
             letter-spacing: 0.5px;
@@ -364,7 +355,6 @@
 <div class="calculator-card">
     
     <div class="top-bar">
-        <!-- Ссылки на соцсети -->
         <div class="social-links">
             <a href="https://www.youtube.com/@143aimclub" target="_blank" title="YouTube">
                 <svg viewBox="0 0 24 24"><path d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg>
@@ -448,7 +438,7 @@
 </div>
 
 <script>
-    // === АНИМАЦИЯ (МУЛЬТИ-ПАРАЛЛАКС + ЧАСТИЦЫ В РОЗОВЫЙ ОТТЕНОК) ===
+    // === АНИМАЦИЯ (МУЛЬТИ-ПАРАЛЛАКС) ===
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     let particles =[];
@@ -495,10 +485,9 @@
 
             ctx.beginPath();
             ctx.arc(drawX, drawY, this.z * 0.8, 0, Math.PI * 2); 
-            // Розовато-белый оттенок частиц
-            ctx.fillStyle = `rgba(245, 210, 245, ${this.alpha})`;
+            ctx.fillStyle = `rgba(215, 210, 255, ${this.alpha})`;
             ctx.shadowBlur = this.z * 3;
-            ctx.shadowColor = `rgba(245, 210, 245, ${this.alpha})`;
+            ctx.shadowColor = `rgba(215, 210, 255, ${this.alpha})`;
             ctx.fill();
             ctx.shadowBlur = 0;
         }
@@ -722,7 +711,7 @@
                     if (targetGame.suffix) resultText += targetGame.suffix;
                 }
                 
-                resultLabel = `Sensitivity for ${targetGame.name}:`;
+                resultLabel = `SENSITIVITY FOR ${targetGame.name}:`;
             }
 
         } else if (currentMainTab === 'cm') {
@@ -744,11 +733,11 @@
                         resultText = converted.toFixed(dec);
                         if (targetGame.suffix) resultText += targetGame.suffix;
                     }
-                    resultLabel = `Sensitivity for ${targetGame.name}:`;
+                    resultLabel = `SENSITIVITY FOR ${targetGame.name}:`;
                 } else {
                     let cm = (360 * 2.54) / (val * dpi * targetGame.yaw);
                     resultText = cm.toFixed(2) + " cm/360"; 
-                    resultLabel = "Distance on mousepad:";
+                    resultLabel = "DISTANCE ON MOUSEPAD:";
                 }
             }
         }
