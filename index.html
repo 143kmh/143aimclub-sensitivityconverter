@@ -443,7 +443,12 @@
             margin-top: 15px; 
             padding-top: 15px; 
             border-top: 1px solid rgba(137, 102, 245, 0.2); 
-            /* animation: fadeIn 0.3s ease; REMOVED TO FIX CHROMIUM BACKDROP-FILTER BUG */
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(-5px); } 
+            to { opacity: 1; transform: translateY(0); } 
         }
 
         .adv-opt-row { 
@@ -554,7 +559,7 @@
             text-shadow: 0 0 8px rgba(255, 152, 0, 0.5); 
         }
 
-        /* ADS COLUMNS FIX */
+        /* ADS COLUMNS FIX: REVERTED TO SAFE FLEXBOX */
         .ads-results {
             display: none; 
             flex-direction: column; 
@@ -562,7 +567,7 @@
             margin-top: 20px; 
             padding-top: 15px; 
             border-top: 1px solid rgba(137, 102, 245, 0.2); 
-            /* animation: fadeIn 0.3s ease; REMOVED TO FIX CHROMIUM BACKDROP-FILTER BUG */
+            animation: fadeIn 0.3s ease;
         }
 
         .ads-cat-title { 
@@ -571,24 +576,21 @@
             font-weight: 700; 
             letter-spacing: 1px; 
             text-align: center; 
-            margin-bottom: 2px; 
+            margin-bottom: -4px; 
         }
 
         .ads-row { 
             display: flex; 
-            flex-wrap: wrap; 
             gap: 8px; 
             width: 100%; 
-            justify-content: center;
         }
 
         .ads-col {
-            flex: 1 1 calc(30% - 8px); 
-            min-width: 85px; 
+            flex: 1; 
             background: rgba(0,0,0,0.4); 
             border: 1px solid rgba(137, 102, 245, 0.2); 
             border-radius: 8px; 
-            padding: 10px 5px; 
+            padding: 8px 5px; 
             text-align: center;
             box-sizing: border-box;
         }
@@ -596,7 +598,7 @@
         .ads-title { 
             font-size: 9px; 
             color: #aaa; 
-            margin-bottom: 6px; 
+            margin-bottom: 5px; 
             font-weight: 700; 
             letter-spacing: 0.5px; 
             display: flex; 
@@ -740,7 +742,6 @@
             <span>SHOW ADVANCED (HERO ADS)</span>
         </label>
         <div class="adv-content" id="ow2-advanced-content">
-            <!-- Row 1 -->
             <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
                 <div style="display:flex; align-items:center; gap: 8px;">
                     <span style="font-size: 11px; font-weight: 700; color: #aaa;">ANA & WIDOWMAKER:</span>
@@ -753,7 +754,6 @@
                     <input type="text" inputmode="decimal" id="ow2-ana" value="100" class="mini-input" oninput="calculate()"> %
                 </div>
             </div>
-            <!-- Row 2 -->
             <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
                 <div style="display:flex; align-items:center; gap: 8px;">
                     <span style="font-size: 11px; font-weight: 700; color: #aaa;">ASHE & CASSIDY:</span>
@@ -766,7 +766,6 @@
                     <input type="text" inputmode="decimal" id="ow2-ashe" value="100" class="mini-input" oninput="calculate()"> %
                 </div>
             </div>
-            <!-- Row 3 -->
             <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
                 <div style="display:flex; align-items:center; gap: 8px;">
                     <span style="font-size: 11px; font-weight: 700; color: #aaa;">FREJA:</span>
@@ -779,7 +778,6 @@
                     <input type="text" inputmode="decimal" id="ow2-freja" value="100" class="mini-input" oninput="calculate()"> %
                 </div>
             </div>
-            <!-- Row 4 -->
             <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
                 <div style="display:flex; align-items:center; gap: 8px;">
                     <span style="font-size: 11px; font-weight: 700; color: #aaa;">EMRE:</span>
@@ -972,6 +970,8 @@
                     <div class="ads-title">SNIPER ZOOM 1</div>
                     <div class="ads-val" id="cs2-snip1-res">0 cm</div>
                 </div>
+            </div>
+            <div class="ads-row">
                 <div class="ads-col">
                     <div class="ads-title">SNIPER ZOOM 2</div>
                     <div class="ads-val" id="cs2-snip2-res">0 cm</div>
@@ -991,6 +991,8 @@
                     <div class="ads-title">ASHE & CASSIDY</div>
                     <div class="ads-val" id="ow2-ashe-res">0 cm</div>
                 </div>
+            </div>
+            <div class="ads-row">
                 <div class="ads-col">
                     <div class="ads-title">EMRE</div>
                     <div class="ads-val" id="ow2-emre-res">0 cm</div>
@@ -1008,10 +1010,16 @@
             <div class="ads-row">
                 <div class="ads-col"><div class="ads-title">TARGETING</div><div class="ads-val" id="pubg-aim-res">0 cm</div></div>
                 <div class="ads-col"><div class="ads-title">1X (RED DOT)</div><div class="ads-val" id="pubg-1x-res">0 cm</div></div>
+            </div>
+            <div class="ads-row">
                 <div class="ads-col"><div class="ads-title">2X SCOPE</div><div class="ads-val" id="pubg-2x-res">0 cm</div></div>
                 <div class="ads-col"><div class="ads-title">3X SCOPE</div><div class="ads-val" id="pubg-3x-res">0 cm</div></div>
+            </div>
+            <div class="ads-row">
                 <div class="ads-col"><div class="ads-title">4X SCOPE</div><div class="ads-val" id="pubg-4x-res">0 cm</div></div>
                 <div class="ads-col"><div class="ads-title">6X SCOPE</div><div class="ads-val" id="pubg-6x-res">0 cm</div></div>
+            </div>
+            <div class="ads-row">
                 <div class="ads-col"><div class="ads-title">8X SCOPE</div><div class="ads-val" id="pubg-8x-res">0 cm</div></div>
                 <div class="ads-col"><div class="ads-title">15X SCOPE</div><div class="ads-val" id="pubg-15x-res">0 cm</div></div>
             </div>
@@ -1345,7 +1353,7 @@
                         resultText = roundedSens.toString(); 
                         configText = `FOR CONFIG FILE: ${(converted / 100).toFixed(6)}`; 
                     }
-                    actualBaseCm360 = (360 * 2.54) / (dpi * getEffectiveYaw(g2, converted)); // Fix to use exact conversion for physics calculation
+                    actualBaseCm360 = (360 * 2.54) / (dpi * getEffectiveYaw(g2, converted)); 
                 } else {
                     let dec = targetGame.decimals !== undefined ? targetGame.decimals : 4; 
                     resultText = converted.toFixed(dec); 
@@ -1374,7 +1382,7 @@
                             resultText = roundedSens.toString();
                             configText = `FOR CONFIG FILE: ${(converted / 100).toFixed(6)}`;
                         }
-                        actualBaseCm360 = val; // CM input defines physical 360
+                        actualBaseCm360 = val; 
                     } else {
                         let dec = targetGame.decimals !== undefined ? targetGame.decimals : 4; 
                         resultText = converted.toFixed(dec);
