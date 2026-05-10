@@ -16,14 +16,20 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            /* Выравниваем по верху, чтобы окно не прыгало при смене режимов */
             align-items: flex-start;
-            padding-top: 12vh; /* Отступ сверху */
-            background-color: #05020a; /* Темный фон под частицами */
+            padding-top: 12vh;
             overflow-x: hidden;
+            
+            /* ТВОЯ ТЕКСТУРА НА ФОНЕ */
+            background-color: #05020a;
+            background-image: url('bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
         }
 
-        /* ХОЛСТ ДЛЯ АНИМАЦИИ ЧАСТИЦ */
+        /* ХОЛСТ ДЛЯ АНИМАЦИИ ЧАСТИЦ (поверх картинки) */
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -38,13 +44,11 @@
             background: rgba(15, 10, 25, 0.6);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            /* Рамка цвета #60519b с градиентом */
             border: 1px solid rgba(96, 81, 155, 0.5);
             border-radius: 20px;
             padding: 30px;
             width: 100%;
             max-width: 400px;
-            /* Свечение */
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(96, 81, 155, 0.3);
             position: relative;
             z-index: 1;
@@ -77,7 +81,6 @@
             text-align: center;
             font-size: 16px;
             font-weight: 700;
-            /* Градиентный текст */
             background: linear-gradient(135deg, #ffffff, #60519b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -240,12 +243,11 @@
 </head>
 <body>
 
-<!-- Холст для космических частиц -->
+<!-- Холст для затемнения картинки и космических частиц -->
 <canvas id="particle-canvas"></canvas>
 
 <div class="calculator-card">
     
-    <!-- Переключатель языка -->
     <div class="lang-switch">
         <span class="lang-btn active" id="btn-en" onclick="changeLang('en')">EN</span>
         <span class="lang-btn" id="btn-ru" onclick="changeLang('ru')">RU</span>
@@ -253,7 +255,6 @@
 
     <div class="logo-title">143 Aim Club</div>
 
-    <!-- Тумблер режимов -->
     <div class="tabs">
         <div class="tab active" onclick="switchMainTab('g2g')" id="tab-g2g">Game to Game</div>
         <div class="tab" onclick="switchMainTab('cm')" id="tab-cm" data-i18n="tab_cm">cm/360 ↔ Game</div>
@@ -284,7 +285,6 @@
             <input type="number" id="cm-dpi" step="any" placeholder="e.g. 800" value="800" oninput="calculate()">
         </div>
 
-        <!-- Подрежим А: Ввод CM -> Вывод Сенсы -->
         <div id="cm-submode-cm2game">
             <div class="input-group">
                 <label data-i18n="target_cm">Target cm/360:</label>
@@ -296,7 +296,6 @@
             </div>
         </div>
 
-        <!-- Подрежим Б: Ввод Сенсы -> Вывод CM -->
         <div id="cm-submode-game2cm" class="hidden">
             <div class="input-group">
                 <label data-i18n="game_label_2">Game:</label>
@@ -309,13 +308,11 @@
         </div>
     </div>
 
-    <!-- БЛОК РЕЗУЛЬТАТА -->
     <div class="result-box">
         <div class="result-title" id="result-label" data-i18n="result_default">RESULT:</div>
         <div class="result-value" id="result-value">0.00</div>
     </div>
 
-    <!-- Опции для CS2 (Зум) -->
     <div class="cs2-options" id="cs2-box">
         <label class="checkbox-container">
             <input type="checkbox" id="cs2-zoom-check" onchange="calculate()"> 
@@ -354,7 +351,6 @@
         update() {
             this.x += this.speedX;
             this.y += this.speedY;
-            // Возврат на экран при выходе за края
             if (this.x < 0) this.x = canvas.width;
             if (this.x > canvas.width) this.x = 0;
             if (this.y < 0) this.y = canvas.height;
@@ -363,24 +359,21 @@
         draw() {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(138, 118, 223, ${this.alpha})`; // Оттенок, родственный #60519b
+            ctx.fillStyle = `rgba(138, 118, 223, ${this.alpha})`; 
             ctx.fill();
         }
     }
 
-    // Создаем 150 частиц
-    for (let i = 0; i < 150; i++) {
+    for (let i = 0; i < 100; i++) {
         particles.push(new Particle());
     }
 
     function animateParticles() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Рисуем легкое свечение-туманность
-        let gradient = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, canvas.width);
-        gradient.addColorStop(0, "rgba(96, 81, 155, 0.08)");
-        gradient.addColorStop(1, "rgba(5, 2, 10, 1)");
-        ctx.fillStyle = gradient;
+        // Полупрозрачный слой поверх твоей текстуры (делаем её на 40% темнее)
+        // Чтобы калькулятор хорошо читался
+        ctx.fillStyle = "rgba(5, 2, 10, 0.4)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         particles.forEach(p => {
@@ -392,7 +385,7 @@
     animateParticles();
 
 
-    // === ЛОГИКА КАЛЬКУЛЯТОРА И ПЕРЕВОДА ===
+    // === ЛОГИКА КАЛЬКУЛЯТОРА ===
     const games = {
         "cs2": { name: "Counter-Strike 2", yaw: 0.022 },
         "val": { name: "Valorant", yaw: 0.07 },
@@ -403,7 +396,6 @@
     let isCmToGame = true; 
     let currentLang = 'en';
 
-    // СЛОВАРЬ ПЕРЕВОДОВ
     const i18n = {
         en: {
             tab_g2g: "Game to Game",
@@ -453,16 +445,14 @@
 
     window.onload = () => {
         populateSelects();
-        changeLang('en'); // При загрузке английский
+        changeLang('en'); 
     };
 
-    // Смена языка
     function changeLang(lang) {
         currentLang = lang;
         document.getElementById('btn-en').classList.toggle('active', lang === 'en');
         document.getElementById('btn-ru').classList.toggle('active', lang === 'ru');
         
-        // Обновляем текст в HTML элементах
         document.querySelectorAll('[data-i18n]').forEach(elem => {
             const key = elem.getAttribute('data-i18n');
             if(i18n[lang][key]) {
@@ -470,19 +460,15 @@
             }
         });
 
-        // Обновляем текст в табе "Game to Game"
         document.getElementById('tab-g2g').innerText = i18n[lang].tab_g2g;
-
-        // Обновляем плейсхолдеры
         document.getElementById('g2g-sens').placeholder = i18n[lang].placeholder_sens;
         document.getElementById('cm-input-sens').placeholder = i18n[lang].placeholder_sens;
         document.getElementById('cm-dpi').placeholder = i18n[lang].placeholder_dpi;
         document.getElementById('cm-input-cm').placeholder = i18n[lang].placeholder_cm;
 
-        calculate(); // Пересчитываем, чтобы обновить заголовок результата
+        calculate(); 
     }
 
-    // Заполнение выпадающих списков
     function populateSelects() {
         const selects =['g2g-game1', 'g2g-game2', 'cm-game1', 'cm-game2'];
         let optionsHTML = '';
@@ -495,7 +481,6 @@
         document.getElementById('g2g-game2').value = 'val'; 
     }
 
-    // Переключение главных вкладок
     function switchMainTab(tab) {
         currentMainTab = tab;
         document.getElementById('tab-g2g').classList.toggle('active', tab === 'g2g');
@@ -506,7 +491,6 @@
         calculate();
     }
 
-    // Переключение внутри режима cm/360
     function toggleCmMode() {
         isCmToGame = !isCmToGame;
         document.getElementById('cm-submode-cm2game').classList.toggle('hidden', !isCmToGame);
@@ -514,7 +498,6 @@
         calculate();
     }
 
-    // Главная математика
     function calculate() {
         let resultText = "0.00";
         let resultLabel = i18n[currentLang].result_default;
@@ -566,7 +549,6 @@
         document.getElementById('result-value').innerText = resultText;
         document.getElementById('result-label').innerText = resultLabel;
 
-        // Логика отображения блока CS2
         const cs2Box = document.getElementById('cs2-box');
         const zoomResults = document.getElementById('cs2-zoom-results');
         const isChecked = document.getElementById('cs2-zoom-check').checked;
