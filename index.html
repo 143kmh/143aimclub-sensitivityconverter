@@ -539,18 +539,18 @@
         <!-- Конфиг-значение для The Finals -->
         <div class="config-value" id="config-result"></div>
 
-        <!-- 3 столбика прицелов для The Finals -->
+        <!-- 3 столбика прицелов для The Finals с правильными названиями -->
         <div class="tf-ads-results" id="tf-ads-results">
             <div class="tf-ads-col">
-                <div class="tf-ads-title">IRON SIGHTS</div>
+                <div class="tf-ads-title">IRON/HOLO</div>
                 <div class="tf-ads-val" id="tf-iron-res">0 cm</div>
             </div>
             <div class="tf-ads-col">
-                <div class="tf-ads-title">ACOG</div>
-                <div class="tf-ads-val" id="tf-acog-res">0 cm</div>
+                <div class="tf-ads-title">MEDIUM ZOOM</div>
+                <div class="tf-ads-val" id="tf-med-res">0 cm</div>
             </div>
             <div class="tf-ads-col">
-                <div class="tf-ads-title">SNIPER</div>
+                <div class="tf-ads-title">SCOPED/SNIPER</div>
                 <div class="tf-ads-val" id="tf-sniper-res">0 cm</div>
             </div>
         </div>
@@ -636,7 +636,7 @@
     }
     animateParticles();
 
-    // === БАЗА ИГР ===
+    // === БАЗА ИГР С ОКРУГЛЕНИЕМ, СУФФИКСАМИ И АЛИАСАМИ ===
     const games = {
         "cs2": { 
             name: "CS2 / Apex Legends / Source", 
@@ -664,7 +664,7 @@
         },
         "tf": { 
             name: "The Finals", 
-            aliases:["finals", "the finals", "tf"], 
+            aliases: ["finals", "the finals", "tf"], 
             yaw: 0.001, 
             decimals: 0 
         },
@@ -825,7 +825,6 @@
             let sens = parseInputVal('g2g-sens'); 
 
             if (g1 && g2 && !isNaN(sens) && sens > 0) {
-                // Если мы в режиме Game-to-Game, берем DPI из другой вкладки, чтобы можно было рассчитать cm/360 для The Finals
                 let dpi = parseInputVal('cm-dpi') || 800; 
                 baseCm360 = (360 * 2.54) / (sens * dpi * games[g1].yaw);
 
@@ -875,7 +874,6 @@
             }
         }
 
-        // ОБНОВЛЯЕМ ТЕКСТ РЕЗУЛЬТАТОВ
         document.getElementById('result-value').innerText = resultText;
         document.getElementById('result-label').innerText = resultLabel;
 
@@ -899,12 +897,10 @@
                 let fls_on = document.getElementById('tf-fls').checked;
                 let zoom_mult = parseFloat(document.getElementById('tf-zoom-slider').value) / 100;
                 
-                // Функция расчета cm/360 для The Finals (Учитывает Focal Length Scaling)
                 let getAdsCm = (base, fovMult) => {
                     if (!fls_on) {
                         return base / zoom_mult;
                     } else {
-                        // Перевод в радианы для тангенса
                         let hip_rad = (fov / 2) * (Math.PI / 180);
                         let ads_rad = ((fov * fovMult) / 2) * (Math.PI / 180);
                         let ratio = Math.tan(ads_rad) / Math.tan(hip_rad);
@@ -912,10 +908,11 @@
                     }
                 };
 
-                // Примерные мультипликаторы FOV для разных прицелов
-                document.getElementById('tf-iron-res').innerText = getAdsCm(baseCm360, 0.8).toFixed(1) + ' cm';
-                document.getElementById('tf-acog-res').innerText = getAdsCm(baseCm360, 0.55).toFixed(1) + ' cm';
-                document.getElementById('tf-sniper-res').innerText = getAdsCm(baseCm360, 0.25).toFixed(1) + ' cm';
+                // ТОЧНЫЕ ЗНАЧЕНИЯ ИЗ THE FINALS (SEASON 7)
+                // 100 Hipfire = 78 Iron/Holo, 68 Medium, 58 Sniper
+                document.getElementById('tf-iron-res').innerText = getAdsCm(baseCm360, 0.78).toFixed(1) + ' cm';
+                document.getElementById('tf-med-res').innerText = getAdsCm(baseCm360, 0.68).toFixed(1) + ' cm';
+                document.getElementById('tf-sniper-res').innerText = getAdsCm(baseCm360, 0.58).toFixed(1) + ' cm';
             } else {
                 tfAdsResults.style.display = 'none';
             }
