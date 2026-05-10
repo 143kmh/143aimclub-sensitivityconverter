@@ -332,7 +332,7 @@
             margin-right: 10px;
             cursor: pointer;
             accent-color: #60519b;
-            width: auto; /* Фикс для галочки */
+            width: auto;
         }
 
         .zoom-results {
@@ -455,11 +455,23 @@
 </div>
 
 <script>
-    // === ОБНОВЛЕННАЯ АНИМАЦИЯ (Белее, реже, медленнее) ===
+    // === АНИМАЦИЯ ЧАСТИЦ (Параллакс + Плавное движение) ===
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     let particles =[];
     
+    // Переменные для отслеживания мыши
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetMouseX = 0;
+    let targetMouseY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+        // Множитель 0.05 регулирует "силу" параллакса (насколько сильно смещается фон)
+        targetMouseX = (e.clientX - window.innerWidth / 2) * 0.05;
+        targetMouseY = (e.clientY - window.innerHeight / 2) * 0.05;
+    });
+
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -469,44 +481,64 @@
 
     class Particle {
         constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.speedY = Math.random() * 2 + 1; // Замедлил в 2 раза
-            this.speedX = (Math.random() - 0.5) * 0.5;
-            this.size = Math.random() * 1.5 + 0.5;
-            this.alpha = Math.random() * 0.7 + 0.3;
+            // Спавним с небольшим запасом (100px), чтобы при сдвиге камеры не появлялись пустые края
+            this.x = Math.random() * (canvas.width + 200) - 100;
+            this.y = Math.random() * (canvas.height + 200) - 100;
+            
+            // Очень медленное движение
+            this.speedY = Math.random() * 0.4 + 0.1; 
+            this.speedX = (Math.random() - 0.5) * 0.2;
+            
+            // z = "глубина". Чем больше частица, тем ближе она к нам и тем сильнее реагирует на мышку
+            this.z = Math.random() * 2 + 0.5; 
+            this.alpha = Math.random() * 0.6 + 0.2;
         }
         update() {
             this.x += this.speedX;
             this.y += this.speedY;
-            if (this.y > canvas.height) {
-                this.y = 0 - this.speedY;
-                this.x = Math.random() * canvas.width;
+            
+            if (this.y > canvas.height + 100) {
+                this.y = -100;
+                this.x = Math.random() * (canvas.width + 200) - 100;
             }
-            if (this.x < 0) this.x = canvas.width;
-            if (this.x > canvas.width) this.x = 0;
+            if (this.x < -100) this.x = canvas.width + 100;
+            if (this.x > canvas.width + 100) this.x = -100;
         }
         draw() {
+            // Сдвиг частицы в противоположную сторону от курсора (эффект 3D камеры)
+            let drawX = this.x - mouseX * this.z;
+            let drawY = this.y - mouseY * this.z;
+
             ctx.beginPath();
-            ctx.moveTo(this.x, this.y);
-            ctx.lineTo(this.x - this.speedX * 3, this.y - this.speedY * 3); 
-            // Сделал светлее (ближе к белому)
-            ctx.strokeStyle = `rgba(210, 205, 240, ${this.alpha})`; 
-            ctx.lineWidth = this.size;
-            ctx.lineCap = 'round';
-            ctx.stroke();
+            ctx.arc(drawX, drawY, this.z * 0.8, 0, Math.PI * 2); 
+            ctx.fillStyle = `rgba(210, 205, 240, ${this.alpha})`;
+            
+            // Микро-свечение
+            ctx.shadowBlur = this.z * 3;
+            ctx.shadowColor = `rgba(210, 205, 240, ${this.alpha})`;
+            
+            ctx.fill();
+            
+            // Сброс тени, чтобы не глючило
+            ctx.shadowBlur = 0;
         }
     }
 
-    // Меньше частиц (было 120, стало 60)
-    for (let i = 0; i < 60; i++) {
+    // 80 частиц - идеально для ощущения глубины
+    for (let i = 0; i < 80; i++) {
         particles.push(new Particle());
     }
 
     function animateParticles() {
+        // Плавное следование за мышью (сглаживание)
+        mouseX += (targetMouseX - mouseX) * 0.1;
+        mouseY += (targetMouseY - mouseY) * 0.1;
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
         ctx.fillStyle = "rgba(5, 2, 10, 0.4)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
         particles.forEach(p => {
             p.update();
             p.draw();
@@ -578,21 +610,17 @@
         changeLang('en'); 
     };
 
-    // ФУНКЦИЯ ДЛЯ ЧТЕНИЯ ЦИФР С ЗАПЯТОЙ (напр. 1,5 -> 1.5)
     function parseInputVal(id) {
         let val = document.getElementById(id).value;
         if (!val) return NaN;
-        val = val.replace(',', '.'); // меняем запятую на точку
+        val = val.replace(',', '.'); 
         return parseFloat(val);
     }
 
-    // === ЛОГИКА ВЫПАДАЮЩЕГО ПОИСКА ===
     function initComboboxes() {
         const cBoxes =['g2g-game1', 'g2g-game2', 'cm-game1', 'cm-game2'];
         cBoxes.forEach(id => {
             const input = document.getElementById(id);
-            
-            // Задаем игры по умолчанию
             if (!input.dataset.key) input.dataset.key = 'cs2';
             if (id === 'g2g-game2') input.dataset.key = 'val'; 
             
@@ -666,8 +694,6 @@
         });
     }
 
-
-    // === СМЕНА ЯЗЫКА ===
     function changeLang(lang) {
         currentLang = lang;
         document.getElementById('btn-en').classList.toggle('active', lang === 'en');
@@ -714,7 +740,6 @@
         calculate();
     }
 
-    // === ГЛАВНЫЙ РАСЧЕТ ===
     function calculate() {
         let resultText = "0.00";
         let resultLabel = i18n[currentLang].result_default;
@@ -724,7 +749,7 @@
         if (currentMainTab === 'g2g') {
             let g1 = document.getElementById('g2g-game1').dataset.key;
             let g2 = document.getElementById('g2g-game2').dataset.key;
-            let sens = parseInputVal('g2g-sens'); // Читает и точку, и запятую
+            let sens = parseInputVal('g2g-sens'); 
 
             if (g1 && g2 && !isNaN(sens) && sens > 0) {
                 let converted = (sens * games[g1].yaw) / games[g2].yaw;
