@@ -36,9 +36,9 @@
             z-index: -1;
         }
 
-        /* CALCULATOR CARD (Fixed Backdrop Filter Bug) */
+        /* CALCULATOR CARD (Fixed Backdrop Filter Bug & Margin) */
         .calculator-card {
-            margin: auto; 
+            margin: 40px auto; 
             background: transparent; 
             border: 1px solid rgba(137, 102, 245, 0.5);
             border-radius: 20px;
@@ -201,7 +201,7 @@
             box-shadow: 0 0 15px rgba(169, 133, 255, 0.5), inset 0 0 10px rgba(0,0,0,0.5);
         }
 
-        /* ADVANCED MINI INPUTS OVERRIDE (Fix layout expansion) */
+        /* ADVANCED MINI INPUTS OVERRIDE */
         input[type="text"].mini-input {
             width: 70px !important; 
             min-width: 70px !important;
@@ -568,8 +568,8 @@
             text-shadow: 0 0 8px rgba(255, 152, 0, 0.5); 
         }
 
-        /* ADS COLUMNS - SAFE CSS GRID TO PREVENT COLLAPSE */
-        .ads-results {
+        /* SCOPED RESULTS COLUMNS (Renamed to bypass AdBlockers) */
+        .scoped-results {
             display: none; 
             flex-direction: column; 
             gap: 12px; 
@@ -579,7 +579,7 @@
             animation: fadeIn 0.3s ease;
         }
 
-        .ads-cat-title { 
+        .scoped-cat-title { 
             font-size: 10px; 
             color: #A985FF; 
             font-weight: 700; 
@@ -588,23 +588,22 @@
             margin-bottom: 2px; 
         }
 
-        /* THE MAGIC BULLET - Grid instead of flex-wrap */
-        .ads-grid { 
+        .scoped-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
             gap: 8px; 
             width: 100%; 
         }
         
-        .ads-grid-3 { 
+        .scoped-grid-3 { 
             grid-template-columns: repeat(3, 1fr); 
         }
         
-        .ads-grid-1 { 
+        .scoped-grid-1 { 
             grid-template-columns: 1fr; 
         }
 
-        .ads-col {
+        .scoped-col {
             background: rgba(0,0,0,0.4); 
             border: 1px solid rgba(137, 102, 245, 0.2); 
             border-radius: 8px; 
@@ -616,7 +615,7 @@
             justify-content: center;
         }
 
-        .ads-title { 
+        .scoped-title { 
             font-size: 9px; 
             color: #aaa; 
             margin-bottom: 6px; 
@@ -627,7 +626,7 @@
             align-items: center; 
         }
 
-        .ads-val { 
+        .scoped-val { 
             font-size: 14px; 
             color: #fff; 
             font-weight: 700; 
@@ -760,7 +759,7 @@
     <div class="advanced-box" id="ow2-box">
         <label class="checkbox-container" style="justify-content: center;">
             <input type="checkbox" id="ow2-advanced-check" onchange="calculate()">
-            <span>SHOW ADVANCED (HERO ADS)</span>
+            <span>SHOW ADVANCED (HERO SCOPES)</span>
         </label>
         <div class="adv-content" id="ow2-advanced-content">
             <!-- Row 1 -->
@@ -822,7 +821,7 @@
     <div class="advanced-box" id="tf-box">
         <label class="checkbox-container" style="justify-content: center;">
             <input type="checkbox" id="tf-advanced-check" onchange="calculate()">
-            <span>SHOW ADVANCED (FOV, ADS)</span>
+            <span>SHOW ADVANCED (FOV, SCOPES)</span>
         </label>
         <div class="adv-content" id="tf-advanced-content">
             <div class="adv-opt-row">
@@ -962,51 +961,51 @@
         <div class="config-value" id="config-result" style="display: none;"></div>
 
         <!-- THE FINALS RESULTS -->
-        <div class="ads-results" id="tf-ads-results">
-            <div class="ads-cat-title">MOUSE ZOOM SENSITIVITY</div>
-            <div class="ads-grid">
-                <div class="ads-col"><div class="ads-title">IRON/RED DOT</div><div class="ads-val" id="tf-iron-res">0 cm</div></div>
-                <div class="ads-col"><div class="ads-title">MAGNIFEX</div><div class="ads-val" id="tf-med-res">0 cm</div></div>
+        <div class="scoped-results" id="tf-scoped-results">
+            <div class="scoped-cat-title">MOUSE ZOOM SENSITIVITY</div>
+            <div class="scoped-grid">
+                <div class="scoped-col"><div class="scoped-title">IRON/RED DOT</div><div class="scoped-val" id="tf-iron-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">MAGNIFEX</div><div class="scoped-val" id="tf-med-res">0 cm</div></div>
             </div>
-            <div class="ads-cat-title" style="margin-top: 10px;">SCOPED ZOOM SENSITIVITY</div>
-            <div class="ads-grid ads-grid-1">
-                <div class="ads-col"><div class="ads-title">SR-84 (SNIPER)</div><div class="ads-val" id="tf-sniper-res">0 cm</div></div>
+            <div class="scoped-cat-title" style="margin-top: 10px;">SCOPED ZOOM SENSITIVITY</div>
+            <div class="scoped-grid scoped-grid-1">
+                <div class="scoped-col"><div class="scoped-title">SR-84 (SNIPER)</div><div class="scoped-val" id="tf-sniper-res">0 cm</div></div>
             </div>
         </div>
 
         <!-- CS2 RESULTS -->
-        <div class="ads-results" id="cs2-ads-results">
-            <div class="ads-cat-title">SCOPED CM/360 DISTANCES</div>
-            <div class="ads-grid ads-grid-3">
-                <div class="ads-col"><div class="ads-title">SG/AUG</div><div class="ads-val" id="cs2-aug-res">0 cm</div></div>
-                <div class="ads-col"><div class="ads-title">SNIPER 1</div><div class="ads-val" id="cs2-snip1-res">0 cm</div></div>
-                <div class="ads-col"><div class="ads-title">SNIPER 2</div><div class="ads-val" id="cs2-snip2-res">0 cm</div></div>
+        <div class="scoped-results" id="cs2-scoped-results">
+            <div class="scoped-cat-title">SCOPED CM/360 DISTANCES</div>
+            <div class="scoped-grid scoped-grid-3">
+                <div class="scoped-col"><div class="scoped-title">SG/AUG</div><div class="scoped-val" id="cs2-aug-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">SNIPER 1</div><div class="scoped-val" id="cs2-snip1-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">SNIPER 2</div><div class="scoped-val" id="cs2-snip2-res">0 cm</div></div>
             </div>
         </div>
 
         <!-- OW2 RESULTS -->
-        <div class="ads-results" id="ow2-ads-results">
-            <div class="ads-cat-title">HERO ADS CM/360 DISTANCES</div>
-            <div class="ads-grid">
-                <div class="ads-col"><div class="ads-title">ANA & WIDOW</div><div class="ads-val" id="ow2-ana-res">0 cm</div></div>
-                <div class="ads-col"><div class="ads-title">ASHE & CASSIDY</div><div class="ads-val" id="ow2-ashe-res">0 cm</div></div>
-                <div class="ads-col"><div class="ads-title">EMRE</div><div class="ads-val" id="ow2-emre-res">0 cm</div></div>
-                <div class="ads-col"><div class="ads-title">FREJA</div><div class="ads-val" id="ow2-freja-res">0 cm</div></div>
+        <div class="scoped-results" id="ow2-scoped-results">
+            <div class="scoped-cat-title">HERO SCOPED CM/360 DISTANCES</div>
+            <div class="scoped-grid">
+                <div class="scoped-col"><div class="scoped-title">ANA & WIDOW</div><div class="scoped-val" id="ow2-ana-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">ASHE & CASSIDY</div><div class="scoped-val" id="ow2-ashe-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">EMRE</div><div class="scoped-val" id="ow2-emre-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">FREJA</div><div class="scoped-val" id="ow2-freja-res">0 cm</div></div>
             </div>
         </div>
 
         <!-- PUBG RESULTS -->
-        <div class="ads-results" id="pubg-ads-results">
-            <div class="ads-cat-title">SCOPED CM/360 DISTANCES</div>
-            <div class="ads-grid">
-                <div class="ads-col"><div class="ads-title">TARGETING</div><div class="ads-val" id="pubg-aim-res">0 cm</div></div>
-                <div class="ads-col"><div class="ads-title">1X (RED DOT)</div><div class="ads-val" id="pubg-1x-res">0 cm</div></div>
-                <div class="ads-col"><div class="ads-title">2X SCOPE</div><div class="ads-val" id="pubg-2x-res">0 cm</div></div>
-                <div class="ads-col"><div class="ads-title">3X SCOPE</div><div class="ads-val" id="pubg-3x-res">0 cm</div></div>
-                <div class="ads-col"><div class="ads-title">4X SCOPE</div><div class="ads-val" id="pubg-4x-res">0 cm</div></div>
-                <div class="ads-col"><div class="ads-title">6X SCOPE</div><div class="ads-val" id="pubg-6x-res">0 cm</div></div>
-                <div class="ads-col"><div class="ads-title">8X SCOPE</div><div class="ads-val" id="pubg-8x-res">0 cm</div></div>
-                <div class="ads-col"><div class="ads-title">15X SCOPE</div><div class="ads-val" id="pubg-15x-res">0 cm</div></div>
+        <div class="scoped-results" id="pubg-scoped-results">
+            <div class="scoped-cat-title">SCOPED CM/360 DISTANCES</div>
+            <div class="scoped-grid">
+                <div class="scoped-col"><div class="scoped-title">TARGETING</div><div class="scoped-val" id="pubg-aim-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">1X (RED DOT)</div><div class="scoped-val" id="pubg-1x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">2X SCOPE</div><div class="scoped-val" id="pubg-2x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">3X SCOPE</div><div class="scoped-val" id="pubg-3x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">4X SCOPE</div><div class="scoped-val" id="pubg-4x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">6X SCOPE</div><div class="scoped-val" id="pubg-6x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">8X SCOPE</div><div class="scoped-val" id="pubg-8x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">15X SCOPE</div><div class="scoped-val" id="pubg-15x-res">0 cm</div></div>
             </div>
         </div>
 
@@ -1414,10 +1413,10 @@
         cs2Box.style.display = 'none';
         pubgBox.style.display = 'none';
         
-        document.getElementById('tf-ads-results').style.display = 'none';
-        document.getElementById('ow2-ads-results').style.display = 'none';
-        document.getElementById('cs2-ads-results').style.display = 'none';
-        document.getElementById('pubg-ads-results').style.display = 'none';
+        document.getElementById('tf-scoped-results').style.display = 'none';
+        document.getElementById('ow2-scoped-results').style.display = 'none';
+        document.getElementById('cs2-scoped-results').style.display = 'none';
+        document.getElementById('pubg-scoped-results').style.display = 'none';
         document.getElementById('feels-like-box').style.display = 'none';
 
         // THE FINALS Logic
@@ -1427,7 +1426,7 @@
             document.getElementById('tf-advanced-content').style.display = adv ? 'block' : 'none';
             
             if (adv) {
-                document.getElementById('tf-ads-results').style.display = 'flex';
+                document.getElementById('tf-scoped-results').style.display = 'flex';
                 if (actualBaseCm360 > 0) {
                     let fov = parseFloat(document.getElementById('tf-fov').value) || 71;
                     let fls_on = document.getElementById('tf-fls').checked;
@@ -1460,7 +1459,7 @@
             document.getElementById('ow2-advanced-content').style.display = adv ? 'block' : 'none';
             
             if (adv) {
-                document.getElementById('ow2-ads-results').style.display = 'flex';
+                document.getElementById('ow2-scoped-results').style.display = 'flex';
                 if (actualBaseCm360 > 0) {
                     let ana = parseInputVal('ow2-ana') || 100;
                     let ashe = parseInputVal('ow2-ashe') || 100;
@@ -1505,7 +1504,7 @@
             }
 
             if (adv) {
-                document.getElementById('cs2-ads-results').style.display = 'flex';
+                document.getElementById('cs2-scoped-results').style.display = 'flex';
                 if (actualBaseCm360 > 0) {
                     let zoom = parseInputVal('cs2-zoom');
                     if (isNaN(zoom) || zoom <= 0) zoom = 1;
@@ -1528,11 +1527,12 @@
             document.getElementById('pubg-advanced-content').style.display = adv ? 'block' : 'none';
             
             if (adv) {
-                document.getElementById('pubg-ads-results').style.display = 'flex';
+                document.getElementById('pubg-scoped-results').style.display = 'flex';
                 if (actualBaseCm360 > 0) {
+                    // Correct, datamined base FOVs for PUBG scopes:
                     const pubgScopes = {
-                        'aim': 80, '1x': 70, '2x': 40, '3x': 26.66, 
-                        '4x': 19, '6x': 13.33, '8x': 10, '15x': 5.33
+                        'aim': 80, '1x': 70, '2x': 44.44, '3x': 26.66, 
+                        '4x': 20, '6x': 13.33, '8x': 11.03, '15x': 6.67
                     };
                     
                     for (let scope in pubgScopes) {
