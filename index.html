@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>143 Aim Club - Sensitivity Converter</title>
+    <!-- НОВЫЙ ШРИФТ: Space Grotesk (технологичный, геймерский) -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
             color: #ffffff;
             min-height: 100vh;
             display: flex;
@@ -37,7 +38,7 @@
         }
 
         .calculator-card {
-            background: rgba(15, 10, 25, 0.6);
+            background: rgba(15, 10, 25, 0.65);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(96, 81, 155, 0.5);
@@ -50,17 +51,23 @@
             z-index: 1;
         }
 
+        /* ВЕРХНЯЯ ПАНЕЛЬ (Языки + Соцсети) */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
         .lang-switch {
             display: flex;
-            justify-content: center;
-            margin-bottom: 15px;
             gap: 10px;
         }
 
         .lang-btn {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 700;
-            color: #555;
+            color: #666;
             cursor: pointer;
             transition: all 0.3s;
             text-transform: uppercase;
@@ -72,11 +79,36 @@
             text-shadow: 0 0 10px #60519b, 0 0 20px #60519b;
         }
 
+        .social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-links a {
+            color: #888;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-links a:hover {
+            color: #fff;
+            filter: drop-shadow(0 0 8px #60519b);
+            transform: translateY(-2px);
+        }
+
+        .social-links svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
         .logo-title {
             text-align: center;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
-            background: linear-gradient(135deg, #ffffff, #60519b);
+            background: linear-gradient(135deg, #ffffff, #8a76df);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 25px;
@@ -85,14 +117,33 @@
             filter: drop-shadow(0 0 8px rgba(96, 81, 155, 0.6));
         }
 
-        .tabs {
+        /* АНИМИРОВАННЫЙ ТУМБЛЕР РЕЖИМОВ */
+        .tabs-container {
+            position: relative;
             display: flex;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             border-radius: 12px;
             padding: 4px;
             margin-bottom: 25px;
-            border: 1px solid rgba(96, 81, 155, 0.2);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            border: 1px solid rgba(96, 81, 155, 0.3);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            z-index: 1;
+        }
+
+        /* Это ползунок, который ездит под текстом */
+        .tabs-slider {
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            left: 4px;
+            width: calc(50% - 4px);
+            background: linear-gradient(135deg, rgba(96, 81, 155, 0.8), rgba(96, 81, 155, 0.2));
+            border-radius: 8px;
+            /* Плавная геймерская кривая анимации */
+            transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: -1;
+            box-shadow: 0 0 15px rgba(96, 81, 155, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .tab {
@@ -100,21 +151,18 @@
             text-align: center;
             padding: 10px;
             cursor: pointer;
-            border-radius: 8px;
             font-size: 13px;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: color 0.3s ease;
             color: #888;
         }
 
         .tab.active {
-            background: linear-gradient(135deg, rgba(96, 81, 155, 0.8), rgba(96, 81, 155, 0.2));
             color: #fff;
-            box-shadow: 0 0 15px rgba(96, 81, 155, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
 
+        /* ПОЛЯ ВВОДА */
         .input-group {
             margin-bottom: 15px;
             display: flex;
@@ -136,8 +184,9 @@
             color: #fff;
             padding: 12px;
             border-radius: 8px;
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
             outline: none;
             transition: all 0.3s ease;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
@@ -157,12 +206,13 @@
             border-radius: 8px;
             cursor: pointer;
             margin-bottom: 15px;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.3s ease;
             text-shadow: 0 0 5px rgba(96, 81, 155, 0.8);
+            font-family: 'Space Grotesk', sans-serif;
         }
 
         .swap-btn:hover {
@@ -189,7 +239,7 @@
         }
 
         .result-value {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
             color: #fff;
             margin-top: 5px;
@@ -206,7 +256,7 @@
         .checkbox-container {
             display: flex;
             align-items: center;
-            font-size: 12px;
+            font-size: 13px;
             color: #ccc;
             cursor: pointer;
         }
@@ -219,7 +269,7 @@
 
         .zoom-results {
             margin-top: 10px;
-            font-size: 13px;
+            font-size: 14px;
             color: #d8cfff;
             display: none;
             background: rgba(0,0,0,0.3);
@@ -237,14 +287,36 @@
 
 <div class="calculator-card">
     
-    <div class="lang-switch">
-        <span class="lang-btn active" id="btn-en" onclick="changeLang('en')">EN</span>
-        <span class="lang-btn" id="btn-ru" onclick="changeLang('ru')">RU</span>
+    <!-- ВЕРХНЯЯ ПАНЕЛЬ -->
+    <div class="top-bar">
+        <!-- Переключатель языка -->
+        <div class="lang-switch">
+            <span class="lang-btn active" id="btn-en" onclick="changeLang('en')">EN</span>
+            <span class="lang-btn" id="btn-ru" onclick="changeLang('ru')">RU</span>
+        </div>
+
+        <!-- Иконки соцсетей (ЗАМЕНИ ССЫЛКИ В href="#") -->
+        <div class="social-links">
+            <a href="#" target="_blank" title="YouTube">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/>
+                </svg>
+            </a>
+            <a href="#" target="_blank" title="Discord">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.03.03.03.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.02.02.05.03.08.02c1.71-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
+                </svg>
+            </a>
+        </div>
     </div>
 
     <div class="logo-title">143 Aim Club</div>
 
-    <div class="tabs">
+    <!-- ТУМБЛЕР РЕЖИМОВ (Теперь с ползунком) -->
+    <div class="tabs-container">
+        <!-- Сам ползунок -->
+        <div class="tabs-slider" id="tabs-slider"></div>
+        
         <div class="tab active" onclick="switchMainTab('g2g')" id="tab-g2g">Game to Game</div>
         <div class="tab" onclick="switchMainTab('cm')" id="tab-cm" data-i18n="tab_cm">cm/360 ↔ Game</div>
     </div>
@@ -314,86 +386,7 @@
 </div>
 
 <script>
-    // === ОБНОВЛЕННАЯ АНИМАЦИЯ ЧАСТИЦ ===
+    // === АНИМАЦИЯ ЧАСТИЦ ===
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
-    let particles =[];
-    
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    class Particle {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            // Увеличиваем скорость и задаем падение строго вниз с микро-сдвигом
-            this.speedY = Math.random() * 4 + 2; 
-            this.speedX = (Math.random() - 0.5) * 0.5;
-            this.size = Math.random() * 1.5 + 0.5; // Толщина линии
-            this.alpha = Math.random() * 0.7 + 0.3; // Стали ярче
-        }
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            
-            // Если частица упала за край экрана, возвращаем её наверх
-            if (this.y > canvas.height) {
-                this.y = 0 - this.speedY; // Спавним чуть выше края
-                this.x = Math.random() * canvas.width;
-            }
-            if (this.x < 0) this.x = canvas.width;
-            if (this.x > canvas.width) this.x = 0;
-        }
-        draw() {
-            // Рисуем линии со шлейфом вместо точек для максимальной резкости
-            ctx.beginPath();
-            ctx.moveTo(this.x, this.y);
-            // Длина хвоста зависит от скорости
-            ctx.lineTo(this.x - this.speedX * 3, this.y - this.speedY * 3); 
-            ctx.strokeStyle = `rgba(138, 118, 223, ${this.alpha})`; 
-            ctx.lineWidth = this.size;
-            ctx.lineCap = 'round';
-            ctx.stroke();
-        }
-    }
-
-    // 120 частиц для идеального баланса
-    for (let i = 0; i < 120; i++) {
-        particles.push(new Particle());
-    }
-
-    function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Темная пелена поверх твоей картинки (чтобы текст читался)
-        ctx.fillStyle = "rgba(5, 2, 10, 0.4)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        particles.forEach(p => {
-            p.update();
-            p.draw();
-        });
-        requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
-
-
-    // === ЛОГИКА КАЛЬКУЛЯТОРА ===
-    const games = {
-        "cs2": { name: "Counter-Strike 2", yaw: 0.022 },
-        "val": { name: "Valorant", yaw: 0.07 },
-        "ow2": { name: "Overwatch 2", yaw: 0.0066 }
-    };
-
-    let currentMainTab = 'g2g'; 
-    let isCmToGame = true; 
-    let currentLang = 'en';
-
-    const i18n = {
-        en: {
-            tab_g2g: "Game to Game",
-            ta
+    let particles =
