@@ -177,6 +177,7 @@
             margin-bottom: 6px; 
             text-transform: uppercase; 
             letter-spacing: 0.5px;
+            display: block;
         }
 
         input[type="text"] {
@@ -435,6 +436,7 @@
                     <div class="mini-tab" id="mtab-game2cm" onclick="setSubMode(false)">GAME TO CM</div>
                 </div>
                 <div style="position: relative;">
+                    <label id="cm-dynamic-label" style="font-size: 11px; font-weight: 600; color: #A985FF; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; display: block;">TARGET CM/360 DISTANCE:</label>
                     <input type="text" inputmode="decimal" id="cm-dynamic-input" placeholder="e.g. 35" oninput="calculate()">
                     <div id="cm-dynamic-input-error" class="error-tooltip"></div>
                 </div>
@@ -555,6 +557,29 @@
         </div>
     </div>
 
+    <!-- ADVANCED SETTINGS FOR R6 SIEGE -->
+    <div class="advanced-box" id="r6s-box">
+        <label class="checkbox-container" style="justify-content: center;">
+            <input type="checkbox" id="r6s-advanced-check" onchange="calculate()">
+            <span>SHOW ADVANCED (MULTIPLIER)</span>
+        </label>
+        <div class="adv-content" id="r6s-advanced-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                <div style="display:flex; align-items:center; gap: 8px;">
+                    <span style="font-size: 11px; font-weight: 700; color: #aaa;">CONFIG MULTIPLIER:</span>
+                    <div class="tooltip">
+                        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                        <div class="tooltip-text">MouseSensitivityMultiplierUnit from GameSettings.ini.<br><br>Default is 0.02. Change this if you use a custom multiplier.</div>
+                    </div>
+                </div>
+                <input type="text" inputmode="decimal" id="r6s-mult" value="0.02" class="mini-input" oninput="calculate()">
+            </div>
+            <div style="margin-top: 15px; font-size: 10.5px; color: #888; text-align: center; line-height: 1.5; padding: 10px; background: rgba(169,133,255,0.05); border-radius: 8px; border: 1px solid rgba(169,133,255,0.2);">
+                <span style="color: #A985FF; font-weight: 700;">PRO TIP:</span> Set all your in-game ADS sliders to <span style="color: #fff; font-weight: 700;">50</span>. Rainbow Six natively uses Focal Length Scaling, so keeping them at 50 guarantees perfect 1:1 monitor tracking (MDH 0%) for every scope automatically!
+            </div>
+        </div>
+    </div>
+
     <!-- ADVANCED SETTINGS FOR CS2 -->
     <div class="advanced-box" id="cs2-box">
         <label class="checkbox-container" style="justify-content: center;">
@@ -586,7 +611,7 @@
                 </div>
                 <div style="display:flex; align-items:center; gap: 8px;">
                     <input type="range" id="cs2-zoom-slider" min="0.01" max="3.00" step="0.01" value="1.00" oninput="document.getElementById('cs2-zoom').value = parseFloat(this.value).toFixed(2); calculate();" style="width: 70px; margin: 0;">
-                    <input type="text" inputmode="decimal" id="cs2-zoom" value="1.00" class="mini-input" oninput="let v = parseFloat(this.value); if(!isNaN(v)){ document.getElementById('cs2-zoom-slider').value = v; } calculate();">
+                    <input type="text" inputmode="decimal" id="cs2-zoom" value="1.00" class="mini-input" oninput="let v = parseFloat(this.value); if(!isNaN(v) && v>0){ document.getElementById('cs2-zoom-slider').value = v; } calculate();">
                 </div>
             </div>
         </div>
@@ -944,6 +969,7 @@
         "mr":   { name: "Marvel Rivals", aliases:["marvel", "rivals", "mr"], yaw: 0.0175, decimals: 2 },
         "tf":   { name: "The Finals", aliases:["finals", "the finals", "tf"], yaw: 0.001, decimals: 0 },
         "pubg": { name: "PUBG: BATTLEGROUNDS", aliases:["pubg", "playerunknown", "battlegrounds"], yaw: 1, decimals: 1 }, 
+        "r6s":  { name: "Rainbow Six Siege", aliases:["r6", "siege", "rainbow", "rainbow6"], yaw: 0.00572957795, decimals: 0 },
         "fn":   { name: "Fortnite", aliases:["fortnite", "fn", "fort"], yaw: 0.0055, decimals: 1, suffix: "%" }
     };
 
@@ -954,6 +980,7 @@
 
     window.onload = () => {
         initComboboxes();
+        document.getElementById('cm-dynamic-label').innerText = 'TARGET CM/360 DISTANCE:';
         switchMainTab('cm'); 
     };
 
@@ -1071,6 +1098,8 @@
         const dynInput = document.getElementById('cm-dynamic-input');
         dynInput.placeholder = isCm ? 'e.g. 35' : 'e.g. 1.5';
         dynInput.value = '';
+        
+        document.getElementById('cm-dynamic-label').innerText = isCm ? 'TARGET CM/360 DISTANCE:' : 'IN-GAME SENSITIVITY:';
         calculate();
     }
 
@@ -1144,7 +1173,6 @@
         }
     }
 
-    // YAW & GAME SPECIFIC CONVERSION HELPERS
     function getPubgBaseFov() {
         if (pubgMode === 'TPP') return 80; 
         return parseFloat(document.getElementById('pubg-fov').value) || 90;
@@ -1156,6 +1184,10 @@
             let configSens = 0.002 * Math.pow(10, sens / 50);
             return configSens * (fov / 36); 
         }
+        if (gameKey === 'r6s') {
+            let mult = parseFloat(document.getElementById('r6s-mult').value) || 0.02;
+            return sens * (mult * 0.2864788975);
+        }
         return sens * games[gameKey].yaw;
     }
 
@@ -1164,8 +1196,11 @@
             let fov = getPubgBaseFov();
             let configSens = effectiveYaw / (fov / 36);
             if (configSens <= 0) return 0;
-            let sens = 50 * Math.log10(configSens / 0.002);
-            return sens;
+            return 50 * Math.log10(configSens / 0.002);
+        }
+        if (gameKey === 'r6s') {
+            let mult = parseFloat(document.getElementById('r6s-mult').value) || 0.02;
+            return effectiveYaw / (mult * 0.2864788975);
         }
         return effectiveYaw / games[gameKey].yaw;
     }
@@ -1193,12 +1228,17 @@
                 let effectiveYaw1 = getEffectiveYaw(g1, sens);
                 let converted = convertFromEffectiveYaw(g2, effectiveYaw1);
                 
-                if (g2 === 'tf' || g2 === 'pubg') {
+                if (g2 === 'tf' || g2 === 'pubg' || g2 === 'r6s') {
                     let roundedSens = Math.round(converted);
                     if (g2 === 'pubg') {
                         resultText = roundedSens.toString(); 
                         let pubgConfigSens = 0.002 * Math.pow(10, converted / 50);
                         configText = `FOR CONFIG FILE: ${pubgConfigSens.toFixed(6)}`;
+                    } else if (g2 === 'r6s') {
+                        resultText = roundedSens.toString();
+                        let currentMult = parseFloat(document.getElementById('r6s-mult').value) || 0.02;
+                        let perfectMult = (converted * currentMult) / 50;
+                        configText = `CONFIG (AT 50 SENS): MultiplierUnit=${perfectMult.toFixed(6)}`;
                     } else {
                         resultText = roundedSens.toString(); 
                         configText = `FOR CONFIG FILE: ${(converted / 100).toFixed(6)}`; 
@@ -1211,7 +1251,9 @@
                     actualBaseCm360 = (360 * 2.54) / (dpi * getEffectiveYaw(g2, converted));
                 }
                 
-                resultLabel = targetGameKey === 'pubg' ? `GENERAL / LOOK SENSITIVITY FOR PUBG:` : `SENSITIVITY FOR ${targetGame.name}:`;
+                if (targetGameKey === 'pubg') resultLabel = `GENERAL / LOOK SENSITIVITY FOR PUBG:`;
+                else if (targetGameKey === 'r6s') resultLabel = `HIPFIRE SENSITIVITY FOR R6 SIEGE:`;
+                else resultLabel = `SENSITIVITY FOR ${targetGame.name}:`;
             }
         } else if (currentMainTab === 'cm') {
             let val = parseInputVal('cm-dynamic-input');
@@ -1223,24 +1265,33 @@
                     let requiredEffectiveYaw = (360 * 2.54) / (val * dpi);
                     let converted = convertFromEffectiveYaw(g_cm, requiredEffectiveYaw);
                     
-                    if (g_cm === 'tf' || g_cm === 'pubg') {
+                    if (g_cm === 'tf' || g_cm === 'pubg' || g_cm === 'r6s') {
                         let roundedSens = Math.round(converted);
                         if (g_cm === 'pubg') {
                             resultText = roundedSens.toString(); 
                             let pubgConfigSens = 0.002 * Math.pow(10, converted / 50);
                             configText = `FOR CONFIG FILE: ${pubgConfigSens.toFixed(6)}`;
+                        } else if (g_cm === 'r6s') {
+                            resultText = roundedSens.toString();
+                            let currentMult = parseFloat(document.getElementById('r6s-mult').value) || 0.02;
+                            let perfectMult = (converted * currentMult) / 50;
+                            configText = `CONFIG (AT 50 SENS): MultiplierUnit=${perfectMult.toFixed(6)}`;
                         } else {
                             resultText = roundedSens.toString();
                             configText = `FOR CONFIG FILE: ${(converted / 100).toFixed(6)}`;
                         }
-                        actualBaseCm360 = val; // CM input defines physical 360
+                        actualBaseCm360 = val;
                     } else {
                         let dec = targetGame.decimals !== undefined ? targetGame.decimals : 4; 
                         resultText = converted.toFixed(dec);
                         if (targetGame.suffix) resultText += targetGame.suffix;
                         actualBaseCm360 = val; 
                     }
-                    resultLabel = targetGameKey === 'pubg' ? `GENERAL / LOOK SENSITIVITY FOR PUBG:` : `SENSITIVITY FOR ${targetGame.name}:`;
+                    
+                    if (targetGameKey === 'pubg') resultLabel = `GENERAL / LOOK SENSITIVITY FOR PUBG:`;
+                    else if (targetGameKey === 'r6s') resultLabel = `HIPFIRE SENSITIVITY FOR R6 SIEGE:`;
+                    else resultLabel = `SENSITIVITY FOR ${targetGame.name}:`;
+                    
                 } else {
                     let effectiveYaw = getEffectiveYaw(g_cm, val);
                     let cm = (360 * 2.54) / (dpi * effectiveYaw);
@@ -1273,6 +1324,7 @@
         const tfBox = document.getElementById('tf-box');
         const ow2Box = document.getElementById('ow2-box');
         const cs2Box = document.getElementById('cs2-box');
+        const r6sBox = document.getElementById('r6s-box');
         const apexBox = document.getElementById('apex-box');
         const pubgBox = document.getElementById('pubg-box');
         const pubgGlobalBox = document.getElementById('pubg-global-box');
@@ -1280,6 +1332,7 @@
         tfBox.style.display = 'none';
         ow2Box.style.display = 'none';
         cs2Box.style.display = 'none';
+        r6sBox.style.display = 'none';
         apexBox.style.display = 'none';
         pubgBox.style.display = 'none';
         pubgGlobalBox.style.display = 'none';
@@ -1337,7 +1390,6 @@
                     let cl_fovScale = 1.0 + ((apexFov - 70) / 40) * 0.55;
                     let hipfire_4_3 = 70 * cl_fovScale;
                     
-                    // Engine-accurate 4:3 FOVs for Apex scopes at 1.0 cl_fovScale
                     const apexScopes = {
                         '1x': 60, 
                         '2x': 38.5935, 
@@ -1399,6 +1451,13 @@
             }
         }
         
+        // R6 SIEGE Logic
+        else if (targetGameKey === 'r6s') {
+            r6sBox.style.display = 'block';
+            const adv = document.getElementById('r6s-advanced-check').checked;
+            document.getElementById('r6s-advanced-content').style.display = adv ? 'block' : 'none';
+        }
+
         // CS2 Logic
         else if (targetGameKey === 'cs2') {
             cs2Box.style.display = 'block';
@@ -1452,7 +1511,6 @@
                 if (actualBaseCm360 > 0) {
                     let baseFov = getPubgBaseFov();
 
-                    // Datamined exact horizontal FOVs for PUBG scopes
                     const pubgScopes = {
                         'aim': baseFov, 
                         '1x': 70, 
@@ -1466,8 +1524,6 @@
                     
                     for (let scope in pubgScopes) {
                         let scopeFov = pubgScopes[scope];
-
-                        // Calculate actual CM/360 from current slider
                         let sliderVal = parseFloat(document.getElementById(`pubg-${scope}`).value) || 50;
                         let configSens = 0.002 * Math.pow(10, sliderVal / 50);
                         let scopeYaw = configSens * (scopeFov / 36);
@@ -1477,7 +1533,6 @@
                         if (resEl) resEl.innerText = scopeCm.toFixed(1) + ' cm';
                     }
 
-                    // Handle Vertical Sensitivity
                     let vertMult = parseInputVal('pubg-vert');
                     if (isNaN(vertMult) || vertMult <= 0) vertMult = 1;
                     let vertCm = actualBaseCm360 / vertMult;
