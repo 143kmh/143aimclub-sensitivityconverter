@@ -201,12 +201,12 @@
         }
 
         input[type="text"].mini-input {
-            width: 70px !important; 
-            min-width: 70px !important;
-            max-width: 70px !important;
-            flex: 0 0 70px !important;
-            padding: 6px 10px !important; 
-            font-size: 14px !important;
+            width: 60px !important; 
+            min-width: 60px !important;
+            max-width: 60px !important;
+            flex: 0 0 60px !important;
+            padding: 6px 8px !important; 
+            font-size: 13px !important;
             text-align: center !important; 
             border-radius: 6px !important; 
         }
@@ -468,6 +468,93 @@
 
     </div>
 
+    <!-- PUBG GLOBAL SETTINGS (Always visible for PUBG) -->
+    <div class="advanced-box" id="pubg-global-box" style="display:none; padding-bottom: 10px; margin-bottom: 15px;">
+        <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <span style="font-size: 11px; font-weight: 700; color: #A985FF;">PUBG PERSPECTIVE & FOV:</span>
+            <div class="mini-tabs" id="pubg-mode-tabs" style="margin: 0; width: 120px;">
+                <div class="mini-slider" id="pubg-mode-slider" style="left: 3px;"></div>
+                <div class="mini-tab active" id="ptab-fpp" onclick="setPubgMode('FPP')">FPP</div>
+                <div class="mini-tab" id="ptab-tpp" onclick="setPubgMode('TPP')">TPP</div>
+            </div>
+        </div>
+        <div class="adv-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom: 0;">
+            <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
+                <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">HIPFIRE FOV:</span>
+                <span id="pubg-fov-val" style="color:#fff; font-size:12px; font-weight:700;">90</span>
+            </div>
+            <input type="range" id="pubg-fov" min="80" max="103" value="90" oninput="document.getElementById('pubg-fov-val').innerText = this.value; calculate()">
+        </div>
+    </div>
+
+    <!-- ADVANCED SETTINGS FOR APEX LEGENDS -->
+    <div class="advanced-box" id="apex-box">
+        <label class="checkbox-container" style="justify-content: center;">
+            <input type="checkbox" id="apex-advanced-check" onchange="calculate()">
+            <span>SHOW ADVANCED (FOV, SCOPES)</span>
+        </label>
+        <div class="adv-content" id="apex-advanced-content">
+            <div class="adv-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:15px;">
+                <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
+                    <div style="display:flex; align-items:center; gap: 8px;">
+                        <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">IN-GAME FOV:</span>
+                        <div class="tooltip">
+                            <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                            <div class="tooltip-text">Used to accurately calculate the visual focal length of your scopes. Most players use 104 or 110.</div>
+                        </div>
+                    </div>
+                    <span id="apex-fov-val" style="color:#fff; font-size:12px; font-weight:700;">110</span>
+                </div>
+                <input type="range" id="apex-fov" min="70" max="110" value="110" oninput="document.getElementById('apex-fov-val').innerText = this.value; calculate()">
+            </div>
+            
+            <div class="pubg-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px; border-top: 1px solid rgba(137, 102, 245, 0.2); padding-top: 15px;">
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>1X (IRONS/HOLO)</span> <span id="apex-val-1x" style="color:#A985FF;">1.0</span>
+                    </div>
+                    <input type="range" id="apex-1x" min="0.1" max="10.0" step="0.1" value="1.0" oninput="document.getElementById('apex-val-1x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>2X SIGHT</span> <span id="apex-val-2x" style="color:#A985FF;">1.0</span>
+                    </div>
+                    <input type="range" id="apex-2x" min="0.1" max="10.0" step="0.1" value="1.0" oninput="document.getElementById('apex-val-2x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>3X SIGHT</span> <span id="apex-val-3x" style="color:#A985FF;">1.0</span>
+                    </div>
+                    <input type="range" id="apex-3x" min="0.1" max="10.0" step="0.1" value="1.0" oninput="document.getElementById('apex-val-3x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>4X SIGHT</span> <span id="apex-val-4x" style="color:#A985FF;">1.0</span>
+                    </div>
+                    <input type="range" id="apex-4x" min="0.1" max="10.0" step="0.1" value="1.0" oninput="document.getElementById('apex-val-4x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>6X SIGHT</span> <span id="apex-val-6x" style="color:#A985FF;">1.0</span>
+                    </div>
+                    <input type="range" id="apex-6x" min="0.1" max="10.0" step="0.1" value="1.0" oninput="document.getElementById('apex-val-6x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>8X SIGHT</span> <span id="apex-val-8x" style="color:#A985FF;">1.0</span>
+                    </div>
+                    <input type="range" id="apex-8x" min="0.1" max="10.0" step="0.1" value="1.0" oninput="document.getElementById('apex-val-8x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>10X SIGHT</span> <span id="apex-val-10x" style="color:#A985FF;">1.0</span>
+                    </div>
+                    <input type="range" id="apex-10x" min="0.1" max="10.0" step="0.1" value="1.0" oninput="document.getElementById('apex-val-10x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ADVANCED SETTINGS FOR CS2 -->
     <div class="advanced-box" id="cs2-box">
         <label class="checkbox-container" style="justify-content: center;">
@@ -489,15 +576,18 @@
 
             <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-top:20px; margin-bottom:5px;">
                 <div style="display:flex; align-items:center;">
-                    <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa; line-height: 1.3;">ZOOM SENSITIVITY MULTIPLIER:</span>
-                    <div class="tooltip" style="margin-left: 14px;">
+                    <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa; line-height: 1.3;">ZOOM SENS. MULTIPLIER:</span>
+                    <div class="tooltip" style="margin-left: 10px;">
                         <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
                         <div class="tooltip-text" style="width:240px;">
-                            For a 1:1 feel (MDH 0%), it is recommended to use <span style="color:#A985FF; font-weight:700;">0.818933</span>.<br><br>In CS, sensitivity naturally drops when scoping. This multiplier is used for precise compensation.
+                            For a 1:1 feel (MDH 0%), it is recommended to use <span style="color:#A985FF; font-weight:700;">0.82</span>.<br><br>In CS, sensitivity naturally drops when scoping. This multiplier is used for precise compensation.
                         </div>
                     </div>
                 </div>
-                <input type="text" inputmode="decimal" id="cs2-zoom" value="1" class="mini-input" oninput="calculate()">
+                <div style="display:flex; align-items:center; gap: 8px;">
+                    <input type="range" id="cs2-zoom-slider" min="0.01" max="3.00" step="0.01" value="1.00" oninput="document.getElementById('cs2-zoom').value = parseFloat(this.value).toFixed(2); calculate();" style="width: 70px; margin: 0;">
+                    <input type="text" inputmode="decimal" id="cs2-zoom" value="1.00" class="mini-input" oninput="let v = parseFloat(this.value); if(!isNaN(v)){ document.getElementById('cs2-zoom-slider').value = v; } calculate();">
+                </div>
             </div>
         </div>
     </div>
@@ -616,43 +706,19 @@
     <div class="advanced-box" id="pubg-box">
         <label class="checkbox-container" style="justify-content: center;">
             <input type="checkbox" id="pubg-advanced-check" onchange="calculate()">
-            <span>SHOW ADVANCED (FOV, SCOPES)</span>
+            <span>SHOW ADVANCED (SCOPES)</span>
         </label>
         
         <div class="adv-content" id="pubg-advanced-content">
-            
-            <!-- FPP / TPP Toggle -->
-            <div class="mini-tabs" id="pubg-mode-tabs" style="margin-bottom: 15px;">
-                <div class="mini-slider" id="pubg-mode-slider" style="left: 3px;"></div>
-                <div class="mini-tab active" id="ptab-fpp" onclick="setPubgMode('FPP')">FPP</div>
-                <div class="mini-tab" id="ptab-tpp" onclick="setPubgMode('TPP')">TPP</div>
-            </div>
-
-            <!-- Vertical Sens -->
             <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
                 <div style="display:flex; align-items:center; gap: 8px;">
                     <span style="font-size: 11px; font-weight: 700; color: #aaa;">VERTICAL SENSITIVITY MULTIPLIER:</span>
                     <div class="tooltip">
                         <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
-                        <div class="tooltip-text">Usually 1.00 for FPP and 0.88 for TPP by default.<br><br>Set this to match your in-game multiplier to see your vertical CM/360. For 1:1 vertical mouse movement, 1.00 is recommended.</div>
+                        <div class="tooltip-text">Usually 1.00 for FPP and 0.88 for TPP by default.<br><br>Set this to match your in-game multiplier to see your vertical CM/360.</div>
                     </div>
                 </div>
                 <input type="text" inputmode="decimal" id="pubg-vert" value="1.00" class="mini-input" oninput="calculate()">
-            </div>
-
-            <!-- Base FOV -->
-            <div class="adv-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:15px; margin-top: 5px;">
-                <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
-                    <div style="display:flex; align-items:center; gap: 8px;">
-                        <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">HIPFIRE FOV:</span>
-                        <div class="tooltip">
-                            <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
-                            <div class="tooltip-text">In TPP, PUBG always forces the internal engine FOV to 80 regardless of your settings.</div>
-                        </div>
-                    </div>
-                    <span id="pubg-fov-val" style="color:#fff; font-size:12px; font-weight:700;">90</span>
-                </div>
-                <input type="range" id="pubg-fov" min="80" max="103" value="90" oninput="document.getElementById('pubg-fov-val').innerText = this.value; calculate()">
             </div>
             
             <div class="pubg-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px; border-top: 1px solid rgba(137, 102, 245, 0.2); padding-top: 15px;">
@@ -756,6 +822,20 @@
                 <div class="scoped-col"><div class="scoped-title">ASHE & CASSIDY</div><div class="scoped-val" id="ow2-ashe-res">0 cm</div></div>
                 <div class="scoped-col"><div class="scoped-title">EMRE</div><div class="scoped-val" id="ow2-emre-res">0 cm</div></div>
                 <div class="scoped-col"><div class="scoped-title">FREJA</div><div class="scoped-val" id="ow2-freja-res">0 cm</div></div>
+            </div>
+        </div>
+        
+        <!-- APEX RESULTS -->
+        <div class="scoped-results" id="apex-scoped-results">
+            <div class="scoped-cat-title">SCOPED CM/360 DISTANCES</div>
+            <div class="scoped-grid">
+                <div class="scoped-col"><div class="scoped-title">1X SIGHT</div><div class="scoped-val" id="apex-1x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">2X SIGHT</div><div class="scoped-val" id="apex-2x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">3X SIGHT</div><div class="scoped-val" id="apex-3x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">4X SIGHT</div><div class="scoped-val" id="apex-4x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">6X SIGHT</div><div class="scoped-val" id="apex-6x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">8X SIGHT</div><div class="scoped-val" id="apex-8x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">10X SIGHT</div><div class="scoped-val" id="apex-10x-res">0 cm</div></div>
             </div>
         </div>
 
@@ -1116,7 +1196,7 @@
                 if (g2 === 'tf' || g2 === 'pubg') {
                     let roundedSens = Math.round(converted);
                     if (g2 === 'pubg') {
-                        resultText = converted.toFixed(1); 
+                        resultText = roundedSens.toString(); 
                         let pubgConfigSens = 0.002 * Math.pow(10, converted / 50);
                         configText = `FOR CONFIG FILE: ${pubgConfigSens.toFixed(6)}`;
                     } else {
@@ -1130,7 +1210,8 @@
                     if (targetGame.suffix) resultText += targetGame.suffix;
                     actualBaseCm360 = (360 * 2.54) / (dpi * getEffectiveYaw(g2, converted));
                 }
-                resultLabel = `SENSITIVITY FOR ${targetGame.name}:`;
+                
+                resultLabel = targetGameKey === 'pubg' ? `GENERAL / LOOK SENSITIVITY FOR PUBG:` : `SENSITIVITY FOR ${targetGame.name}:`;
             }
         } else if (currentMainTab === 'cm') {
             let val = parseInputVal('cm-dynamic-input');
@@ -1145,7 +1226,7 @@
                     if (g_cm === 'tf' || g_cm === 'pubg') {
                         let roundedSens = Math.round(converted);
                         if (g_cm === 'pubg') {
-                            resultText = converted.toFixed(1); 
+                            resultText = roundedSens.toString(); 
                             let pubgConfigSens = 0.002 * Math.pow(10, converted / 50);
                             configText = `FOR CONFIG FILE: ${pubgConfigSens.toFixed(6)}`;
                         } else {
@@ -1159,7 +1240,7 @@
                         if (targetGame.suffix) resultText += targetGame.suffix;
                         actualBaseCm360 = val; 
                     }
-                    resultLabel = `SENSITIVITY FOR ${targetGame.name}:`;
+                    resultLabel = targetGameKey === 'pubg' ? `GENERAL / LOOK SENSITIVITY FOR PUBG:` : `SENSITIVITY FOR ${targetGame.name}:`;
                 } else {
                     let effectiveYaw = getEffectiveYaw(g_cm, val);
                     let cm = (360 * 2.54) / (dpi * effectiveYaw);
@@ -1192,16 +1273,21 @@
         const tfBox = document.getElementById('tf-box');
         const ow2Box = document.getElementById('ow2-box');
         const cs2Box = document.getElementById('cs2-box');
+        const apexBox = document.getElementById('apex-box');
         const pubgBox = document.getElementById('pubg-box');
+        const pubgGlobalBox = document.getElementById('pubg-global-box');
         
         tfBox.style.display = 'none';
         ow2Box.style.display = 'none';
         cs2Box.style.display = 'none';
+        apexBox.style.display = 'none';
         pubgBox.style.display = 'none';
+        pubgGlobalBox.style.display = 'none';
         
         document.getElementById('tf-scoped-results').style.display = 'none';
         document.getElementById('ow2-scoped-results').style.display = 'none';
         document.getElementById('cs2-scoped-results').style.display = 'none';
+        document.getElementById('apex-scoped-results').style.display = 'none';
         document.getElementById('pubg-scoped-results').style.display = 'none';
         document.getElementById('feels-like-box').style.display = 'none';
 
@@ -1237,6 +1323,54 @@
                 }
             }
         } 
+        
+        // APEX LEGENDS Logic
+        else if (targetGameKey === 'apex') {
+            apexBox.style.display = 'block';
+            const adv = document.getElementById('apex-advanced-check').checked;
+            document.getElementById('apex-advanced-content').style.display = adv ? 'block' : 'none';
+            
+            if (adv) {
+                document.getElementById('apex-scoped-results').style.display = 'flex';
+                if (actualBaseCm360 > 0) {
+                    let apexFov = parseFloat(document.getElementById('apex-fov').value) || 110;
+                    let cl_fovScale = 1.0 + ((apexFov - 70) / 40) * 0.55;
+                    let hipfire_4_3 = 70 * cl_fovScale;
+                    
+                    // Engine-accurate 4:3 FOVs for Apex scopes at 1.0 cl_fovScale
+                    const apexScopes = {
+                        '1x': 60, 
+                        '2x': 38.5935, 
+                        '3x': 26.2774, 
+                        '4x': 19.858, 
+                        '6x': 13.3096, 
+                        '8x': 10.0064, 
+                        '10x': 8.0129
+                    };
+                    
+                    for (let scope in apexScopes) {
+                        let baseScopeFov = apexScopes[scope];
+                        let scope_4_3 = baseScopeFov * cl_fovScale;
+                        
+                        let hipRad = (hipfire_4_3 / 2) * (Math.PI / 180);
+                        let scopeRad = (scope_4_3 / 2) * (Math.PI / 180);
+                        let zoomRatio = Math.tan(hipRad) / Math.tan(scopeRad);
+                        
+                        let mult = parseFloat(document.getElementById(`apex-${scope}`).value) || 1.0;
+                        let scopeCm = (actualBaseCm360 * zoomRatio) / mult;
+                        
+                        let resEl = document.getElementById(`apex-${scope}-res`);
+                        if (resEl) resEl.innerText = scopeCm.toFixed(1) + ' cm';
+                    }
+                } else {
+                    const scopes =['1x','2x','3x','4x','6x','8x','10x'];
+                    scopes.forEach(s => {
+                        let el = document.getElementById(`apex-${s}-res`);
+                        if(el) el.innerText = '0 cm';
+                    });
+                }
+            }
+        }
         
         // OVERWATCH 2 Logic
         else if (targetGameKey === 'ow2') {
@@ -1308,6 +1442,7 @@
         
         // PUBG Logic
         else if (targetGameKey === 'pubg') {
+            pubgGlobalBox.style.display = 'block';
             pubgBox.style.display = 'block';
             const adv = document.getElementById('pubg-advanced-check').checked;
             document.getElementById('pubg-advanced-content').style.display = adv ? 'block' : 'none';
