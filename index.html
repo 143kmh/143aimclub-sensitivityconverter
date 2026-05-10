@@ -550,7 +550,7 @@
 
     </div>
 
-    <!-- ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ ДЛЯ THE FINALS (Спрятано под галочку) -->
+    <!-- ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ ДЛЯ THE FINALS -->
     <div class="tf-options" id="tf-box">
         <label class="checkbox-container" style="justify-content: center;">
             <input type="checkbox" id="tf-advanced-check" onchange="calculate()">
@@ -596,10 +596,8 @@
         <div class="result-title" id="result-label">RESULT:</div>
         <div class="result-value" id="result-value">0.00</div>
         
-        <!-- Конфиг-значение для The Finals -->
         <div class="config-value" id="config-result"></div>
 
-        <!-- Столбики прицелов для The Finals (тоже прячутся под галочку) -->
         <div class="tf-ads-results" id="tf-ads-results">
             <div class="tf-ads-cat-title">MOUSE ZOOM SENSITIVITY</div>
             <div class="tf-ads-row">
@@ -625,7 +623,6 @@
 </div>
 
 <script>
-    // === АНИМАЦИЯ (МУЛЬТИ-ПАРАЛЛАКС) ===
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     let particles =[];
@@ -702,7 +699,7 @@
     }
     animateParticles();
 
-    // === БАЗА ИГР С ОКРУГЛЕНИЕМ, СУФФИКСАМИ И АЛИАСАМИ ===
+    // === БАЗА ИГР ===
     const games = {
         "cs2": { 
             name: "CS2 / Apex Legends / Source", 
@@ -731,7 +728,7 @@
         "tf": { 
             name: "The Finals", 
             aliases:["finals", "the finals", "tf"], 
-            yaw: 0.001, /* ВЕРНУЛ ПРАВИЛЬНЫЙ МНОЖИТЕЛЬ (0.001) */
+            yaw: 0.001, 
             decimals: 0 
         },
         "fn": { 
@@ -879,32 +876,35 @@
         let resultText = "0.00";
         let resultLabel = "RESULT:";
         let configText = ""; 
-        let baseCm360 = 0;
+        let actualBaseCm360 = 0; // ПЕРЕМЕННАЯ РЕАЛЬНОЙ ДИСТАНЦИИ
         let showTfBox = false;
 
         let g1 = document.getElementById('g2g-game1').dataset.key;
         let g2 = document.getElementById('g2g-game2').dataset.key;
         let g_cm = document.getElementById('cm-game').dataset.key;
 
-        // ЛОГИКА: Показываем настройки The Finals ТОЛЬКО когда мы переводим В неё или считаем её CM
         if (currentMainTab === 'g2g') {
-            if (g2 === 'tf') showTfBox = true; // Только когда цель = TF
+            if (g2 === 'tf') showTfBox = true; 
             let sens = parseInputVal('g2g-sens'); 
 
             if (g1 && g2 && !isNaN(sens) && sens > 0) {
                 let dpi = parseInputVal('cm-dpi') || 800; 
-                baseCm360 = (360 * 2.54) / (sens * dpi * games[g1].yaw);
 
                 let converted = (sens * games[g1].yaw) / games[g2].yaw;
                 let targetGame = games[g2];
                 
                 if (g2 === 'tf') {
-                    resultText = Math.round(converted).toString(); 
+                    // ИГРА ОКРУГЛЯЕТ ДО ЦЕЛЫХ
+                    let roundedSens = Math.round(converted);
+                    resultText = roundedSens.toString(); 
                     configText = `FOR CONFIG FILE: ${(converted / 100).toFixed(6)}`; 
+                    // ВЫСЧИТЫВАЕМ РЕАЛЬНУЮ ДИСТАНЦИЮ ПОСЛЕ ОКРУГЛЕНИЯ
+                    actualBaseCm360 = (360 * 2.54) / (roundedSens * dpi * targetGame.yaw);
                 } else {
                     let dec = targetGame.decimals !== undefined ? targetGame.decimals : 4; 
                     resultText = converted.toFixed(dec); 
                     if (targetGame.suffix) resultText += targetGame.suffix;
+                    actualBaseCm360 = (360 * 2.54) / (converted * dpi * targetGame.yaw);
                 }
                 
                 resultLabel = `SENSITIVITY FOR ${targetGame.name}:`;
@@ -920,28 +920,31 @@
                 let targetGame = games[g];
 
                 if (isCmToGame) {
-                    baseCm360 = val;
                     let converted = (360 * 2.54) / (val * dpi * targetGame.yaw);
                     
                     if (g === 'tf') {
-                        resultText = Math.round(converted).toString();
+                        // ИГРА ОКРУГЛЯЕТ ДО ЦЕЛЫХ
+                        let roundedSens = Math.round(converted);
+                        resultText = roundedSens.toString();
                         configText = `FOR CONFIG FILE: ${(converted / 100).toFixed(6)}`;
+                        // ВЫСЧИТЫВАЕМ РЕАЛЬНУЮ ДИСТАНЦИЮ ПОСЛЕ ОКРУГЛЕНИЯ (НАПРИМЕР 63.5 ВМЕСТО 65)
+                        actualBaseCm360 = (360 * 2.54) / (roundedSens * dpi * targetGame.yaw);
                     } else {
                         let dec = targetGame.decimals !== undefined ? targetGame.decimals : 4; 
                         resultText = converted.toFixed(dec);
                         if (targetGame.suffix) resultText += targetGame.suffix;
+                        actualBaseCm360 = (360 * 2.54) / (converted * dpi * targetGame.yaw);
                     }
                     resultLabel = `SENSITIVITY FOR ${targetGame.name}:`;
                 } else {
                     let cm = (360 * 2.54) / (val * dpi * targetGame.yaw);
-                    baseCm360 = cm;
+                    actualBaseCm360 = cm;
                     resultText = cm.toFixed(2) + " cm/360"; 
                     resultLabel = "DISTANCE ON MOUSEPAD:";
                 }
             }
         }
 
-        // ОБНОВЛЯЕМ ТЕКСТ РЕЗУЛЬТАТОВ
         document.getElementById('result-value').innerText = resultText;
         document.getElementById('result-label').innerText = resultLabel;
 
@@ -965,7 +968,7 @@
             if (isAdvChecked) {
                 tfAdvContent.style.display = 'block';
                 
-                if (baseCm360 > 0) {
+                if (actualBaseCm360 > 0) {
                     tfAdsResults.style.display = 'flex';
                     let fov = parseFloat(document.getElementById('tf-fov').value) || 71;
                     let fls_on = document.getElementById('tf-fls').checked;
@@ -976,17 +979,17 @@
                         if (!fls_on) {
                             return base / zoomMult;
                         } else {
+                            // Формула MDH 0% (Focal Length Scaling)
                             let hip_rad = (fov / 2) * (Math.PI / 180);
-                            // ИСПРАВЛЕН FOV СНАЙПЕРКИ: ТЕПЕРЬ РОВНО 20 ГРАДУСОВ
                             let ads_rad = isSniper ? (20 / 2) * (Math.PI / 180) : ((fov * fovMult) / 2) * (Math.PI / 180);
-                            let ratio = Math.tan(ads_rad) / Math.tan(hip_rad);
-                            return base / (ratio * zoomMult);
+                            let zoom_ratio = Math.tan(hip_rad) / Math.tan(ads_rad);
+                            return (base * zoom_ratio) / zoomMult;
                         }
                     };
 
-                    document.getElementById('tf-iron-res').innerText = getAdsCm(baseCm360, 0.78, false, mouse_zoom).toFixed(1) + ' cm';
-                    document.getElementById('tf-med-res').innerText = getAdsCm(baseCm360, 0.68, false, mouse_zoom).toFixed(1) + ' cm';
-                    document.getElementById('tf-sniper-res').innerText = getAdsCm(baseCm360, null, true, scoped_zoom).toFixed(1) + ' cm';
+                    document.getElementById('tf-iron-res').innerText = getAdsCm(actualBaseCm360, 0.78, false, mouse_zoom).toFixed(1) + ' cm';
+                    document.getElementById('tf-med-res').innerText = getAdsCm(actualBaseCm360, 0.68, false, mouse_zoom).toFixed(1) + ' cm';
+                    document.getElementById('tf-sniper-res').innerText = getAdsCm(actualBaseCm360, null, true, scoped_zoom).toFixed(1) + ' cm';
                 } else {
                     tfAdsResults.style.display = 'none';
                 }
