@@ -361,26 +361,6 @@
         .checkbox-container:hover { color: #fff; }
         .checkbox-container input[type="checkbox"] { cursor: pointer; accent-color: #A985FF; width: 16px; height: 16px; margin: 0; margin-right: 10px; background: transparent; border: none; box-shadow: none; }
 
-        /* RECOMMENDATION BADGE FOR PUBG */
-        .rec-badge {
-            font-size: 9px;
-            background: rgba(169, 133, 255, 0.15);
-            color: #A985FF;
-            padding: 2px 5px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-left: auto;
-            margin-right: 6px;
-            font-weight: 600;
-            border: 1px solid rgba(169, 133, 255, 0.3);
-        }
-        .rec-badge:hover {
-            background: #A985FF;
-            color: #fff;
-            transform: scale(1.05);
-        }
-
         /* RESULT AREA */
         .result-box {
             margin-top: 20px; padding: 20px 15px; background: linear-gradient(180deg, rgba(137, 102, 245, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
@@ -667,7 +647,7 @@
                         <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">HIPFIRE FOV:</span>
                         <div class="tooltip">
                             <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
-                            <div class="tooltip-text">In TPP, PUBG always forces the internal engine FOV to 80 regardless of your settings.<br><br>Use the [1:1] buttons to automatically set scope sliders for optimal tracking (MDH 0%).</div>
+                            <div class="tooltip-text">In TPP, PUBG always forces the internal engine FOV to 80 regardless of your settings.</div>
                         </div>
                     </div>
                     <span id="pubg-fov-val" style="color:#fff; font-size:12px; font-weight:700;">90</span>
@@ -677,66 +657,50 @@
             
             <div class="pubg-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px; border-top: 1px solid rgba(137, 102, 245, 0.2); padding-top: 15px;">
                 <div>
-                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>TARGETING</span> 
-                        <span class="rec-badge" id="pubg-rec-aim" onclick="applyPubgRec('aim')">[1:1 -> 50]</span>
-                        <span id="pubg-val-aim" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>TARGETING</span> <span id="pubg-val-aim" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-aim" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-aim').innerText = this.value; calculate()">
                 </div>
                 <div>
-                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>1X (RED DOT)</span> 
-                        <span class="rec-badge" id="pubg-rec-1x" onclick="applyPubgRec('1x')">[1:1 -> 50]</span>
-                        <span id="pubg-val-1x" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>1X (RED DOT)</span> <span id="pubg-val-1x" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-1x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-1x').innerText = this.value; calculate()">
                 </div>
                 <div>
-                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>2X SCOPE</span> 
-                        <span class="rec-badge" id="pubg-rec-2x" onclick="applyPubgRec('2x')">[1:1 -> 50]</span>
-                        <span id="pubg-val-2x" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>2X SCOPE</span> <span id="pubg-val-2x" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-2x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-2x').innerText = this.value; calculate()">
                 </div>
                 <div>
-                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>3X SCOPE</span> 
-                        <span class="rec-badge" id="pubg-rec-3x" onclick="applyPubgRec('3x')">[1:1 -> 50]</span>
-                        <span id="pubg-val-3x" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>3X SCOPE</span> <span id="pubg-val-3x" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-3x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-3x').innerText = this.value; calculate()">
                 </div>
                 <div>
-                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>4X SCOPE</span> 
-                        <span class="rec-badge" id="pubg-rec-4x" onclick="applyPubgRec('4x')">[1:1 -> 50]</span>
-                        <span id="pubg-val-4x" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>4X SCOPE</span> <span id="pubg-val-4x" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-4x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-4x').innerText = this.value; calculate()">
                 </div>
                 <div>
-                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>6X SCOPE</span> 
-                        <span class="rec-badge" id="pubg-rec-6x" onclick="applyPubgRec('6x')">[1:1 -> 50]</span>
-                        <span id="pubg-val-6x" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>6X SCOPE</span> <span id="pubg-val-6x" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-6x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-6x').innerText = this.value; calculate()">
                 </div>
                 <div>
-                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>8X SCOPE</span> 
-                        <span class="rec-badge" id="pubg-rec-8x" onclick="applyPubgRec('8x')">[1:1 -> 50]</span>
-                        <span id="pubg-val-8x" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>8X SCOPE</span> <span id="pubg-val-8x" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-8x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-8x').innerText = this.value; calculate()">
                 </div>
                 <div>
-                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>15X SCOPE</span> 
-                        <span class="rec-badge" id="pubg-rec-15x" onclick="applyPubgRec('15x')">[1:1 -> 50]</span>
-                        <span id="pubg-val-15x" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>15X SCOPE</span> <span id="pubg-val-15x" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-15x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-15x').innerText = this.value; calculate()">
                 </div>
@@ -899,14 +863,14 @@
         "cod":  { name: "Call of Duty", aliases:["cod", "call", "warzone", "mw"], yaw: 0.0066, decimals: 2 },
         "mr":   { name: "Marvel Rivals", aliases:["marvel", "rivals", "mr"], yaw: 0.0175, decimals: 2 },
         "tf":   { name: "The Finals", aliases:["finals", "the finals", "tf"], yaw: 0.001, decimals: 0 },
-        "pubg": { name: "PUBG: BATTLEGROUNDS", aliases:["pubg", "playerunknown", "battlegrounds"], yaw: 1, decimals: 1 }, // Custom logic below
+        "pubg": { name: "PUBG: BATTLEGROUNDS", aliases:["pubg", "playerunknown", "battlegrounds"], yaw: 1, decimals: 1 }, 
         "fn":   { name: "Fortnite", aliases:["fortnite", "fn", "fort"], yaw: 0.0055, decimals: 1, suffix: "%" }
     };
 
     let currentMainTab = 'cm'; 
     let isCmToGame = true; 
     let currentCs2Res = '43';
-    let pubgMode = 'FPP'; // Default PUBG Mode
+    let pubgMode = 'FPP'; 
 
     window.onload = () => {
         initComboboxes();
@@ -1062,16 +1026,6 @@
         calculate();
     }
 
-    function applyPubgRec(scope) {
-        const btn = document.getElementById(`pubg-rec-${scope}`);
-        if(btn && btn.dataset.val) {
-            let val = parseFloat(btn.dataset.val);
-            document.getElementById(`pubg-${scope}`).value = val;
-            document.getElementById(`pubg-val-${scope}`).innerText = Math.round(val);
-            calculate();
-        }
-    }
-
     function validateLimits() {
         let sensInputId = '';
         let gameKey = '';
@@ -1112,7 +1066,7 @@
 
     // YAW & GAME SPECIFIC CONVERSION HELPERS
     function getPubgBaseFov() {
-        if (pubgMode === 'TPP') return 80; // TPP base FOV is hardcoded to 80 in UE4
+        if (pubgMode === 'TPP') return 80; 
         return parseFloat(document.getElementById('pubg-fov').value) || 90;
     }
 
@@ -1362,30 +1316,21 @@
                 document.getElementById('pubg-scoped-results').style.display = 'flex';
                 if (actualBaseCm360 > 0) {
                     let baseFov = getPubgBaseFov();
-                    let baseEffectiveYaw = (360 * 2.54) / (dpi * actualBaseCm360); 
 
-                    // Datamined horizontal FOVs for PUBG scopes
+                    // Datamined exact horizontal FOVs for PUBG scopes
                     const pubgScopes = {
-                        'aim': baseFov, // Targeting uses base FOV
-                        '1x': 70, '2x': 40, '3x': 26.66, 
-                        '4x': 19, '6x': 13.33, '8x': 10, '15x': 5.33
+                        'aim': baseFov, 
+                        '1x': 70, 
+                        '2x': 40, 
+                        '3x': 26.666667, 
+                        '4x': 19.047619, 
+                        '6x': 13.333333, 
+                        '8x': 10, 
+                        '15x': 6.666667
                     };
                     
                     for (let scope in pubgScopes) {
                         let scopeFov = pubgScopes[scope];
-
-                        // Calculate Optimal 1:1 Slider (MDH 0%)
-                        let zoomRatio = Math.tan((scopeFov / 2) * Math.PI / 180) / Math.tan((baseFov / 2) * Math.PI / 180);
-                        let targetScopeYaw = baseEffectiveYaw * zoomRatio;
-                        let targetConfigSens = targetScopeYaw / (scopeFov / 36);
-                        let optimalSlider = 50 * Math.log10(targetConfigSens / 0.002);
-                        
-                        optimalSlider = Math.max(0, Math.min(100, optimalSlider)); // Clamp 0-100
-                        let recBadge = document.getElementById(`pubg-rec-${scope}`);
-                        if(recBadge) {
-                            recBadge.innerText = `[1:1 -> ${optimalSlider.toFixed(1)}]`;
-                            recBadge.dataset.val = optimalSlider.toFixed(2);
-                        }
 
                         // Calculate actual CM/360 from current slider
                         let sliderVal = parseFloat(document.getElementById(`pubg-${scope}`).value) || 50;
