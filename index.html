@@ -36,7 +36,7 @@
             z-index: -1;
         }
 
-        /* CALCULATOR CARD (Fixed Backdrop Filter Bug & Margin) */
+        /* CALCULATOR CARD */
         .calculator-card {
             margin: 40px auto; 
             background: transparent; 
@@ -51,7 +51,6 @@
             box-sizing: border-box;
         }
 
-        /* Backdrop filter moved to pseudo-element to prevent Chromium compositor collapse */
         .calculator-card::before {
             content: '';
             position: absolute;
@@ -201,7 +200,6 @@
             box-shadow: 0 0 15px rgba(169, 133, 255, 0.5), inset 0 0 10px rgba(0,0,0,0.5);
         }
 
-        /* ADVANCED MINI INPUTS OVERRIDE */
         input[type="text"].mini-input {
             width: 70px !important; 
             min-width: 70px !important;
@@ -213,7 +211,7 @@
             border-radius: 6px !important; 
         }
 
-        /* LIMIT HIGHLIGHTS & ERRORS */
+        /* ERRORS */
         .input-error {
             border-color: #ff9800 !important;
             box-shadow: 0 0 15px rgba(255, 152, 0, 0.5), inset 0 0 10px rgba(0,0,0,0.5) !important;
@@ -284,89 +282,39 @@
             box-sizing: border-box;
         }
 
-        .mini-slider-3 { 
-            width: calc(33.33% - 2px); 
-        }
+        .mini-slider-3 { width: calc(33.33% - 2px); }
 
         .mini-tab {
-            flex: 1; 
-            text-align: center; 
-            padding: 6px; 
-            font-size: 11px; 
-            font-weight: 700;
-            cursor: pointer; 
-            color: #888; 
-            transition: color 0.3s; 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px;
+            flex: 1; text-align: center; padding: 6px; font-size: 11px; font-weight: 700;
+            cursor: pointer; color: #888; transition: color 0.3s; text-transform: uppercase; letter-spacing: 0.5px;
         }
 
-        .mini-tab.active { 
-            color: #fff; 
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); 
-        }
+        .mini-tab.active { color: #fff; text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
 
         /* COMBOBOX */
-        .combobox { 
-            position: relative; 
-            width: 100%; 
-        }
+        .combobox { position: relative; width: 100%; }
 
         .combobox::after {
-            content: '▼'; 
-            position: absolute; 
-            right: 15px; 
-            top: 50%; 
-            transform: translateY(-50%);
-            font-size: 10px; 
-            color: #888; 
-            pointer-events: none; 
-            transition: color 0.3s;
+            content: '▼'; position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            font-size: 10px; color: #888; pointer-events: none; transition: color 0.3s;
         }
-
-        .combobox:hover::after { 
-            color: #A985FF; 
-        }
+        .combobox:hover::after { color: #A985FF; }
 
         .combobox-list {
-            position: absolute; 
-            top: 100%; 
-            left: 0; 
-            right: 0; 
-            background: rgba(15, 10, 25, 0.95);
-            backdrop-filter: blur(10px); 
-            border: 1px solid rgba(137, 102, 245, 0.4); 
-            border-radius: 8px;
-            margin-top: 6px; 
-            max-height: 200px; 
-            overflow-y: auto; 
-            z-index: 100; 
-            display: none;
+            position: absolute; top: 100%; left: 0; right: 0; background: rgba(15, 10, 25, 0.95);
+            backdrop-filter: blur(10px); border: 1px solid rgba(137, 102, 245, 0.4); border-radius: 8px;
+            margin-top: 6px; max-height: 200px; overflow-y: auto; z-index: 100; display: none;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
-        .combobox-list.active { 
-            display: block; 
-        }
+        .combobox-list.active { display: block; }
 
         .combobox-option {
-            padding: 12px 15px; 
-            cursor: pointer; 
-            font-size: 14px; 
-            color: #ddd; 
-            transition: all 0.2s ease;
+            padding: 12px 15px; cursor: pointer; font-size: 14px; color: #ddd; transition: all 0.2s ease;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-
-        .combobox-option:last-child { 
-            border-bottom: none; 
-        }
-
-        .combobox-option:hover { 
-            background: rgba(137, 102, 245, 0.4); 
-            color: #fff; 
-            padding-left: 20px; 
-        }
+        .combobox-option:last-child { border-bottom: none; }
+        .combobox-option:hover { background: rgba(137, 102, 245, 0.4); color: #fff; padding-left: 20px; }
 
         .combobox-list::-webkit-scrollbar { width: 6px; }
         .combobox-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 8px;}
@@ -374,268 +322,87 @@
         .combobox-list::-webkit-scrollbar-thumb:hover { background: rgba(169, 133, 255, 0.8); }
 
         /* TOOLTIPS */
-        .tooltip { 
-            position: relative; 
-            display: inline-flex; 
-            align-items: center; 
-            margin-left: 10px; 
-            flex-shrink: 0;
-            cursor: help; 
-        }
-
-        .tooltip svg { 
-            fill: #A985FF; 
-            transition: fill 0.2s, transform 0.2s; 
-        }
-
-        .tooltip:hover svg { 
-            fill: #fff; 
-            transform: scale(1.1); 
-        }
-
+        .tooltip { position: relative; display: inline-flex; align-items: center; margin-left: 10px; flex-shrink: 0; cursor: help; }
+        .tooltip svg { fill: #A985FF; transition: fill 0.2s, transform 0.2s; }
+        .tooltip:hover svg { fill: #fff; transform: scale(1.1); }
         .tooltip-text {
-            visibility: hidden; 
-            opacity: 0; 
-            position: absolute; 
-            bottom: 140%; 
-            left: 50%;
-            transform: translateX(-50%) translateY(8px); 
-            background: rgba(15, 10, 25, 0.95);
-            border: 1px solid rgba(137, 102, 245, 0.4); 
-            padding: 12px 16px; 
-            border-radius: 8px;
-            font-size: 12px; 
-            color: #fff; 
-            width: max-content; 
-            max-width: 260px; 
-            text-align: center;
-            text-transform: none; 
-            letter-spacing: normal; 
-            font-weight: 500;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.7); 
-            transition: all 0.3s ease; 
-            pointer-events: none;
-            z-index: 100; 
-            line-height: 1.4;
+            visibility: hidden; opacity: 0; position: absolute; bottom: 140%; left: 50%;
+            transform: translateX(-50%) translateY(8px); background: rgba(15, 10, 25, 0.95);
+            border: 1px solid rgba(137, 102, 245, 0.4); padding: 12px 16px; border-radius: 8px;
+            font-size: 12px; color: #fff; width: max-content; max-width: 260px; text-align: center;
+            font-weight: 500; box-shadow: 0 5px 15px rgba(0,0,0,0.7); transition: all 0.3s ease;
+            pointer-events: none; z-index: 100; line-height: 1.4;
         }
-
         .tooltip-text::after {
-            content: ''; 
-            position: absolute; 
-            top: 100%; 
-            left: 50%; 
-            margin-left: -5px;
-            border-width: 5px; 
-            border-style: solid; 
-            border-color: rgba(137, 102, 245, 0.4) transparent transparent transparent;
+            content: ''; position: absolute; top: 100%; left: 50%; margin-left: -5px;
+            border-width: 5px; border-style: solid; border-color: rgba(137, 102, 245, 0.4) transparent transparent transparent;
         }
+        .tooltip:hover .tooltip-text { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
 
-        .tooltip:hover .tooltip-text { 
-            visibility: visible; 
-            opacity: 1; 
-            transform: translateX(-50%) translateY(0); 
-        }
-
-        /* ADVANCED SETTINGS BLOCKS */
+        /* ADVANCED BLOCKS */
         .advanced-box {
-            display: none; 
-            margin-bottom: 15px; 
-            padding: 15px; 
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(137, 102, 245, 0.3); 
-            border-radius: 12px; 
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+            display: none; margin-bottom: 15px; padding: 15px; background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(137, 102, 245, 0.3); border-radius: 12px; box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
         }
+        .adv-content { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(137, 102, 245, 0.2); animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        .adv-content {
-            display: none; 
-            margin-top: 15px; 
-            padding-top: 15px; 
-            border-top: 1px solid rgba(137, 102, 245, 0.2); 
-            animation: fadeIn 0.3s ease; 
-        }
-
-        @keyframes fadeIn { 
-            from { opacity: 0; transform: translateY(-5px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        }
-
-        .adv-opt-row { 
-            margin-bottom: 12px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-        }
-
-        .adv-opt-row:last-child { 
-            margin-bottom: 0; 
-        }
+        .adv-opt-row { margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .adv-opt-row:last-child { margin-bottom: 0; }
         
         .adv-opt-row input[type="range"], .pubg-grid input[type="range"] {
-            width: 100%; 
-            margin-top: 8px; 
-            accent-color: #A985FF; 
-            cursor: pointer; 
-            background: transparent; 
-            border: none; 
-            padding: 0; 
-            box-shadow: none;
+            width: 100%; margin-top: 8px; accent-color: #A985FF; cursor: pointer; background: transparent; border: none; padding: 0; box-shadow: none;
         }
-
-        .pubg-grid input[type="range"] {
-            margin-top: 4px;
-        }
+        .pubg-grid input[type="range"] { margin-top: 4px; }
         
         .checkbox-container {
-            display: flex; 
-            align-items: center; 
-            font-size: 11px; 
-            font-weight: 700; 
-            color: #ccc; 
-            cursor: pointer; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            transition: color 0.2s;
+            display: flex; align-items: center; font-size: 11px; font-weight: 700; color: #ccc; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s;
         }
+        .checkbox-container:hover { color: #fff; }
+        .checkbox-container input[type="checkbox"] { cursor: pointer; accent-color: #A985FF; width: 16px; height: 16px; margin: 0; margin-right: 10px; background: transparent; border: none; box-shadow: none; }
 
-        .checkbox-container:hover { 
-            color: #fff; 
+        /* RECOMMENDATION BADGE FOR PUBG */
+        .rec-badge {
+            font-size: 9px;
+            background: rgba(169, 133, 255, 0.15);
+            color: #A985FF;
+            padding: 2px 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: auto;
+            margin-right: 6px;
+            font-weight: 600;
+            border: 1px solid rgba(169, 133, 255, 0.3);
         }
-
-        .checkbox-container input[type="checkbox"] {
-            cursor: pointer; 
-            accent-color: #A985FF; 
-            width: 16px; 
-            height: 16px; 
-            margin: 0; 
-            margin-right: 10px; 
-            background: transparent; 
-            border: none; 
-            box-shadow: none;
+        .rec-badge:hover {
+            background: #A985FF;
+            color: #fff;
+            transform: scale(1.05);
         }
 
         /* RESULT AREA */
         .result-box {
-            margin-top: 20px; 
-            padding: 20px 15px; 
-            background: linear-gradient(180deg, rgba(137, 102, 245, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
-            border-radius: 12px; 
-            text-align: center; 
-            border: 1px solid rgba(137, 102, 245, 0.4); 
-            box-shadow: inset 0 0 20px rgba(137, 102, 245, 0.1); 
-            position: relative;
+            margin-top: 20px; padding: 20px 15px; background: linear-gradient(180deg, rgba(137, 102, 245, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
+            border-radius: 12px; text-align: center; border: 1px solid rgba(137, 102, 245, 0.4); box-shadow: inset 0 0 20px rgba(137, 102, 245, 0.1); position: relative;
         }
+        .result-title { font-size: 11px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+        .result-value { font-size: 32px; font-weight: 700; color: #fff; margin-top: 5px; text-shadow: 0 0 15px #8966f5, 0 0 30px #A985FF; }
+        .config-value { font-size: 12px; color: #A985FF; margin-top: 8px; font-weight: 600; letter-spacing: 0.5px; display: flex; justify-content: center; align-items: center; }
 
-        .result-title { 
-            font-size: 11px; 
-            font-weight: 600; 
-            color: #aaa; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-        }
+        .feels-like-box { display: none; justify-content: center; align-items: center; margin-top: 6px; }
+        .feels-like-val { color: #ff9800; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-shadow: 0 0 8px rgba(255, 152, 0, 0.5); }
 
-        .result-value { 
-            font-size: 32px; 
-            font-weight: 700; 
-            color: #fff; 
-            margin-top: 5px; 
-            text-shadow: 0 0 15px #8966f5, 0 0 30px #A985FF; 
-        }
-
-        .config-value { 
-            font-size: 12px; 
-            color: #A985FF; 
-            margin-top: 8px; 
-            font-weight: 600; 
-            letter-spacing: 0.5px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-        }
-
-        .feels-like-box {
-            display: none; 
-            justify-content: center; 
-            align-items: center; 
-            margin-top: 6px;
-        }
-
-        .feels-like-val { 
-            color: #ff9800; 
-            font-size: 13px; 
-            font-weight: 700; 
-            letter-spacing: 0.5px; 
-            text-shadow: 0 0 8px rgba(255, 152, 0, 0.5); 
-        }
-
-        /* SCOPED RESULTS COLUMNS (Renamed to bypass AdBlockers) */
-        .scoped-results {
-            display: none; 
-            flex-direction: column; 
-            gap: 12px; 
-            margin-top: 20px; 
-            padding-top: 15px; 
-            border-top: 1px solid rgba(137, 102, 245, 0.2); 
-            animation: fadeIn 0.3s ease;
-        }
-
-        .scoped-cat-title { 
-            font-size: 10px; 
-            color: #A985FF; 
-            font-weight: 700; 
-            letter-spacing: 1px; 
-            text-align: center; 
-            margin-bottom: 2px; 
-        }
-
-        .scoped-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 8px; 
-            width: 100%; 
-        }
-        
-        .scoped-grid-3 { 
-            grid-template-columns: repeat(3, 1fr); 
-        }
-        
-        .scoped-grid-1 { 
-            grid-template-columns: 1fr; 
-        }
-
-        .scoped-col {
-            background: rgba(0,0,0,0.4); 
-            border: 1px solid rgba(137, 102, 245, 0.2); 
-            border-radius: 8px; 
-            padding: 10px 5px; 
-            text-align: center;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .scoped-title { 
-            font-size: 9px; 
-            color: #aaa; 
-            margin-bottom: 6px; 
-            font-weight: 700; 
-            letter-spacing: 0.5px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-        }
-
-        .scoped-val { 
-            font-size: 14px; 
-            color: #fff; 
-            font-weight: 700; 
-            text-shadow: 0 0 5px #A985FF; 
-        }
-
-        .hidden { 
-            display: none !important; 
-        }
+        /* SCOPED RESULTS COLUMNS */
+        .scoped-results { display: none; flex-direction: column; gap: 12px; margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(137, 102, 245, 0.2); animation: fadeIn 0.3s ease; }
+        .scoped-cat-title { font-size: 10px; color: #A985FF; font-weight: 700; letter-spacing: 1px; text-align: center; margin-bottom: 2px; }
+        .scoped-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 100%; }
+        .scoped-grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .scoped-grid-1 { grid-template-columns: 1fr; }
+        .scoped-col { background: rgba(0,0,0,0.4); border: 1px solid rgba(137, 102, 245, 0.2); border-radius: 8px; padding: 10px 5px; text-align: center; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; }
+        .scoped-title { font-size: 9px; color: #aaa; margin-bottom: 6px; font-weight: 700; letter-spacing: 0.5px; display: flex; justify-content: center; align-items: center; }
+        .scoped-val { font-size: 14px; color: #fff; font-weight: 700; text-shadow: 0 0 5px #A985FF; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -762,7 +529,6 @@
             <span>SHOW ADVANCED (HERO SCOPES)</span>
         </label>
         <div class="adv-content" id="ow2-advanced-content">
-            <!-- Row 1 -->
             <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
                 <div style="display:flex; align-items:center; gap: 8px;">
                     <span style="font-size: 11px; font-weight: 700; color: #aaa;">ANA & WIDOWMAKER:</span>
@@ -775,7 +541,6 @@
                     <input type="text" inputmode="decimal" id="ow2-ana" value="100" class="mini-input" oninput="calculate()"> %
                 </div>
             </div>
-            <!-- Row 2 -->
             <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
                 <div style="display:flex; align-items:center; gap: 8px;">
                     <span style="font-size: 11px; font-weight: 700; color: #aaa;">ASHE & CASSIDY:</span>
@@ -788,7 +553,6 @@
                     <input type="text" inputmode="decimal" id="ow2-ashe" value="100" class="mini-input" oninput="calculate()"> %
                 </div>
             </div>
-            <!-- Row 3 -->
             <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
                 <div style="display:flex; align-items:center; gap: 8px;">
                     <span style="font-size: 11px; font-weight: 700; color: #aaa;">FREJA:</span>
@@ -801,7 +565,6 @@
                     <input type="text" inputmode="decimal" id="ow2-freja" value="100" class="mini-input" oninput="calculate()"> %
                 </div>
             </div>
-            <!-- Row 4 -->
             <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
                 <div style="display:flex; align-items:center; gap: 8px;">
                     <span style="font-size: 11px; font-weight: 700; color: #aaa;">EMRE:</span>
@@ -875,14 +638,36 @@
             <input type="checkbox" id="pubg-advanced-check" onchange="calculate()">
             <span>SHOW ADVANCED (FOV, SCOPES)</span>
         </label>
+        
         <div class="adv-content" id="pubg-advanced-content">
+            
+            <!-- FPP / TPP Toggle -->
+            <div class="mini-tabs" id="pubg-mode-tabs" style="margin-bottom: 15px;">
+                <div class="mini-slider" id="pubg-mode-slider" style="left: 3px;"></div>
+                <div class="mini-tab active" id="ptab-fpp" onclick="setPubgMode('FPP')">FPP</div>
+                <div class="mini-tab" id="ptab-tpp" onclick="setPubgMode('TPP')">TPP</div>
+            </div>
+
+            <!-- Vertical Sens -->
+            <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
+                <div style="display:flex; align-items:center; gap: 8px;">
+                    <span style="font-size: 11px; font-weight: 700; color: #aaa;">VERTICAL SENSITIVITY MULTIPLIER:</span>
+                    <div class="tooltip">
+                        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                        <div class="tooltip-text">Usually 1.00 for FPP and 0.88 for TPP by default.<br><br>Set this to match your in-game multiplier to see your vertical CM/360. For 1:1 vertical mouse movement, 1.00 is recommended.</div>
+                    </div>
+                </div>
+                <input type="text" inputmode="decimal" id="pubg-vert" value="1.00" class="mini-input" oninput="calculate()">
+            </div>
+
+            <!-- Base FOV -->
             <div class="adv-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:15px; margin-top: 5px;">
                 <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
                     <div style="display:flex; align-items:center; gap: 8px;">
                         <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">HIPFIRE FOV:</span>
                         <div class="tooltip">
                             <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
-                            <div class="tooltip-text">PUBG dynamically scales Hipfire Sensitivity based on your FOV.<br><br>Regardless of your Hipfire FOV, scopes always automatically scale natively in the engine based on an 80 FOV focal rule.</div>
+                            <div class="tooltip-text">In TPP, PUBG always forces the internal engine FOV to 80 regardless of your settings.<br><br>Use the [1:1] buttons to automatically set scope sliders for optimal tracking (MDH 0%).</div>
                         </div>
                     </div>
                     <span id="pubg-fov-val" style="color:#fff; font-size:12px; font-weight:700;">90</span>
@@ -892,50 +677,66 @@
             
             <div class="pubg-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px; border-top: 1px solid rgba(137, 102, 245, 0.2); padding-top: 15px;">
                 <div>
-                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>TARGETING</span> <span id="pubg-val-aim" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>TARGETING</span> 
+                        <span class="rec-badge" id="pubg-rec-aim" onclick="applyPubgRec('aim')">[1:1 -> 50]</span>
+                        <span id="pubg-val-aim" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-aim" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-aim').innerText = this.value; calculate()">
                 </div>
                 <div>
-                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>1X (RED DOT)</span> <span id="pubg-val-1x" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>1X (RED DOT)</span> 
+                        <span class="rec-badge" id="pubg-rec-1x" onclick="applyPubgRec('1x')">[1:1 -> 50]</span>
+                        <span id="pubg-val-1x" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-1x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-1x').innerText = this.value; calculate()">
                 </div>
                 <div>
-                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>2X SCOPE</span> <span id="pubg-val-2x" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>2X SCOPE</span> 
+                        <span class="rec-badge" id="pubg-rec-2x" onclick="applyPubgRec('2x')">[1:1 -> 50]</span>
+                        <span id="pubg-val-2x" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-2x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-2x').innerText = this.value; calculate()">
                 </div>
                 <div>
-                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>3X SCOPE</span> <span id="pubg-val-3x" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>3X SCOPE</span> 
+                        <span class="rec-badge" id="pubg-rec-3x" onclick="applyPubgRec('3x')">[1:1 -> 50]</span>
+                        <span id="pubg-val-3x" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-3x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-3x').innerText = this.value; calculate()">
                 </div>
                 <div>
-                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>4X SCOPE</span> <span id="pubg-val-4x" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>4X SCOPE</span> 
+                        <span class="rec-badge" id="pubg-rec-4x" onclick="applyPubgRec('4x')">[1:1 -> 50]</span>
+                        <span id="pubg-val-4x" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-4x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-4x').innerText = this.value; calculate()">
                 </div>
                 <div>
-                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>6X SCOPE</span> <span id="pubg-val-6x" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>6X SCOPE</span> 
+                        <span class="rec-badge" id="pubg-rec-6x" onclick="applyPubgRec('6x')">[1:1 -> 50]</span>
+                        <span id="pubg-val-6x" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-6x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-6x').innerText = this.value; calculate()">
                 </div>
                 <div>
-                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>8X SCOPE</span> <span id="pubg-val-8x" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>8X SCOPE</span> 
+                        <span class="rec-badge" id="pubg-rec-8x" onclick="applyPubgRec('8x')">[1:1 -> 50]</span>
+                        <span id="pubg-val-8x" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-8x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-8x').innerText = this.value; calculate()">
                 </div>
                 <div>
-                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
-                        <span>15X SCOPE</span> <span id="pubg-val-15x" style="color:#A985FF;">50</span>
+                    <div style="display:flex; justify-content:flex-start; align-items: center; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>15X SCOPE</span> 
+                        <span class="rec-badge" id="pubg-rec-15x" onclick="applyPubgRec('15x')">[1:1 -> 50]</span>
+                        <span id="pubg-val-15x" style="color:#A985FF;">50</span>
                     </div>
                     <input type="range" id="pubg-15x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-15x').innerText = this.value; calculate()">
                 </div>
@@ -998,6 +799,7 @@
         <div class="scoped-results" id="pubg-scoped-results">
             <div class="scoped-cat-title">SCOPED CM/360 DISTANCES</div>
             <div class="scoped-grid">
+                <div class="scoped-col"><div class="scoped-title">VERTICAL</div><div class="scoped-val" id="pubg-vert-res">0 cm</div></div>
                 <div class="scoped-col"><div class="scoped-title">TARGETING</div><div class="scoped-val" id="pubg-aim-res">0 cm</div></div>
                 <div class="scoped-col"><div class="scoped-title">1X (RED DOT)</div><div class="scoped-val" id="pubg-1x-res">0 cm</div></div>
                 <div class="scoped-col"><div class="scoped-title">2X SCOPE</div><div class="scoped-val" id="pubg-2x-res">0 cm</div></div>
@@ -1097,13 +899,14 @@
         "cod":  { name: "Call of Duty", aliases:["cod", "call", "warzone", "mw"], yaw: 0.0066, decimals: 2 },
         "mr":   { name: "Marvel Rivals", aliases:["marvel", "rivals", "mr"], yaw: 0.0175, decimals: 2 },
         "tf":   { name: "The Finals", aliases:["finals", "the finals", "tf"], yaw: 0.001, decimals: 0 },
-        "pubg": { name: "PUBG: BATTLEGROUNDS", aliases:["pubg", "playerunknown", "battlegrounds"], yaw: 1, decimals: 1 },
+        "pubg": { name: "PUBG: BATTLEGROUNDS", aliases:["pubg", "playerunknown", "battlegrounds"], yaw: 1, decimals: 1 }, // Custom logic below
         "fn":   { name: "Fortnite", aliases:["fortnite", "fn", "fort"], yaw: 0.0055, decimals: 1, suffix: "%" }
     };
 
     let currentMainTab = 'cm'; 
     let isCmToGame = true; 
     let currentCs2Res = '43';
+    let pubgMode = 'FPP'; // Default PUBG Mode
 
     window.onload = () => {
         initComboboxes();
@@ -1240,6 +1043,35 @@
         calculate();
     }
 
+    function setPubgMode(mode) {
+        pubgMode = mode;
+        document.getElementById('pubg-mode-slider').style.left = mode === 'FPP' ? '3px' : 'calc(50% + 1px)';
+        document.getElementById('ptab-fpp').classList.toggle('active', mode === 'FPP');
+        document.getElementById('ptab-tpp').classList.toggle('active', mode === 'TPP');
+        
+        const fovInput = document.getElementById('pubg-fov');
+        if (mode === 'TPP') {
+            fovInput.disabled = true;
+            fovInput.style.opacity = '0.5';
+            document.getElementById('pubg-fov-val').innerText = '80 (LOCKED BY GAME)';
+        } else {
+            fovInput.disabled = false;
+            fovInput.style.opacity = '1';
+            document.getElementById('pubg-fov-val').innerText = fovInput.value;
+        }
+        calculate();
+    }
+
+    function applyPubgRec(scope) {
+        const btn = document.getElementById(`pubg-rec-${scope}`);
+        if(btn && btn.dataset.val) {
+            let val = parseFloat(btn.dataset.val);
+            document.getElementById(`pubg-${scope}`).value = val;
+            document.getElementById(`pubg-val-${scope}`).innerText = Math.round(val);
+            calculate();
+        }
+    }
+
     function validateLimits() {
         let sensInputId = '';
         let gameKey = '';
@@ -1279,24 +1111,24 @@
     }
 
     // YAW & GAME SPECIFIC CONVERSION HELPERS
-    function getPubgFov() {
-        let el = document.getElementById('pubg-fov');
-        return el ? (parseFloat(el.value) || 90) : 90;
+    function getPubgBaseFov() {
+        if (pubgMode === 'TPP') return 80; // TPP base FOV is hardcoded to 80 in UE4
+        return parseFloat(document.getElementById('pubg-fov').value) || 90;
     }
 
     function getEffectiveYaw(gameKey, sens) {
         if (gameKey === 'pubg') {
-            let fov = getPubgFov();
+            let fov = getPubgBaseFov();
             let configSens = 0.002 * Math.pow(10, sens / 50);
-            return configSens * (fov / 80); 
+            return configSens * (fov / 36); 
         }
         return sens * games[gameKey].yaw;
     }
 
     function convertFromEffectiveYaw(gameKey, effectiveYaw) {
         if (gameKey === 'pubg') {
-            let fov = getPubgFov();
-            let configSens = effectiveYaw / (fov / 80);
+            let fov = getPubgBaseFov();
+            let configSens = effectiveYaw / (fov / 36);
             if (configSens <= 0) return 0;
             let sens = 50 * Math.log10(configSens / 0.002);
             return sens;
@@ -1529,25 +1361,50 @@
             if (adv) {
                 document.getElementById('pubg-scoped-results').style.display = 'flex';
                 if (actualBaseCm360 > 0) {
-                    // Correct, datamined base FOVs for PUBG scopes:
+                    let baseFov = getPubgBaseFov();
+                    let baseEffectiveYaw = (360 * 2.54) / (dpi * actualBaseCm360); 
+
+                    // Datamined horizontal FOVs for PUBG scopes
                     const pubgScopes = {
-                        'aim': 80, '1x': 70, '2x': 44.44, '3x': 26.66, 
-                        '4x': 20, '6x': 13.33, '8x': 11.03, '15x': 6.67
+                        'aim': baseFov, // Targeting uses base FOV
+                        '1x': 70, '2x': 40, '3x': 26.66, 
+                        '4x': 19, '6x': 13.33, '8x': 10, '15x': 5.33
                     };
                     
                     for (let scope in pubgScopes) {
-                        let sliderVal = parseFloat(document.getElementById(`pubg-${scope}`).value) || 50;
                         let scopeFov = pubgScopes[scope];
+
+                        // Calculate Optimal 1:1 Slider (MDH 0%)
+                        let zoomRatio = Math.tan((scopeFov / 2) * Math.PI / 180) / Math.tan((baseFov / 2) * Math.PI / 180);
+                        let targetScopeYaw = baseEffectiveYaw * zoomRatio;
+                        let targetConfigSens = targetScopeYaw / (scopeFov / 36);
+                        let optimalSlider = 50 * Math.log10(targetConfigSens / 0.002);
                         
+                        optimalSlider = Math.max(0, Math.min(100, optimalSlider)); // Clamp 0-100
+                        let recBadge = document.getElementById(`pubg-rec-${scope}`);
+                        if(recBadge) {
+                            recBadge.innerText = `[1:1 -> ${optimalSlider.toFixed(1)}]`;
+                            recBadge.dataset.val = optimalSlider.toFixed(2);
+                        }
+
+                        // Calculate actual CM/360 from current slider
+                        let sliderVal = parseFloat(document.getElementById(`pubg-${scope}`).value) || 50;
                         let configSens = 0.002 * Math.pow(10, sliderVal / 50);
-                        let scopeYaw = configSens * (scopeFov / 80);
+                        let scopeYaw = configSens * (scopeFov / 36);
                         let scopeCm = (360 * 2.54) / (dpi * scopeYaw);
                         
                         let resEl = document.getElementById(`pubg-${scope}-res`);
                         if (resEl) resEl.innerText = scopeCm.toFixed(1) + ' cm';
                     }
+
+                    // Handle Vertical Sensitivity
+                    let vertMult = parseInputVal('pubg-vert');
+                    if (isNaN(vertMult) || vertMult <= 0) vertMult = 1;
+                    let vertCm = actualBaseCm360 / vertMult;
+                    document.getElementById('pubg-vert-res').innerText = vertCm.toFixed(1) + ' cm';
+
                 } else {
-                    const scopes =['aim','1x','2x','3x','4x','6x','8x','15x'];
+                    const scopes =['vert','aim','1x','2x','3x','4x','6x','8x','15x'];
                     scopes.forEach(s => {
                         let el = document.getElementById(`pubg-${s}-res`);
                         if(el) el.innerText = '0 cm';
