@@ -139,12 +139,10 @@
             bottom: 4px;
             left: 4px;
             width: calc(50% - 4px);
-            /* Градиент 180deg (сверху вниз) решает проблему оптического перекоса */
             background: linear-gradient(180deg, rgba(138, 118, 223, 0.6), rgba(96, 81, 155, 0.15));
             border-radius: 8px;
             transition: left 0.35s cubic-bezier(0.25, 1, 0.5, 1);
             z-index: -1;
-            /* Равномерное свечение */
             box-shadow: 0 0 12px rgba(138, 118, 223, 0.4);
             border: 1px solid rgba(138, 118, 223, 0.4);
             box-sizing: border-box;
@@ -228,7 +226,6 @@
             bottom: 3px;
             left: 3px;
             width: calc(50% - 3px);
-            /* Добавлен градиент и неоновое свечение */
             background: linear-gradient(180deg, rgba(138, 118, 223, 0.5), rgba(96, 81, 155, 0.15));
             border-radius: 6px;
             transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1);
@@ -519,11 +516,38 @@
     }
     animateParticles();
 
-    // === БАЗА ИГР С ОКРУГЛЕНИЕМ (decimals) ===
+    // === БАЗА ИГР С ОКРУГЛЕНИЕМ И АЛИАСАМИ ===
     const games = {
-        "cs2": { name: "Counter-Strike 2", yaw: 0.022, decimals: 2 },
-        "val": { name: "Valorant", yaw: 0.07, decimals: 3 },
-        "ow2": { name: "Overwatch 2", yaw: 0.0066, decimals: 2 }
+        "cs2": { 
+            name: "CS2 / Apex Legends / Source", 
+            aliases: ["counter", "strike", "cs", "csgo", "apex", "source"], 
+            yaw: 0.022, 
+            decimals: 2 
+        },
+        "val": { 
+            name: "Valorant", 
+            aliases: ["val", "valorant"], 
+            yaw: 0.07, 
+            decimals: 3 
+        },
+        "ow2": { 
+            name: "Overwatch / Call of Duty", 
+            aliases:["ow", "ow2", "overwatch", "cod", "call", "warzone", "mw"], 
+            yaw: 0.0066, 
+            decimals: 2 
+        },
+        "mr": { 
+            name: "Marvel Rivals", 
+            aliases: ["marvel", "rivals", "mr"], 
+            yaw: 0.0175, 
+            decimals: 2 
+        },
+        "tf": { 
+            name: "The Finals", 
+            aliases: ["finals", "the finals", "tf"], 
+            yaw: 0.001, 
+            decimals: 3 
+        }
     };
 
     let currentMainTab = 'cm'; 
@@ -592,12 +616,18 @@
             list.innerHTML = '';
             const f = filter.toLowerCase();
             for (let key in games) {
-                if (games[key].name.toLowerCase().includes(f)) {
+                const game = games[key];
+                
+                // Проверяем как само название, так и скрытые алиасы
+                const matchName = game.name.toLowerCase().includes(f);
+                const matchAlias = game.aliases && game.aliases.some(alias => alias.includes(f));
+                
+                if (matchName || matchAlias) {
                     const opt = document.createElement('div');
                     opt.className = 'combobox-option';
-                    opt.innerText = games[key].name;
+                    opt.innerText = game.name;
                     opt.onclick = () => {
-                        input.value = games[key].name;
+                        input.value = game.name;
                         input.dataset.key = key;
                         list.classList.remove('active');
                         calculate();
@@ -620,6 +650,7 @@
             renderList(input.value);
             list.classList.add('active');
             
+            // Если введено точное название игры
             let matchedKey = null;
             for (let key in games) {
                 if (games[key].name.toLowerCase() === input.value.toLowerCase()) {
@@ -700,7 +731,6 @@
         const dynInput = document.getElementById('cm-dynamic-input');
         dynInput.placeholder = isCm ? i18n[currentLang].placeholder_cm : i18n[currentLang].placeholder_sens;
         
-        // Очищаем поле при смене режима для удобства
         dynInput.value = '';
         calculate();
     }
