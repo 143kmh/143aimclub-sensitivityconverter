@@ -1864,3 +1864,24 @@
         }
     }
 </script>
+
+<!-- === DISCORD ACTIVITY SDK === -->
+<script type="module">
+    // Загружаем SDK напрямую через CDN, чтобы всё работало без локальной сборки
+    import { DiscordSDK } from "https://cdn.jsdelivr.net/npm/@discord/embedded-app-sdk@1.2.0/+esm";
+    
+    // Инициализация с твоим Client ID
+    const discordSdk = new DiscordSDK("1503415301964828833");
+
+    async function setupDiscordSdk() {
+        try {
+            // Сообщаем Дискорду, что приложение успешно загрузилось (убирает экран загрузки)
+            await discordSdk.ready();
+            console.log("Discord Activity is ready!");
+        } catch (e) {
+            console.error("Discord SDK Error:", e);
+        }
+    }
+    
+    setupDiscordSdk();
+</script>
