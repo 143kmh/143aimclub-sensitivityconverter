@@ -399,10 +399,10 @@
             </div>
         </div>
 
-<!-- Social Links (Right) -->
+        <!-- Social Links (Right) -->
         <div class="top-bar-links">
             <!-- Discord -->
-            <div class="icon-btn" id="link-discord">
+            <a href="https://discord.gg/143aimclub" target="_blank" class="icon-btn">
                 <svg viewBox="0 0 24 24">
                     <path d="M8 12a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
                     <path d="M14 12a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
@@ -410,16 +410,17 @@
                     <path d="M7 16.5c3.5 2 6.5 2 10 0" />
                 </svg>
                 <div class="tooltip-text">Discord</div>
-            </div>
+            </a>
             <!-- YouTube -->
-            <div class="icon-btn" id="link-youtube">
+            <a href="https://www.youtube.com/@143aimclub" target="_blank" class="icon-btn">
                 <svg viewBox="0 0 24 24">
                     <path d="M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8z" />
                     <path d="M10 9l5 3l-5 3z" />
                 </svg>
                 <div class="tooltip-text">YouTube</div>
-            </div>
+            </a>
         </div>
+    </div>
 
     <div class="logo-title">143 AIM CLUB</div>
 
@@ -1962,37 +1963,14 @@
     import { DiscordSDK } from "https://cdn.jsdelivr.net/npm/@discord/embedded-app-sdk@1.2.0/+esm";
     const discordSdk = new DiscordSDK("1503415301964828833");
 
-    let isDiscordContext = false;
-
     async function setupDiscordSdk() {
         try {
             await discordSdk.ready();
-            isDiscordContext = true;
             console.log("Discord Activity is ready!");
         } catch (e) {
-            console.log("Сайт открыт в обычном браузере, SDK не активирован.");
+            console.error("Discord SDK Error:", e);
         }
     }
     
     setupDiscordSdk();
-
-    // Универсальная функция открытия ссылок
-    function openLink(url) {
-        if (isDiscordContext) {
-            // Безопасное открытие через API Дискорда
-            discordSdk.commands.openExternalLink({ url: url });
-        } else {
-            // Обычное открытие, если человек просто зашел на сайт через браузер
-            window.open(url, '_blank');
-        }
-    }
-
-    // Привязываем клики к нашим новым кнопкам
-    document.getElementById('link-discord').addEventListener('click', () => {
-        openLink('https://discord.gg/143aimclub');
-    });
-
-    document.getElementById('link-youtube').addEventListener('click', () => {
-        openLink('https://www.youtube.com/@143aimclub');
-    });
 </script>
