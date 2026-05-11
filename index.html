@@ -3,7 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>143 aim club - Sensitivity Converter</title>
+    
+    <!-- SEO ТЕГИ -->
+    <title>143 aim club - Mouse Sensitivity Converter</title>
+    <meta name="description" content="Precise mouse sensitivity converter and calculator for CS2, Valorant, Apex Legends, PUBG, Overwatch 2, and more. Find your perfect cm/360 instantly.">
+    <meta name="keywords" content="sensitivity converter, cm/360 calculator, cs2 to valorant, apex legends sensitivity, pubg sensitivity, mouse tracking, aim trainer">
+    <meta name="author" content="143 aim club">
+    
+    <!-- Open Graph / Discord / Telegram карточки -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="143 aim club - Sensitivity Converter">
+    <meta property="og:description" content="Precise mouse sensitivity converter for CS2, Valorant, Apex Legends, PUBG, and more. Calculate your perfect cm/360.">
+    <meta name="theme-color" content="#A985FF">
+
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -65,34 +77,56 @@
         /* TOP BAR ICONS */
         .top-bar {
             display: flex;
-            justify-content: flex-end; 
+            justify-content: space-between; 
             align-items: center;
             margin-bottom: 20px;
         }
 
-        .social-links { 
+        .top-bar-links { 
             display: flex; 
             gap: 12px; 
+            align-items: center;
         }
 
-        .social-links a {
+        .top-bar-links a, .top-bar-links .icon-btn {
             color: #888; 
             transition: all 0.3s ease; 
             display: flex; 
             align-items: center; 
             justify-content: center;
+            cursor: pointer;
+            position: relative;
+            text-decoration: none;
         }
 
-        .social-links a:hover {
+        .top-bar-links a:hover, .top-bar-links .icon-btn:hover {
             color: #fff; 
             filter: drop-shadow(0 0 8px #A985FF); 
             transform: translateY(-2px);
         }
 
-        .social-links svg { 
+        .top-bar-links svg { 
             width: 20px; 
             height: 20px; 
             fill: currentColor; 
+        }
+
+        /* Тултипы для верхних кнопок */
+        .icon-btn .tooltip-text {
+            visibility: hidden; opacity: 0; position: absolute; top: 130%; left: 50%;
+            transform: translateX(-50%) translateY(-8px); background: rgba(15, 10, 25, 0.95);
+            border: 1px solid rgba(137, 102, 245, 0.4); padding: 8px 12px; border-radius: 8px;
+            font-size: 11px; color: #fff; width: max-content; text-align: center;
+            font-weight: 500; box-shadow: 0 5px 15px rgba(0,0,0,0.7); transition: all 0.3s ease;
+            pointer-events: none; z-index: 100; font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        .icon-btn .tooltip-text::after {
+            content: ''; position: absolute; bottom: 100%; left: 50%; margin-left: -5px;
+            border-width: 5px; border-style: solid; border-color: transparent transparent rgba(137, 102, 245, 0.4) transparent;
+        }
+        .icon-btn:hover .tooltip-text {
+            visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0);
         }
 
         /* LOGO */
@@ -152,64 +186,34 @@
             letter-spacing: 1px;
         }
 
-        .tab.active { 
-            color: #fff; 
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); 
-        }
+        .tab.active { color: #fff; text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
 
-        .modes-wrapper { 
-            position: relative; 
-            box-sizing: border-box; 
-        }
+        .modes-wrapper { position: relative; box-sizing: border-box; }
 
         /* INPUT FIELDS */
-        .input-group { 
-            margin-bottom: 15px; 
-            display: flex; 
-            flex-direction: column; 
-            position: relative; 
-        }
+        .input-group { margin-bottom: 15px; display: flex; flex-direction: column; position: relative; }
 
         .input-group label {
-            font-size: 11px; 
-            font-weight: 600; 
-            color: #aaa; 
-            margin-bottom: 6px; 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px;
-            display: block;
+            font-size: 11px; font-weight: 600; color: #aaa; margin-bottom: 6px; 
+            text-transform: uppercase; letter-spacing: 0.5px; display: block;
         }
 
         input[type="text"] {
-            background: rgba(0, 0, 0, 0.5); 
-            border: 1px solid rgba(137, 102, 245, 0.3); 
-            color: #fff;
-            padding: 12px; 
-            border-radius: 8px; 
-            font-size: 15px; 
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 500; 
-            outline: none; 
-            transition: all 0.3s ease; 
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-            width: 100%; 
-            box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(137, 102, 245, 0.3); 
+            color: #fff; padding: 12px; border-radius: 8px; font-size: 15px; 
+            font-family: 'Space Grotesk', sans-serif; font-weight: 500; outline: none; 
+            transition: all 0.3s ease; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            width: 100%; box-sizing: border-box;
         }
 
         input[type="text"]:focus {
-            border-color: #A985FF; 
-            box-shadow: 0 0 15px rgba(169, 133, 255, 0.5), inset 0 0 10px rgba(0,0,0,0.5);
+            border-color: #A985FF; box-shadow: 0 0 15px rgba(169, 133, 255, 0.5), inset 0 0 10px rgba(0,0,0,0.5);
         }
 
         input[type="text"].mini-input {
-            width: 60px !important; 
-            min-width: 60px !important;
-            max-width: 60px !important;
-            flex: 0 0 60px !important;
-            padding: 6px 8px !important; 
-            font-size: 13px !important;
-            text-align: center !important; 
-            border-radius: 6px !important; 
+            width: 60px !important; min-width: 60px !important; max-width: 60px !important;
+            flex: 0 0 60px !important; padding: 6px 8px !important; font-size: 13px !important;
+            text-align: center !important; border-radius: 6px !important; 
         }
 
         /* ERRORS */
@@ -219,68 +223,31 @@
         }
 
         .error-tooltip {
-            position: absolute; 
-            bottom: 100%; 
-            left: 50%; 
-            transform: translateX(-50%) translateY(-5px);
-            background: #ff9800; 
-            color: #fff; 
-            padding: 4px 10px; 
-            border-radius: 6px;
-            font-size: 11px; 
-            font-weight: 700; 
-            white-space: nowrap; 
-            opacity: 0; 
-            visibility: hidden;
-            transition: all 0.2s; 
-            z-index: 10; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            pointer-events: none;
+            position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-5px);
+            background: #ff9800; color: #fff; padding: 4px 10px; border-radius: 6px;
+            font-size: 11px; font-weight: 700; white-space: nowrap; opacity: 0; visibility: hidden;
+            transition: all 0.2s; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.5); pointer-events: none;
         }
 
         .error-tooltip::after {
-            content: ''; 
-            position: absolute; 
-            top: 100%; 
-            left: 50%; 
-            margin-left: -5px;
-            border-width: 5px; 
-            border-style: solid; 
-            border-color: #ff9800 transparent transparent transparent;
+            content: ''; position: absolute; top: 100%; left: 50%; margin-left: -5px;
+            border-width: 5px; border-style: solid; border-color: #ff9800 transparent transparent transparent;
         }
 
-        .error-tooltip.show { 
-            opacity: 1; 
-            visibility: visible; 
-        }
+        .error-tooltip.show { opacity: 1; visibility: visible; }
 
         /* MINI TABS */
         .mini-tabs {
-            position: relative; 
-            display: flex; 
-            background: rgba(0, 0, 0, 0.4); 
-            border-radius: 8px;
-            padding: 3px; 
-            margin-bottom: 8px; 
-            border: 1px solid rgba(137, 102, 245, 0.2);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5); 
-            z-index: 1; 
-            box-sizing: border-box;
+            position: relative; display: flex; background: rgba(0, 0, 0, 0.4); border-radius: 8px;
+            padding: 3px; margin-bottom: 8px; border: 1px solid rgba(137, 102, 245, 0.2);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5); z-index: 1; box-sizing: border-box;
         }
 
         .mini-slider {
-            position: absolute; 
-            top: 3px; 
-            bottom: 3px; 
-            left: 3px; 
-            width: calc(50% - 3px);
+            position: absolute; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px);
             background: linear-gradient(180deg, rgba(169, 133, 255, 0.5), rgba(137, 102, 245, 0.15));
-            border-radius: 6px; 
-            transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1); 
-            z-index: -1;
-            box-shadow: 0 0 10px rgba(169, 133, 255, 0.4); 
-            border: 1px solid rgba(169, 133, 255, 0.3); 
-            box-sizing: border-box;
+            border-radius: 6px; transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1); z-index: -1;
+            box-shadow: 0 0 10px rgba(169, 133, 255, 0.4); border: 1px solid rgba(169, 133, 255, 0.3); box-sizing: border-box;
         }
 
         .mini-slider-3 { width: calc(33.33% - 2px); }
@@ -393,12 +360,42 @@
 <div class="calculator-card">
     
     <div class="top-bar">
-        <div class="social-links">
-            <a href="https://www.youtube.com/@143aimclub" target="_blank" title="YouTube">
-                <svg viewBox="0 0 24 24"><path d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg>
+        
+        <!-- Support / Donate Links (Left) -->
+        <div class="top-bar-links">
+            <!-- Buy Me A Coffee -->
+            <a href="YOUR_COFFEE_LINK" target="_blank" class="icon-btn">
+                <svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.9 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
+                <div class="tooltip-text">Buy me a coffee</div>
             </a>
-            <a href="https://discord.gg/143aimclub" target="_blank" title="Discord">
+            <!-- PayPal -->
+            <a href="YOUR_PAYPAL_LINK" target="_blank" class="icon-btn">
+                <svg viewBox="0 0 24 24"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.982 5.05-4.348 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106a.64.64 0 0 0 .632.741h3.766c.485 0 .898-.35.98-.827l.797-5.068.032-.167a.972.972 0 0 1 .96-.827h.54c3.483 0 6.287-1.42 7.039-5.32.174-1.056.126-2.04-.092-3.048z"/></svg>
+                <div class="tooltip-text">Support via PayPal</div>
+            </a>
+            <!-- USDT TRC20 -->
+            <div class="icon-btn" onclick="copyUsdt()">
+                <svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm0 3.864c3.966 0 7.378 1.09 7.378 2.443 0 1.353-3.412 2.444-7.378 2.444-3.967 0-7.379-1.09-7.379-2.444 0-1.352 3.412-2.443 7.379-2.443zm.983 4.908v3.473h3.58v1.947h-3.58v4.996h-1.967v-4.996h-3.58v-1.947h3.58V8.77c-.318.016-.642.022-.968.022-3.57 0-6.495-.826-6.495-1.848V7.8c0 1.021 2.925 1.847 6.495 1.847 3.57 0 6.494-.826 6.494-1.847v-.855c0 1.022-2.924 1.848-6.494 1.848-.344 0-.683-.008-1.015-.023z"/></svg>
+                <div class="tooltip-text" id="usdt-tooltip">Copy USDT (TRC20)</div>
+            </div>
+        </div>
+
+        <!-- Social Links (Right) -->
+        <div class="top-bar-links">
+            <!-- Telegram -->
+            <a href="https://t.me/your_telegram_link" target="_blank" class="icon-btn">
+                <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.223-.548.223l.188-2.85 5.181-4.686c.223-.195-.054-.298-.346-.104l-6.402 4.024-2.766-.864c-.602-.19-.611-.602.125-.89l10.82-4.17c.502-.18.953.114.82.915z"/></svg>
+                <div class="tooltip-text">Telegram</div>
+            </a>
+            <!-- Discord -->
+            <a href="https://discord.gg/143aimclub" target="_blank" class="icon-btn">
                 <svg viewBox="0 0 24 24"><path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.03.03.03.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.02.02.05.03.08.02c1.71-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/></svg>
+                <div class="tooltip-text">Discord</div>
+            </a>
+            <!-- YouTube -->
+            <a href="https://www.youtube.com/@143aimclub" target="_blank" class="icon-btn">
+                <svg viewBox="0 0 24 24"><path d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg>
+                <div class="tooltip-text">YouTube</div>
             </a>
         </div>
     </div>
@@ -1054,6 +1051,22 @@
 </div>
 
 <script>
+    // Copy USDT function
+    function copyUsdt() {
+        const address = "TXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; // <-- Вставь сюда свой адрес кошелька USDT
+        navigator.clipboard.writeText(address).then(() => {
+            const tt = document.getElementById('usdt-tooltip');
+            const originalText = "Copy USDT (TRC20)";
+            tt.innerHTML = "<span style='color:#A985FF; font-weight:700;'>COPIED!</span>";
+            
+            setTimeout(() => {
+                tt.innerHTML = originalText;
+            }, 2000);
+        }).catch(err => {
+            console.error("Copy failed", err);
+        });
+    }
+
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     let particles =[];
@@ -1129,7 +1142,6 @@
     animateParticles();
 
     // === GAMES DATABASE ===
-    // Список отсортирован: CS2, VAL, OW2 - в начале, затем строго по алфавиту!
     const games = {
         "cs2":  { name: "Counter-Strike 2", aliases:["cs2", "csgo", "counter", "strike", "cs"], yaw: 0.022, decimals: 2 },
         "val":  { name: "Valorant", aliases:["val", "valorant"], yaw: 0.07, decimals: 3 },
@@ -1138,7 +1150,7 @@
         "arc":  { name: "ARC Raiders", aliases:["arc", "raiders"], yaw: 0.001360975, decimals: 2 },
         "arena": { name: "Arena Breakout: Infinite", aliases:["arena", "breakout", "abi"], yaw: 0.10237395, decimals: 2 },
         "cod":  { name: "Call of Duty", aliases:["cod", "call", "warzone", "mw"], yaw: 0.0066, decimals: 2 },
-        "delta": { name: "Delta Force", aliases:["delta", "force", "hawk", "ops"], yaw: 0.01, decimals: 2 }, // Base multiplier is 0.01
+        "delta": { name: "Delta Force", aliases:["delta", "force", "hawk", "ops"], yaw: 0.01, decimals: 2 },
         "fn":   { name: "Fortnite", aliases:["fortnite", "fn", "fort"], yaw: 0.005555, decimals: 1, suffix: "%" },
         "mr":   { name: "Marvel Rivals", aliases:["marvel", "rivals", "mr"], yaw: 0.0175, decimals: 2 },
         "pubg": { name: "PUBG: BATTLEGROUNDS", aliases:["pubg", "playerunknown", "battlegrounds"], yaw: 1, decimals: 1 }, 
@@ -1364,7 +1376,6 @@
             return sens * (mult * 0.2864788975);
         }
         if (gameKey === 'delta') {
-            // Delta Force uses a combination of Horizontal Sens and Mouse Sens.
             let mouseSens = parseFloat(document.getElementById('delta-mouse-sens').value);
             if (isNaN(mouseSens) || mouseSens <= 0) mouseSens = 3;
             return sens * mouseSens * 0.01;
@@ -1820,6 +1831,3 @@
         }
     }
 </script>
-
-</body>
-</html>
