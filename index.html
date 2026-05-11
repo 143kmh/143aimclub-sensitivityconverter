@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1118,23 +1119,25 @@
     animateParticles();
 
     // === GAMES DATABASE ===
+    // Ключи идут строго в таком порядке: сначала CS2, VAL, OW2, а затем остальные по алфавиту!
+    // Благодаря этому, цикл for...in сохранит нужную сортировку списка
     const games = {
         "cs2":  { name: "Counter-Strike 2", aliases:["cs2", "csgo", "counter", "strike", "cs"], yaw: 0.022, decimals: 2 },
-        "source": { name: "Quake / Source", aliases:["quake", "source", "hl", "half-life", "cs", "garrys mod", "gmod"], yaw: 0.022, decimals: 2 },
-        "apex": { name: "Apex Legends", aliases:["apex"], yaw: 0.022, decimals: 2 },
         "val":  { name: "Valorant", aliases:["val", "valorant"], yaw: 0.07, decimals: 3 },
         "ow2":  { name: "Overwatch 2", aliases:["ow", "ow2", "overwatch"], yaw: 0.0066, decimals: 2 },
+        "apex": { name: "Apex Legends", aliases:["apex"], yaw: 0.022, decimals: 2 },
+        "arc":  { name: "ARC Raiders", aliases:["arc", "raiders"], yaw: 0.001360975, decimals: 2 },
+        "arena": { name: "Arena Breakout: Infinite", aliases:["arena", "breakout", "abi"], yaw: 0.10237395, decimals: 2 },
         "cod":  { name: "Call of Duty", aliases:["cod", "call", "warzone", "mw"], yaw: 0.0066, decimals: 2 },
-        "mr":   { name: "Marvel Rivals", aliases:["marvel", "rivals", "mr"], yaw: 0.0175, decimals: 2 },
-        "tf":   { name: "The Finals", aliases:["finals", "the finals", "tf"], yaw: 0.001, decimals: 0 },
-        "pubg": { name: "PUBG: BATTLEGROUNDS", aliases:["pubg", "playerunknown", "battlegrounds"], yaw: 1, decimals: 1 }, 
-        "r6s":  { name: "Rainbow Six Siege", aliases:["r6", "siege", "rainbow", "rainbow6"], yaw: 0.00572957795, decimals: 0 },
+        "delta": { name: "Delta Force", aliases:["delta", "force", "hawk", "ops"], yaw: 0.03, decimals: 2 },
         "fn":   { name: "Fortnite", aliases:["fortnite", "fn", "fort"], yaw: 0.005555, decimals: 1, suffix: "%" },
-        "rust": { name: "Rust", aliases:["rust", "facepunch"], yaw: 0.00222, decimals: 3 },
-        "arc":  { name: "ARC Raiders", aliases:["arc", "raiders"], yaw: 0.022, decimals: 2 },
         "marathon": { name: "Marathon", aliases:["marathon"], yaw: 0.022, decimals: 2 },
-        "arena": { name: "Arena Breakout: Infinite", aliases:["arena", "breakout", "abi"], yaw: 0.022, decimals: 2 },
-        "delta": { name: "Delta Force", aliases:["delta", "force", "hawk", "ops"], yaw: 0.022, decimals: 2 }
+        "mr":   { name: "Marvel Rivals", aliases:["marvel", "rivals", "mr"], yaw: 0.0175, decimals: 2 },
+        "pubg": { name: "PUBG: BATTLEGROUNDS", aliases:["pubg", "playerunknown", "battlegrounds"], yaw: 1, decimals: 1 }, 
+        "source": { name: "Quake / Source", aliases:["quake", "source", "hl", "half-life", "cs", "garrys mod", "gmod"], yaw: 0.022, decimals: 2 },
+        "r6s":  { name: "Rainbow Six Siege", aliases:["r6", "siege", "rainbow", "rainbow6"], yaw: 0.00572957795, decimals: 0 },
+        "rust": { name: "Rust", aliases:["rust", "facepunch"], yaw: 0.00222, decimals: 3 },
+        "tf":   { name: "The Finals", aliases:["finals", "the finals", "tf"], yaw: 0.001, decimals: 0 }
     };
 
     let currentMainTab = 'cm'; 
@@ -1799,3 +1802,4 @@
 
 </body>
 </html>
+```
