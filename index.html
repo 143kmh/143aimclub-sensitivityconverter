@@ -26,7 +26,8 @@
         body {
             margin: 0;
             padding: 40px 20px; 
-            font-family: 'Space Grotesk', sans-serif;
+            /* Добавлены fallback-шрифты для обхода блокировок Discord */
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             color: #ffffff;
             min-height: 100vh; 
             overflow-x: hidden;
@@ -108,7 +109,6 @@
             transform: translateY(-2px);
         }
 
-        /* Контурные (line-art) иконки */
         .top-bar-links svg { 
             width: 22px; 
             height: 22px; 
@@ -119,7 +119,6 @@
             stroke-linejoin: round;
         }
 
-        /* ТУЛТИПЫ ВЕРХНЕЙ ПАНЕЛИ */
         .icon-btn .tooltip-text {
             visibility: hidden; opacity: 0; position: absolute; 
             bottom: 140%;
@@ -129,7 +128,8 @@
             border: 1px solid rgba(137, 102, 245, 0.4); padding: 8px 12px; border-radius: 8px;
             font-size: 11px; color: #fff; width: max-content; text-align: center;
             font-weight: 500; box-shadow: 0 5px 15px rgba(0,0,0,0.7); transition: all 0.3s ease;
-            pointer-events: none; z-index: 100; font-family: 'Space Grotesk', sans-serif;
+            pointer-events: none; z-index: 100; 
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             letter-spacing: 0.5px;
         }
         
@@ -148,7 +148,7 @@
         /* LOGO */
         .logo-title {
             text-align: center;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Orbitron', 'Impact', 'Arial Black', sans-serif;
             font-size: 22px;
             font-weight: 700;
             background: linear-gradient(135deg, #ffffff, #A985FF);
@@ -217,7 +217,8 @@
         input[type="text"] {
             background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(137, 102, 245, 0.3); 
             color: #fff; padding: 12px; border-radius: 8px; font-size: 15px; 
-            font-family: 'Space Grotesk', sans-serif; font-weight: 500; outline: none; 
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            font-weight: 500; outline: none; 
             transition: all 0.3s ease; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
             width: 100%; box-sizing: border-box;
         }
@@ -380,14 +381,14 @@
         <!-- Support / Donate Links (Left) -->
         <div class="top-bar-links">
             <!-- PayPal (Copy Email) -->
-            <div class="icon-btn" onclick="copyPayPal()">
+            <div class="icon-btn" id="btn-paypal">
                 <svg viewBox="0 0 24 24">
                     <path d="M10 13l2.5 0c2.5 0 5 -2.5 5 -5c0 -3 -1.9 -5 -5 -5h-5.5c-.5 0 -1 .5 -1 1l-2 14c0 .5 .5 1 1 1h2.8l1.2 -5c.1 -.6 .4 -1 1 -1zm7.5 -5.8c1.7 1 2.5 2.8 2.5 4.8c0 2.5 -2.5 4.5 -5 4.5h-2.6l-.6 3.6a1 1 0 0 1 -1 .8l-2.7 0a.5 .5 0 0 1 -.5 -.6l.2 -1.4" />
                 </svg>
                 <div class="tooltip-text" id="paypal-tooltip">Copy PayPal Email</div>
             </div>
             <!-- USDT TRC20 (Copy Address) -->
-            <div class="icon-btn" onclick="copyUsdt()">
+            <div class="icon-btn" id="btn-usdt">
                 <svg viewBox="0 0 24 24">
                     <path d="M14.08 9.471c0 .775 -.882 1.403 -1.97 1.403h-1.11v-2.805h1.11c1.088 0 1.97 .628 1.97 1.402z" />
                     <path d="M12 21v-8.73" />
@@ -426,8 +427,8 @@
     <!-- MAIN TAB SWITCHER -->
     <div class="tabs-container">
         <div class="tabs-slider" id="tabs-slider"></div>
-        <div class="tab active" onclick="switchMainTab('cm')" id="tab-cm">CM/360 TO GAME</div>
-        <div class="tab" onclick="switchMainTab('g2g')" id="tab-g2g">GAME TO GAME</div>
+        <div class="tab active" id="tab-cm">CM/360 TO GAME</div>
+        <div class="tab" id="tab-g2g">GAME TO GAME</div>
     </div>
 
     <div class="modes-wrapper">
@@ -444,18 +445,18 @@
 
             <div class="input-group">
                 <label>MOUSE DPI:</label>
-                <input type="text" inputmode="decimal" id="cm-dpi" placeholder="e.g. 800" value="800" oninput="calculate()">
+                <input type="text" inputmode="decimal" id="cm-dpi" placeholder="e.g. 800" value="800">
             </div>
 
             <div class="input-group">
                 <div class="mini-tabs">
                     <div class="mini-slider" id="mini-slider"></div>
-                    <div class="mini-tab active" id="mtab-cm2game" onclick="setSubMode(true)">CM TO GAME</div>
-                    <div class="mini-tab" id="mtab-game2cm" onclick="setSubMode(false)">GAME TO CM</div>
+                    <div class="mini-tab active" id="mtab-cm2game">CM TO GAME</div>
+                    <div class="mini-tab" id="mtab-game2cm">GAME TO CM</div>
                 </div>
                 <div style="position: relative;">
                     <label id="cm-dynamic-label" style="font-size: 11px; font-weight: 600; color: #A985FF; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; display: block;">TARGET CM/360 DISTANCE:</label>
-                    <input type="text" inputmode="decimal" id="cm-dynamic-input" placeholder="e.g. 35" oninput="calculate()">
+                    <input type="text" inputmode="decimal" id="cm-dynamic-input" placeholder="e.g. 35">
                     <div id="cm-dynamic-input-error" class="error-tooltip"></div>
                 </div>
             </div>
@@ -473,7 +474,7 @@
             <div class="input-group">
                 <label>SENSITIVITY:</label>
                 <div style="position: relative;">
-                    <input type="text" inputmode="decimal" id="g2g-sens" placeholder="e.g. 1.5" oninput="calculate()">
+                    <input type="text" inputmode="decimal" id="g2g-sens" placeholder="e.g. 1.5">
                     <div id="g2g-sens-error" class="error-tooltip"></div>
                 </div>
             </div>
@@ -496,8 +497,8 @@
             <span style="font-size: 11px; font-weight: 700; color: #A985FF;">PUBG PERSPECTIVE & FOV:</span>
             <div class="mini-tabs" id="pubg-mode-tabs" style="margin: 0; width: 120px;">
                 <div class="mini-slider" id="pubg-mode-slider" style="left: 3px;"></div>
-                <div class="mini-tab active" id="ptab-fpp" onclick="setPubgMode('FPP')">FPP</div>
-                <div class="mini-tab" id="ptab-tpp" onclick="setPubgMode('TPP')">TPP</div>
+                <div class="mini-tab active" id="ptab-fpp">FPP</div>
+                <div class="mini-tab" id="ptab-tpp">TPP</div>
             </div>
         </div>
         <div class="adv-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom: 0;">
@@ -505,14 +506,14 @@
                 <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">HIPFIRE FOV:</span>
                 <span id="pubg-fov-val" style="color:#fff; font-size:12px; font-weight:700;">90</span>
             </div>
-            <input type="range" id="pubg-fov" min="80" max="103" value="90" oninput="document.getElementById('pubg-fov-val').innerText = this.value; calculate()">
+            <input type="range" id="pubg-fov" min="80" max="103" value="90">
         </div>
     </div>
 
     <!-- ADVANCED SETTINGS FOR APEX LEGENDS -->
     <div class="advanced-box" id="apex-box">
         <label class="checkbox-container" style="justify-content: center;">
-            <input type="checkbox" id="apex-advanced-check" onchange="calculate()">
+            <input type="checkbox" id="apex-advanced-check">
             <span>SHOW ADVANCED (FOV, SCOPES)</span>
         </label>
         <div class="adv-content" id="apex-advanced-content">
@@ -527,7 +528,7 @@
                     </div>
                     <span id="apex-fov-val" style="color:#fff; font-size:12px; font-weight:700;">110</span>
                 </div>
-                <input type="range" id="apex-fov" min="70" max="110" value="110" oninput="document.getElementById('apex-fov-val').innerText = this.value; calculate()">
+                <input type="range" id="apex-fov" min="70" max="110" value="110">
             </div>
             
             <div class="pubg-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px; border-top: 1px solid rgba(137, 102, 245, 0.2); padding-top: 15px;">
@@ -535,43 +536,43 @@
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>1X (IRONS/HOLO)</span> <span id="apex-val-1x" style="color:#A985FF;">1.0</span>
                     </div>
-                    <input type="range" id="apex-1x" min="0.1" max="10.0" step="0.1" value="1.0" oninput="document.getElementById('apex-val-1x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                    <input type="range" id="apex-1x" min="0.1" max="10.0" step="0.1" value="1.0">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>2X SIGHT</span> <span id="apex-val-2x" style="color:#A985FF;">1.0</span>
                     </div>
-                    <input type="range" id="apex-2x" min="0.1" max="10.0" step="0.1" value="1.0" oninput="document.getElementById('apex-val-2x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                    <input type="range" id="apex-2x" min="0.1" max="10.0" step="0.1" value="1.0">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>3X SIGHT</span> <span id="apex-val-3x" style="color:#A985FF;">1.0</span>
                     </div>
-                    <input type="range" id="apex-3x" min="0.1" max="10.0" step="0.1" value="1.0" oninput="document.getElementById('apex-val-3x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                    <input type="range" id="apex-3x" min="0.1" max="10.0" step="0.1" value="1.0">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>4X SIGHT</span> <span id="apex-val-4x" style="color:#A985FF;">1.0</span>
                     </div>
-                    <input type="range" id="apex-4x" min="0.1" max="10.0" step="0.1" value="1.0" oninput="document.getElementById('apex-val-4x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                    <input type="range" id="apex-4x" min="0.1" max="10.0" step="0.1" value="1.0">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>6X SIGHT</span> <span id="apex-val-6x" style="color:#A985FF;">1.0</span>
                     </div>
-                    <input type="range" id="apex-6x" min="0.1" max="10.0" step="0.1" value="1.0" oninput="document.getElementById('apex-val-6x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                    <input type="range" id="apex-6x" min="0.1" max="10.0" step="0.1" value="1.0">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>8X SIGHT</span> <span id="apex-val-8x" style="color:#A985FF;">1.0</span>
                     </div>
-                    <input type="range" id="apex-8x" min="0.1" max="10.0" step="0.1" value="1.0" oninput="document.getElementById('apex-val-8x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                    <input type="range" id="apex-8x" min="0.1" max="10.0" step="0.1" value="1.0">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>10X SIGHT</span> <span id="apex-val-10x" style="color:#A985FF;">1.0</span>
                     </div>
-                    <input type="range" id="apex-10x" min="0.1" max="10.0" step="0.1" value="1.0" oninput="document.getElementById('apex-val-10x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                    <input type="range" id="apex-10x" min="0.1" max="10.0" step="0.1" value="1.0">
                 </div>
             </div>
         </div>
@@ -580,7 +581,7 @@
     <!-- ADVANCED SETTINGS FOR R6 SIEGE -->
     <div class="advanced-box" id="r6s-box">
         <label class="checkbox-container" style="justify-content: center;">
-            <input type="checkbox" id="r6s-advanced-check" onchange="calculate()">
+            <input type="checkbox" id="r6s-advanced-check">
             <span>SHOW ADVANCED (MULTIPLIER)</span>
         </label>
         <div class="adv-content" id="r6s-advanced-content">
@@ -592,7 +593,7 @@
                         <div class="tooltip-text">MouseSensitivityMultiplierUnit from GameSettings.ini.<br><br>Default is 0.02. Change this if you use a custom multiplier.</div>
                     </div>
                 </div>
-                <input type="text" inputmode="decimal" id="r6s-mult" value="0.02" class="mini-input" oninput="calculate()">
+                <input type="text" inputmode="decimal" id="r6s-mult" value="0.02" class="mini-input">
             </div>
             <div style="margin-top: 15px; font-size: 10.5px; color: #888; text-align: center; line-height: 1.5; padding: 10px; background: rgba(169,133,255,0.05); border-radius: 8px; border: 1px solid rgba(169,133,255,0.2);">
                 <span style="color: #A985FF; font-weight: 700;">PRO TIP:</span> Set all your in-game ADS sliders to <span style="color: #fff; font-weight: 700;">50</span>. Rainbow Six natively uses Focal Length Scaling, so keeping them at 50 guarantees perfect 1:1 monitor tracking (MDH 0%) for every scope automatically!
@@ -603,20 +604,20 @@
     <!-- ADVANCED SETTINGS FOR CS2 -->
     <div class="advanced-box" id="cs2-box">
         <label class="checkbox-container" style="justify-content: center;">
-            <input type="checkbox" id="cs2-advanced-check" onchange="calculate()">
+            <input type="checkbox" id="cs2-advanced-check">
             <span>SHOW ADVANCED (ZOOM, RES)</span>
         </label>
         <div class="adv-content" id="cs2-advanced-content">
             <label class="checkbox-container">
-                <input type="checkbox" id="cs2-res-check" onchange="calculate()">
+                <input type="checkbox" id="cs2-res-check">
                 <span>I USE STRETCHED RES</span>
             </label>
             
             <div class="mini-tabs" id="cs2-res-tabs" style="display:none; margin-top:12px;">
                 <div class="mini-slider mini-slider-3" id="cs2-res-slider"></div>
-                <div class="mini-tab active" id="rtab-43" onclick="setCs2Res('43')">4:3</div>
-                <div class="mini-tab" id="rtab-54" onclick="setCs2Res('54')">5:4</div>
-                <div class="mini-tab" id="rtab-1610" onclick="setCs2Res('1610')">16:10</div>
+                <div class="mini-tab active" id="rtab-43">4:3</div>
+                <div class="mini-tab" id="rtab-54">5:4</div>
+                <div class="mini-tab" id="rtab-1610">16:10</div>
             </div>
 
             <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-top:20px; margin-bottom:5px;">
@@ -630,8 +631,8 @@
                     </div>
                 </div>
                 <div style="display:flex; align-items:center; gap: 8px;">
-                    <input type="range" id="cs2-zoom-slider" min="0.01" max="3.00" step="0.01" value="1.00" oninput="document.getElementById('cs2-zoom').value = parseFloat(this.value).toFixed(2); calculate();" style="width: 70px; margin: 0;">
-                    <input type="text" inputmode="decimal" id="cs2-zoom" value="1.00" class="mini-input" oninput="let v = parseFloat(this.value); if(!isNaN(v) && v>0){ document.getElementById('cs2-zoom-slider').value = v; } calculate();">
+                    <input type="range" id="cs2-zoom-slider" min="0.01" max="3.00" step="0.01" value="1.00" style="width: 70px; margin: 0;">
+                    <input type="text" inputmode="decimal" id="cs2-zoom" value="1.00" class="mini-input">
                 </div>
             </div>
         </div>
@@ -640,7 +641,7 @@
     <!-- ADVANCED SETTINGS FOR OVERWATCH 2 -->
     <div class="advanced-box" id="ow2-box">
         <label class="checkbox-container" style="justify-content: center;">
-            <input type="checkbox" id="ow2-advanced-check" onchange="calculate()">
+            <input type="checkbox" id="ow2-advanced-check">
             <span>SHOW ADVANCED (HERO SCOPES)</span>
         </label>
         <div class="adv-content" id="ow2-advanced-content">
@@ -653,7 +654,7 @@
                     </div>
                 </div>
                 <div style="display:flex; align-items:center; gap:5px; font-size:12px;">
-                    <input type="text" inputmode="decimal" id="ow2-ana" value="100" class="mini-input" oninput="calculate()"> %
+                    <input type="text" inputmode="decimal" id="ow2-ana" value="100" class="mini-input"> %
                 </div>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
@@ -665,7 +666,7 @@
                     </div>
                 </div>
                 <div style="display:flex; align-items:center; gap:5px; font-size:12px;">
-                    <input type="text" inputmode="decimal" id="ow2-ashe" value="100" class="mini-input" oninput="calculate()"> %
+                    <input type="text" inputmode="decimal" id="ow2-ashe" value="100" class="mini-input"> %
                 </div>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
@@ -677,7 +678,7 @@
                     </div>
                 </div>
                 <div style="display:flex; align-items:center; gap:5px; font-size:12px;">
-                    <input type="text" inputmode="decimal" id="ow2-freja" value="100" class="mini-input" oninput="calculate()"> %
+                    <input type="text" inputmode="decimal" id="ow2-freja" value="100" class="mini-input"> %
                 </div>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
@@ -689,7 +690,7 @@
                     </div>
                 </div>
                 <div style="display:flex; align-items:center; gap:5px; font-size:12px;">
-                    <input type="text" inputmode="decimal" id="ow2-emre" value="100" class="mini-input" oninput="calculate()"> %
+                    <input type="text" inputmode="decimal" id="ow2-emre" value="100" class="mini-input"> %
                 </div>
             </div>
         </div>
@@ -698,7 +699,7 @@
     <!-- ADVANCED SETTINGS FOR THE FINALS -->
     <div class="advanced-box" id="tf-box">
         <label class="checkbox-container" style="justify-content: center;">
-            <input type="checkbox" id="tf-advanced-check" onchange="calculate()">
+            <input type="checkbox" id="tf-advanced-check">
             <span>SHOW ADVANCED (FOV, SCOPES)</span>
         </label>
         <div class="adv-content" id="tf-advanced-content">
@@ -714,7 +715,7 @@
                             </div>
                         </div>
                     </div>
-                    <input type="checkbox" id="tf-fls" checked onchange="calculate()" style="margin-right:0;">
+                    <input type="checkbox" id="tf-fls" checked style="margin-right:0;">
                 </label>
             </div>
             <div class="adv-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 15px;">
@@ -728,21 +729,21 @@
                     </div>
                     <span id="tf-fov-val" style="color:#fff; font-size:12px; font-weight:700;">71</span>
                 </div>
-                <input type="range" id="tf-fov" min="45" max="100" value="71" oninput="document.getElementById('tf-fov-val').innerText = this.value; calculate()">
+                <input type="range" id="tf-fov" min="45" max="100" value="71">
             </div>
             <div class="adv-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 10px;">
                 <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
                     <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">MOUSE ZOOM SENS. MULTIPLIER:</span>
                     <span id="tf-zoom-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
                 </div>
-                <input type="range" id="tf-zoom-slider" min="1" max="100" value="100" oninput="document.getElementById('tf-zoom-val').innerText = this.value + '%'; calculate()">
+                <input type="range" id="tf-zoom-slider" min="1" max="100" value="100">
             </div>
             <div class="adv-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 10px;">
                 <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
                     <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">SCOPED ZOOM SENS. MULTIPLIER:</span>
                     <span id="tf-scoped-zoom-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
                 </div>
-                <input type="range" id="tf-scoped-zoom-slider" min="1" max="200" value="100" oninput="document.getElementById('tf-scoped-zoom-val').innerText = this.value + '%'; calculate()">
+                <input type="range" id="tf-scoped-zoom-slider" min="1" max="200" value="100">
             </div>
         </div>
     </div>
@@ -750,7 +751,7 @@
     <!-- ADVANCED SETTINGS FOR PUBG -->
     <div class="advanced-box" id="pubg-box">
         <label class="checkbox-container" style="justify-content: center;">
-            <input type="checkbox" id="pubg-advanced-check" onchange="calculate()">
+            <input type="checkbox" id="pubg-advanced-check">
             <span>SHOW ADVANCED (SCOPES)</span>
         </label>
         
@@ -763,7 +764,7 @@
                         <div class="tooltip-text">Usually 1.00 for FPP and 0.88 for TPP by default.<br><br>Set this to match your in-game multiplier to see your vertical CM/360.</div>
                     </div>
                 </div>
-                <input type="text" inputmode="decimal" id="pubg-vert" value="1.00" class="mini-input" oninput="calculate()">
+                <input type="text" inputmode="decimal" id="pubg-vert" value="1.00" class="mini-input">
             </div>
             
             <div class="pubg-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px; border-top: 1px solid rgba(137, 102, 245, 0.2); padding-top: 15px;">
@@ -771,49 +772,49 @@
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>TARGETING</span> <span id="pubg-val-aim" style="color:#A985FF;">50</span>
                     </div>
-                    <input type="range" id="pubg-aim" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-aim').innerText = this.value; calculate()">
+                    <input type="range" id="pubg-aim" min="0" max="100" value="50">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>1X (RED DOT)</span> <span id="pubg-val-1x" style="color:#A985FF;">50</span>
                     </div>
-                    <input type="range" id="pubg-1x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-1x').innerText = this.value; calculate()">
+                    <input type="range" id="pubg-1x" min="0" max="100" value="50">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>2X SCOPE</span> <span id="pubg-val-2x" style="color:#A985FF;">50</span>
                     </div>
-                    <input type="range" id="pubg-2x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-2x').innerText = this.value; calculate()">
+                    <input type="range" id="pubg-2x" min="0" max="100" value="50">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>3X SCOPE</span> <span id="pubg-val-3x" style="color:#A985FF;">50</span>
                     </div>
-                    <input type="range" id="pubg-3x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-3x').innerText = this.value; calculate()">
+                    <input type="range" id="pubg-3x" min="0" max="100" value="50">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>4X SCOPE</span> <span id="pubg-val-4x" style="color:#A985FF;">50</span>
                     </div>
-                    <input type="range" id="pubg-4x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-4x').innerText = this.value; calculate()">
+                    <input type="range" id="pubg-4x" min="0" max="100" value="50">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>6X SCOPE</span> <span id="pubg-val-6x" style="color:#A985FF;">50</span>
                     </div>
-                    <input type="range" id="pubg-6x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-6x').innerText = this.value; calculate()">
+                    <input type="range" id="pubg-6x" min="0" max="100" value="50">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>8X SCOPE</span> <span id="pubg-val-8x" style="color:#A985FF;">50</span>
                     </div>
-                    <input type="range" id="pubg-8x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-8x').innerText = this.value; calculate()">
+                    <input type="range" id="pubg-8x" min="0" max="100" value="50">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>15X SCOPE</span> <span id="pubg-val-15x" style="color:#A985FF;">50</span>
                     </div>
-                    <input type="range" id="pubg-15x" min="0" max="100" value="50" oninput="document.getElementById('pubg-val-15x').innerText = this.value; calculate()">
+                    <input type="range" id="pubg-15x" min="0" max="100" value="50">
                 </div>
             </div>
         </div>
@@ -822,7 +823,7 @@
     <!-- ADVANCED SETTINGS FOR FORTNITE -->
     <div class="advanced-box" id="fn-box">
         <label class="checkbox-container" style="justify-content: center;">
-            <input type="checkbox" id="fn-advanced-check" onchange="calculate()">
+            <input type="checkbox" id="fn-advanced-check">
             <span>SHOW ADVANCED (ADS SENSITIVITY)</span>
         </label>
         <div class="adv-content" id="fn-advanced-content">
@@ -831,14 +832,14 @@
                     <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">TARGETING MULTIPLIER (ADS):</span>
                     <span id="fn-ads-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
                 </div>
-                <input type="range" id="fn-ads-slider" min="1" max="100" value="100" oninput="document.getElementById('fn-ads-val').innerText = this.value + '%'; calculate()">
+                <input type="range" id="fn-ads-slider" min="1" max="100" value="100">
             </div>
             <div class="adv-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 10px;">
                 <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
                     <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">SCOPED MULTIPLIER (SNIPERS):</span>
                     <span id="fn-scoped-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
                 </div>
-                <input type="range" id="fn-scoped-slider" min="1" max="100" value="100" oninput="document.getElementById('fn-scoped-val').innerText = this.value + '%'; calculate()">
+                <input type="range" id="fn-scoped-slider" min="1" max="100" value="100">
             </div>
         </div>
     </div>
@@ -846,7 +847,7 @@
     <!-- ADVANCED SETTINGS FOR ARENA BREAKOUT -->
     <div class="advanced-box" id="arena-box">
         <label class="checkbox-container" style="justify-content: center;">
-            <input type="checkbox" id="arena-advanced-check" onchange="calculate()">
+            <input type="checkbox" id="arena-advanced-check">
             <span>SHOW ADVANCED (SCOPES)</span>
         </label>
         <div class="adv-content" id="arena-advanced-content">
@@ -855,49 +856,49 @@
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>1X / RED DOT</span> <span id="arena-val-1x" style="color:#A985FF;">1.0</span>
                     </div>
-                    <input type="range" id="arena-1x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-1x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                    <input type="range" id="arena-1x" min="0.1" max="5.0" step="0.1" value="1.0">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>2X SCOPE</span> <span id="arena-val-2x" style="color:#A985FF;">1.0</span>
                     </div>
-                    <input type="range" id="arena-2x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-2x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                    <input type="range" id="arena-2x" min="0.1" max="5.0" step="0.1" value="1.0">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>3X SCOPE</span> <span id="arena-val-3x" style="color:#A985FF;">1.0</span>
                     </div>
-                    <input type="range" id="arena-3x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-3x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                    <input type="range" id="arena-3x" min="0.1" max="5.0" step="0.1" value="1.0">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>4X SCOPE</span> <span id="arena-val-4x" style="color:#A985FF;">1.0</span>
                     </div>
-                    <input type="range" id="arena-4x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-4x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                    <input type="range" id="arena-4x" min="0.1" max="5.0" step="0.1" value="1.0">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>6X SCOPE</span> <span id="arena-val-6x" style="color:#A985FF;">1.0</span>
                     </div>
-                    <input type="range" id="arena-6x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-6x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                    <input type="range" id="arena-6x" min="0.1" max="5.0" step="0.1" value="1.0">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>8X SCOPE</span> <span id="arena-val-8x" style="color:#A985FF;">1.0</span>
                     </div>
-                    <input type="range" id="arena-8x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-8x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                    <input type="range" id="arena-8x" min="0.1" max="5.0" step="0.1" value="1.0">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>16X SCOPE</span> <span id="arena-val-16x" style="color:#A985FF;">1.0</span>
                     </div>
-                    <input type="range" id="arena-16x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-16x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                    <input type="range" id="arena-16x" min="0.1" max="5.0" step="0.1" value="1.0">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>20X SCOPE</span> <span id="arena-val-20x" style="color:#A985FF;">1.0</span>
                     </div>
-                    <input type="range" id="arena-20x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-20x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                    <input type="range" id="arena-20x" min="0.1" max="5.0" step="0.1" value="1.0">
                 </div>
             </div>
         </div>
@@ -906,7 +907,7 @@
     <!-- ADVANCED SETTINGS FOR DELTA FORCE -->
     <div class="advanced-box" id="delta-box">
         <label class="checkbox-container" style="justify-content: center;">
-            <input type="checkbox" id="delta-advanced-check" onchange="calculate()">
+            <input type="checkbox" id="delta-advanced-check">
             <span>SHOW ADVANCED (SCOPES & MOUSE SENS)</span>
         </label>
         <div class="adv-content" id="delta-advanced-content">
@@ -918,7 +919,7 @@
                         <div class="tooltip-text">Delta Force uses a base Mouse Sensitivity (default 3) combined with your Horizontal Sensitivity to calculate tracking.</div>
                     </div>
                 </div>
-                <input type="text" inputmode="decimal" id="delta-mouse-sens" value="3" class="mini-input" oninput="calculate()">
+                <input type="text" inputmode="decimal" id="delta-mouse-sens" value="3" class="mini-input">
             </div>
             
             <div class="pubg-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px; border-top: 1px solid rgba(137, 102, 245, 0.2); padding-top: 15px;">
@@ -926,25 +927,25 @@
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>IRON SIGHT / 1X</span> <span id="delta-val-1x" style="color:#A985FF;">50</span>
                     </div>
-                    <input type="range" id="delta-1x" min="1" max="100" value="50" oninput="document.getElementById('delta-val-1x').innerText = this.value; calculate()">
+                    <input type="range" id="delta-1x" min="1" max="100" value="50">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>2X - 4X</span> <span id="delta-val-2x" style="color:#A985FF;">50</span>
                     </div>
-                    <input type="range" id="delta-2x" min="1" max="100" value="50" oninput="document.getElementById('delta-val-2x').innerText = this.value; calculate()">
+                    <input type="range" id="delta-2x" min="1" max="100" value="50">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>5X - 7X</span> <span id="delta-val-5x" style="color:#A985FF;">50</span>
                     </div>
-                    <input type="range" id="delta-5x" min="1" max="100" value="50" oninput="document.getElementById('delta-val-5x').innerText = this.value; calculate()">
+                    <input type="range" id="delta-5x" min="1" max="100" value="50">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>8X +</span> <span id="delta-val-8x" style="color:#A985FF;">50</span>
                     </div>
-                    <input type="range" id="delta-8x" min="1" max="100" value="50" oninput="document.getElementById('delta-val-8x').innerText = this.value; calculate()">
+                    <input type="range" id="delta-8x" min="1" max="100" value="50">
                 </div>
             </div>
         </div>
@@ -1072,8 +1073,143 @@
 </div>
 
 <script>
+    // === GAMES DATABASE ===
+    const games = {
+        "cs2":  { name: "Counter-Strike 2", aliases:["cs2", "csgo", "counter", "strike", "cs"], yaw: 0.022, decimals: 2 },
+        "val":  { name: "Valorant", aliases:["val", "valorant"], yaw: 0.07, decimals: 3 },
+        "ow2":  { name: "Overwatch 2", aliases:["ow", "ow2", "overwatch"], yaw: 0.0066, decimals: 2 },
+        "apex": { name: "Apex Legends", aliases:["apex"], yaw: 0.022, decimals: 2 },
+        "arc":  { name: "ARC Raiders", aliases:["arc", "raiders"], yaw: 0.001360975, decimals: 2 },
+        "arena": { name: "Arena Breakout: Infinite", aliases:["arena", "breakout", "abi"], yaw: 0.10237395, decimals: 2 },
+        "cod":  { name: "Call of Duty", aliases:["cod", "call", "warzone", "mw"], yaw: 0.0066, decimals: 2 },
+        "delta": { name: "Delta Force", aliases:["delta", "force", "hawk", "ops"], yaw: 0.01, decimals: 2 },
+        "fn":   { name: "Fortnite", aliases:["fortnite", "fn", "fort"], yaw: 0.005555, decimals: 1, suffix: "%" },
+        "mr":   { name: "Marvel Rivals", aliases:["marvel", "rivals", "mr"], yaw: 0.0175, decimals: 2 },
+        "pubg": { name: "PUBG: BATTLEGROUNDS", aliases:["pubg", "playerunknown", "battlegrounds"], yaw: 1, decimals: 1 }, 
+        "source": { name: "Quake / Source", aliases:["quake", "source", "hl", "half-life", "gmod"], yaw: 0.022, decimals: 2 },
+        "r6s":  { name: "Rainbow Six Siege", aliases:["r6", "siege", "rainbow", "rainbow6"], yaw: 0.00572957795, decimals: 0 },
+        "rust": { name: "Rust", aliases:["rust", "facepunch"], yaw: 0.111111, decimals: 3 },
+        "tf":   { name: "The Finals", aliases:["finals", "the finals", "tf"], yaw: 0.001, decimals: 0 }
+    };
+
+    let currentMainTab = 'cm'; 
+    let isCmToGame = true; 
+    let currentCs2Res = '43';
+    let pubgMode = 'FPP'; 
+
+    // === INITIALIZATION & EVENT LISTENERS BINDING ===
+    document.addEventListener("DOMContentLoaded", () => {
+        
+        // Buttons
+        document.getElementById('btn-paypal').addEventListener('click', copyPayPal);
+        document.getElementById('btn-usdt').addEventListener('click', copyUsdt);
+
+        document.getElementById('tab-cm').addEventListener('click', () => switchMainTab('cm'));
+        document.getElementById('tab-g2g').addEventListener('click', () => switchMainTab('g2g'));
+
+        document.getElementById('mtab-cm2game').addEventListener('click', () => setSubMode(true));
+        document.getElementById('mtab-game2cm').addEventListener('click', () => setSubMode(false));
+
+        document.getElementById('ptab-fpp').addEventListener('click', () => setPubgMode('FPP'));
+        document.getElementById('ptab-tpp').addEventListener('click', () => setPubgMode('TPP'));
+
+        document.getElementById('rtab-43').addEventListener('click', () => setCs2Res('43'));
+        document.getElementById('rtab-54').addEventListener('click', () => setCs2Res('54'));
+        document.getElementById('rtab-1610').addEventListener('click', () => setCs2Res('1610'));
+
+        // Standard inputs & checkboxes that just trigger recalculation
+        const triggerInputs =[
+            'cm-dpi', 'cm-dynamic-input', 'g2g-sens', 'r6s-mult', 'ow2-ana', 'ow2-ashe', 'ow2-freja', 'ow2-emre', 'pubg-vert', 'delta-mouse-sens'
+        ];
+        triggerInputs.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('input', calculate);
+        });
+
+        const triggerCheckboxes =[
+            'apex-advanced-check', 'r6s-advanced-check', 'cs2-advanced-check', 'cs2-res-check',
+            'ow2-advanced-check', 'tf-advanced-check', 'tf-fls', 'pubg-advanced-check', 
+            'fn-advanced-check', 'arena-advanced-check', 'delta-advanced-check'
+        ];
+        triggerCheckboxes.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('change', calculate);
+        });
+
+        // Sliders config map
+        const slidersMap =[
+            { id: 'pubg-fov', valId: 'pubg-fov-val', type: 'int' },
+            { id: 'apex-fov', valId: 'apex-fov-val', type: 'int' },
+            { id: 'apex-1x', valId: 'apex-val-1x', type: 'float' },
+            { id: 'apex-2x', valId: 'apex-val-2x', type: 'float' },
+            { id: 'apex-3x', valId: 'apex-val-3x', type: 'float' },
+            { id: 'apex-4x', valId: 'apex-val-4x', type: 'float' },
+            { id: 'apex-6x', valId: 'apex-val-6x', type: 'float' },
+            { id: 'apex-8x', valId: 'apex-val-8x', type: 'float' },
+            { id: 'apex-10x', valId: 'apex-val-10x', type: 'float' },
+            { id: 'tf-fov', valId: 'tf-fov-val', type: 'int' },
+            { id: 'tf-zoom-slider', valId: 'tf-zoom-val', type: 'percent' },
+            { id: 'tf-scoped-zoom-slider', valId: 'tf-scoped-zoom-val', type: 'percent' },
+            { id: 'pubg-aim', valId: 'pubg-val-aim', type: 'int' },
+            { id: 'pubg-1x', valId: 'pubg-val-1x', type: 'int' },
+            { id: 'pubg-2x', valId: 'pubg-val-2x', type: 'int' },
+            { id: 'pubg-3x', valId: 'pubg-val-3x', type: 'int' },
+            { id: 'pubg-4x', valId: 'pubg-val-4x', type: 'int' },
+            { id: 'pubg-6x', valId: 'pubg-val-6x', type: 'int' },
+            { id: 'pubg-8x', valId: 'pubg-val-8x', type: 'int' },
+            { id: 'pubg-15x', valId: 'pubg-val-15x', type: 'int' },
+            { id: 'fn-ads-slider', valId: 'fn-ads-val', type: 'percent' },
+            { id: 'fn-scoped-slider', valId: 'fn-scoped-val', type: 'percent' },
+            { id: 'arena-1x', valId: 'arena-val-1x', type: 'float' },
+            { id: 'arena-2x', valId: 'arena-val-2x', type: 'float' },
+            { id: 'arena-3x', valId: 'arena-val-3x', type: 'float' },
+            { id: 'arena-4x', valId: 'arena-val-4x', type: 'float' },
+            { id: 'arena-6x', valId: 'arena-val-6x', type: 'float' },
+            { id: 'arena-8x', valId: 'arena-val-8x', type: 'float' },
+            { id: 'arena-16x', valId: 'arena-val-16x', type: 'float' },
+            { id: 'arena-20x', valId: 'arena-val-20x', type: 'float' },
+            { id: 'delta-1x', valId: 'delta-val-1x', type: 'int' },
+            { id: 'delta-2x', valId: 'delta-val-2x', type: 'int' },
+            { id: 'delta-5x', valId: 'delta-val-5x', type: 'int' },
+            { id: 'delta-8x', valId: 'delta-val-8x', type: 'int' }
+        ];
+
+        slidersMap.forEach(config => {
+            const el = document.getElementById(config.id);
+            if (el) {
+                el.addEventListener('input', function() {
+                    let text = this.value;
+                    if (config.type === 'float') text = parseFloat(this.value).toFixed(1);
+                    else if (config.type === 'percent') text = this.value + '%';
+                    document.getElementById(config.valId).innerText = text;
+                    calculate();
+                });
+            }
+        });
+
+        // Special handling for CS2 zoom slider linking
+        const cs2Slider = document.getElementById('cs2-zoom-slider');
+        const cs2Input = document.getElementById('cs2-zoom');
+        if (cs2Slider) {
+            cs2Slider.addEventListener('input', function() {
+                cs2Input.value = parseFloat(this.value).toFixed(2);
+                calculate();
+            });
+        }
+        if (cs2Input) {
+            cs2Input.addEventListener('input', function() {
+                let v = parseFloat(this.value); 
+                if(!isNaN(v) && v > 0) { cs2Slider.value = v; } 
+                calculate();
+            });
+        }
+
+        initComboboxes();
+        document.getElementById('cm-dynamic-label').innerText = 'TARGET CM/360 DISTANCE:';
+        switchMainTab('cm');
+    });
+
     // === COPY FUNCTIONS ===
-    
     function copyPayPal() {
         const email = "surzhanyevhen@gmail.com";
         navigator.clipboard.writeText(email).then(() => {
@@ -1081,9 +1217,7 @@
             const originalText = "Copy PayPal Email";
             tt.innerHTML = "<span style='color:#A985FF; font-weight:700;'>COPIED!</span>";
             setTimeout(() => { tt.innerHTML = originalText; }, 2000);
-        }).catch(err => {
-            console.error("Copy failed", err);
-        });
+        }).catch(err => console.error("Copy failed", err));
     }
 
     function copyUsdt() {
@@ -1093,21 +1227,16 @@
             const originalText = "Copy USDT (TRC20)";
             tt.innerHTML = "<span style='color:#A985FF; font-weight:700;'>COPIED!</span>";
             setTimeout(() => { tt.innerHTML = originalText; }, 2000);
-        }).catch(err => {
-            console.error("Copy failed", err);
-        });
+        }).catch(err => console.error("Copy failed", err));
     }
 
     // === PARTICLE BACKGROUND ===
-
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     let particles =[];
     
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetMouseX = 0;
-    let targetMouseY = 0;
+    let mouseX = 0, mouseY = 0;
+    let targetMouseX = 0, targetMouseY = 0;
 
     window.addEventListener('mousemove', (e) => {
         targetMouseX = (e.clientX - window.innerWidth / 2) * 0.05;
@@ -1153,9 +1282,7 @@
         }
     }
 
-    for (let i = 0; i < 80; i++) {
-        particles.push(new Particle());
-    }
+    for (let i = 0; i < 80; i++) { particles.push(new Particle()); }
 
     function animateParticles() {
         mouseX += (targetMouseX - mouseX) * 0.1;
@@ -1166,43 +1293,10 @@
         ctx.fillStyle = "rgba(5, 2, 10, 0.4)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        particles.forEach(p => { 
-            p.update(); 
-            p.draw(); 
-        });
+        particles.forEach(p => { p.update(); p.draw(); });
         requestAnimationFrame(animateParticles);
     }
     animateParticles();
-
-    // === GAMES DATABASE ===
-    const games = {
-        "cs2":  { name: "Counter-Strike 2", aliases:["cs2", "csgo", "counter", "strike", "cs"], yaw: 0.022, decimals: 2 },
-        "val":  { name: "Valorant", aliases:["val", "valorant"], yaw: 0.07, decimals: 3 },
-        "ow2":  { name: "Overwatch 2", aliases:["ow", "ow2", "overwatch"], yaw: 0.0066, decimals: 2 },
-        "apex": { name: "Apex Legends", aliases:["apex"], yaw: 0.022, decimals: 2 },
-        "arc":  { name: "ARC Raiders", aliases:["arc", "raiders"], yaw: 0.001360975, decimals: 2 },
-        "arena": { name: "Arena Breakout: Infinite", aliases:["arena", "breakout", "abi"], yaw: 0.10237395, decimals: 2 },
-        "cod":  { name: "Call of Duty", aliases:["cod", "call", "warzone", "mw"], yaw: 0.0066, decimals: 2 },
-        "delta": { name: "Delta Force", aliases:["delta", "force", "hawk", "ops"], yaw: 0.01, decimals: 2 },
-        "fn":   { name: "Fortnite", aliases:["fortnite", "fn", "fort"], yaw: 0.005555, decimals: 1, suffix: "%" },
-        "mr":   { name: "Marvel Rivals", aliases:["marvel", "rivals", "mr"], yaw: 0.0175, decimals: 2 },
-        "pubg": { name: "PUBG: BATTLEGROUNDS", aliases:["pubg", "playerunknown", "battlegrounds"], yaw: 1, decimals: 1 }, 
-        "source": { name: "Quake / Source", aliases:["quake", "source", "hl", "half-life", "gmod"], yaw: 0.022, decimals: 2 },
-        "r6s":  { name: "Rainbow Six Siege", aliases:["r6", "siege", "rainbow", "rainbow6"], yaw: 0.00572957795, decimals: 0 },
-        "rust": { name: "Rust", aliases:["rust", "facepunch"], yaw: 0.111111, decimals: 3 },
-        "tf":   { name: "The Finals", aliases:["finals", "the finals", "tf"], yaw: 0.001, decimals: 0 }
-    };
-
-    let currentMainTab = 'cm'; 
-    let isCmToGame = true; 
-    let currentCs2Res = '43';
-    let pubgMode = 'FPP'; 
-
-    window.onload = () => {
-        initComboboxes();
-        document.getElementById('cm-dynamic-label').innerText = 'TARGET CM/360 DISTANCE:';
-        switchMainTab('cm'); 
-    };
 
     function parseInputVal(id) {
         let val = document.getElementById(id).value;
@@ -1272,8 +1366,7 @@
             let matchedKey = null;
             for (let key in games) {
                 if (games[key].name.toLowerCase() === input.value.toLowerCase()) { 
-                    matchedKey = key; 
-                    break; 
+                    matchedKey = key; break; 
                 }
             }
             if (matchedKey) input.dataset.key = matchedKey; 
@@ -1867,15 +1960,11 @@
 
 <!-- === DISCORD ACTIVITY SDK === -->
 <script type="module">
-    // Загружаем SDK напрямую через CDN, чтобы всё работало без локальной сборки
     import { DiscordSDK } from "https://cdn.jsdelivr.net/npm/@discord/embedded-app-sdk@1.2.0/+esm";
-    
-    // Инициализация с твоим Client ID
     const discordSdk = new DiscordSDK("1503415301964828833");
 
     async function setupDiscordSdk() {
         try {
-            // Сообщаем Дискорду, что приложение успешно загрузилось (убирает экран загрузки)
             await discordSdk.ready();
             console.log("Discord Activity is ready!");
         } catch (e) {
