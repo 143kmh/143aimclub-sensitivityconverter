@@ -890,10 +890,21 @@
     <div class="advanced-box" id="delta-box">
         <label class="checkbox-container" style="justify-content: center;">
             <input type="checkbox" id="delta-advanced-check" onchange="calculate()">
-            <span>SHOW ADVANCED (SCOPES)</span>
+            <span>SHOW ADVANCED (SCOPES & MOUSE SENS)</span>
         </label>
         <div class="adv-content" id="delta-advanced-content">
-            <div class="pubg-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
+                <div style="display:flex; align-items:center; gap: 8px;">
+                    <span style="font-size: 11px; font-weight: 700; color: #aaa;">MOUSE SENSITIVITY MULTIPLIER:</span>
+                    <div class="tooltip">
+                        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>
+                        <div class="tooltip-text">Delta Force uses a base Mouse Sensitivity (default 3) combined with your Horizontal Sensitivity to calculate tracking.</div>
+                    </div>
+                </div>
+                <input type="text" inputmode="decimal" id="delta-mouse-sens" value="3" class="mini-input" oninput="calculate()">
+            </div>
+            
+            <div class="pubg-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px; border-top: 1px solid rgba(137, 102, 245, 0.2); padding-top: 15px;">
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
                         <span>IRON SIGHT / 1X</span> <span id="delta-val-1x" style="color:#A985FF;">50</span>
@@ -1119,8 +1130,7 @@
     animateParticles();
 
     // === GAMES DATABASE ===
-    // Ключи идут строго в таком порядке: сначала CS2, VAL, OW2, а затем остальные по алфавиту!
-    // Благодаря этому, цикл for...in сохранит нужную сортировку списка
+    // Список отсортирован: CS2, VAL, OW2 - в начале, затем строго по алфавиту!
     const games = {
         "cs2":  { name: "Counter-Strike 2", aliases:["cs2", "csgo", "counter", "strike", "cs"], yaw: 0.022, decimals: 2 },
         "val":  { name: "Valorant", aliases:["val", "valorant"], yaw: 0.07, decimals: 3 },
@@ -1129,14 +1139,14 @@
         "arc":  { name: "ARC Raiders", aliases:["arc", "raiders"], yaw: 0.001360975, decimals: 2 },
         "arena": { name: "Arena Breakout: Infinite", aliases:["arena", "breakout", "abi"], yaw: 0.10237395, decimals: 2 },
         "cod":  { name: "Call of Duty", aliases:["cod", "call", "warzone", "mw"], yaw: 0.0066, decimals: 2 },
-        "delta": { name: "Delta Force", aliases:["delta", "force", "hawk", "ops"], yaw: 0.03, decimals: 2 },
+        "delta": { name: "Delta Force", aliases:["delta", "force", "hawk", "ops"], yaw: 0.01, decimals: 2 }, // Base multiplier is 0.01
         "fn":   { name: "Fortnite", aliases:["fortnite", "fn", "fort"], yaw: 0.005555, decimals: 1, suffix: "%" },
-        "marathon": { name: "Marathon", aliases:["marathon"], yaw: 0.022, decimals: 2 },
+        "marathon": { name: "Marathon", aliases:["marathon"], yaw: 0.0066, decimals: 2 },
         "mr":   { name: "Marvel Rivals", aliases:["marvel", "rivals", "mr"], yaw: 0.0175, decimals: 2 },
         "pubg": { name: "PUBG: BATTLEGROUNDS", aliases:["pubg", "playerunknown", "battlegrounds"], yaw: 1, decimals: 1 }, 
-        "source": { name: "Quake / Source", aliases:["quake", "source", "hl", "half-life", "cs", "garrys mod", "gmod"], yaw: 0.022, decimals: 2 },
+        "source": { name: "Quake / Source", aliases:["quake", "source", "hl", "half-life", "gmod"], yaw: 0.022, decimals: 2 },
         "r6s":  { name: "Rainbow Six Siege", aliases:["r6", "siege", "rainbow", "rainbow6"], yaw: 0.00572957795, decimals: 0 },
-        "rust": { name: "Rust", aliases:["rust", "facepunch"], yaw: 0.00222, decimals: 3 },
+        "rust": { name: "Rust", aliases:["rust", "facepunch"], yaw: 0.111111, decimals: 3 },
         "tf":   { name: "The Finals", aliases:["finals", "the finals", "tf"], yaw: 0.001, decimals: 0 }
     };
 
@@ -1355,6 +1365,12 @@
             let mult = parseFloat(document.getElementById('r6s-mult').value) || 0.02;
             return sens * (mult * 0.2864788975);
         }
+        if (gameKey === 'delta') {
+            // Delta Force uses a combination of Horizontal Sens and Mouse Sens.
+            let mouseSens = parseFloat(document.getElementById('delta-mouse-sens').value);
+            if (isNaN(mouseSens) || mouseSens <= 0) mouseSens = 3;
+            return sens * mouseSens * 0.01;
+        }
         return sens * games[gameKey].yaw;
     }
 
@@ -1368,6 +1384,11 @@
         if (gameKey === 'r6s') {
             let mult = parseFloat(document.getElementById('r6s-mult').value) || 0.02;
             return effectiveYaw / (mult * 0.2864788975);
+        }
+        if (gameKey === 'delta') {
+            let mouseSens = parseFloat(document.getElementById('delta-mouse-sens').value);
+            if (isNaN(mouseSens) || mouseSens <= 0) mouseSens = 3;
+            return effectiveYaw / (mouseSens * 0.01);
         }
         return effectiveYaw / games[gameKey].yaw;
     }
@@ -1420,6 +1441,7 @@
                 
                 if (targetGameKey === 'pubg') resultLabel = `GENERAL / LOOK SENSITIVITY FOR PUBG:`;
                 else if (targetGameKey === 'r6s') resultLabel = `HIPFIRE SENSITIVITY FOR R6 SIEGE:`;
+                else if (targetGameKey === 'delta') resultLabel = `HORIZONTAL SENSITIVITY FOR DELTA FORCE:`;
                 else resultLabel = `SENSITIVITY FOR ${targetGame.name}:`;
             }
         } else if (currentMainTab === 'cm') {
@@ -1457,6 +1479,7 @@
                     
                     if (targetGameKey === 'pubg') resultLabel = `GENERAL / LOOK SENSITIVITY FOR PUBG:`;
                     else if (targetGameKey === 'r6s') resultLabel = `HIPFIRE SENSITIVITY FOR R6 SIEGE:`;
+                    else if (targetGameKey === 'delta') resultLabel = `HORIZONTAL SENSITIVITY FOR DELTA FORCE:`;
                     else resultLabel = `SENSITIVITY FOR ${targetGame.name}:`;
                     
                 } else {
