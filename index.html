@@ -470,6 +470,8 @@
 
     </div>
 
+    <!-- ADVANCED BLOCKS -->
+
     <!-- PUBG GLOBAL SETTINGS (Always visible for PUBG) -->
     <div class="advanced-box" id="pubg-global-box" style="display:none; padding-bottom: 10px; margin-bottom: 15px;">
         <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
@@ -799,6 +801,127 @@
         </div>
     </div>
 
+    <!-- ADVANCED SETTINGS FOR FORTNITE -->
+    <div class="advanced-box" id="fn-box">
+        <label class="checkbox-container" style="justify-content: center;">
+            <input type="checkbox" id="fn-advanced-check" onchange="calculate()">
+            <span>SHOW ADVANCED (ADS SENSITIVITY)</span>
+        </label>
+        <div class="adv-content" id="fn-advanced-content">
+            <div class="adv-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0;">
+                <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
+                    <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">TARGETING MULTIPLIER (ADS):</span>
+                    <span id="fn-ads-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
+                </div>
+                <input type="range" id="fn-ads-slider" min="1" max="100" value="100" oninput="document.getElementById('fn-ads-val').innerText = this.value + '%'; calculate()">
+            </div>
+            <div class="adv-opt-row" style="flex-direction: column; align-items: flex-start; margin-bottom:0; margin-top: 10px;">
+                <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:5px;">
+                    <span style="margin:0; font-size: 11px; font-weight: 700; color: #aaa;">SCOPED MULTIPLIER (SNIPERS):</span>
+                    <span id="fn-scoped-val" style="color:#fff; font-size:12px; font-weight:700;">100%</span>
+                </div>
+                <input type="range" id="fn-scoped-slider" min="1" max="100" value="100" oninput="document.getElementById('fn-scoped-val').innerText = this.value + '%'; calculate()">
+            </div>
+        </div>
+    </div>
+
+    <!-- ADVANCED SETTINGS FOR ARENA BREAKOUT -->
+    <div class="advanced-box" id="arena-box">
+        <label class="checkbox-container" style="justify-content: center;">
+            <input type="checkbox" id="arena-advanced-check" onchange="calculate()">
+            <span>SHOW ADVANCED (SCOPES)</span>
+        </label>
+        <div class="adv-content" id="arena-advanced-content">
+            <div class="pubg-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>1X / RED DOT</span> <span id="arena-val-1x" style="color:#A985FF;">1.0</span>
+                    </div>
+                    <input type="range" id="arena-1x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-1x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>2X SCOPE</span> <span id="arena-val-2x" style="color:#A985FF;">1.0</span>
+                    </div>
+                    <input type="range" id="arena-2x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-2x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>3X SCOPE</span> <span id="arena-val-3x" style="color:#A985FF;">1.0</span>
+                    </div>
+                    <input type="range" id="arena-3x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-3x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>4X SCOPE</span> <span id="arena-val-4x" style="color:#A985FF;">1.0</span>
+                    </div>
+                    <input type="range" id="arena-4x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-4x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>6X SCOPE</span> <span id="arena-val-6x" style="color:#A985FF;">1.0</span>
+                    </div>
+                    <input type="range" id="arena-6x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-6x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>8X SCOPE</span> <span id="arena-val-8x" style="color:#A985FF;">1.0</span>
+                    </div>
+                    <input type="range" id="arena-8x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-8x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>16X SCOPE</span> <span id="arena-val-16x" style="color:#A985FF;">1.0</span>
+                    </div>
+                    <input type="range" id="arena-16x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-16x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>20X SCOPE</span> <span id="arena-val-20x" style="color:#A985FF;">1.0</span>
+                    </div>
+                    <input type="range" id="arena-20x" min="0.1" max="5.0" step="0.1" value="1.0" oninput="document.getElementById('arena-val-20x').innerText = parseFloat(this.value).toFixed(1); calculate()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADVANCED SETTINGS FOR DELTA FORCE -->
+    <div class="advanced-box" id="delta-box">
+        <label class="checkbox-container" style="justify-content: center;">
+            <input type="checkbox" id="delta-advanced-check" onchange="calculate()">
+            <span>SHOW ADVANCED (SCOPES)</span>
+        </label>
+        <div class="adv-content" id="delta-advanced-content">
+            <div class="pubg-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>IRON SIGHT / 1X</span> <span id="delta-val-1x" style="color:#A985FF;">50</span>
+                    </div>
+                    <input type="range" id="delta-1x" min="1" max="100" value="50" oninput="document.getElementById('delta-val-1x').innerText = this.value; calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>2X - 4X</span> <span id="delta-val-2x" style="color:#A985FF;">50</span>
+                    </div>
+                    <input type="range" id="delta-2x" min="1" max="100" value="50" oninput="document.getElementById('delta-val-2x').innerText = this.value; calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>5X - 7X</span> <span id="delta-val-5x" style="color:#A985FF;">50</span>
+                    </div>
+                    <input type="range" id="delta-5x" min="1" max="100" value="50" oninput="document.getElementById('delta-val-5x').innerText = this.value; calculate()">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:9px; color:#aaa; font-weight:700; margin-bottom:2px;">
+                        <span>8X +</span> <span id="delta-val-8x" style="color:#A985FF;">50</span>
+                    </div>
+                    <input type="range" id="delta-8x" min="1" max="100" value="50" oninput="document.getElementById('delta-val-8x').innerText = this.value; calculate()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- RESULT AREA -->
     <div class="result-box">
         <div class="result-title" id="result-label">RESULT:</div>
@@ -877,6 +1000,41 @@
                 <div class="scoped-col"><div class="scoped-title">6X SCOPE</div><div class="scoped-val" id="pubg-6x-res">0 cm</div></div>
                 <div class="scoped-col"><div class="scoped-title">8X SCOPE</div><div class="scoped-val" id="pubg-8x-res">0 cm</div></div>
                 <div class="scoped-col"><div class="scoped-title">15X SCOPE</div><div class="scoped-val" id="pubg-15x-res">0 cm</div></div>
+            </div>
+        </div>
+
+        <!-- FORTNITE RESULTS -->
+        <div class="scoped-results" id="fn-scoped-results">
+            <div class="scoped-cat-title">ADS & SCOPED CM/360 DISTANCES</div>
+            <div class="scoped-grid">
+                <div class="scoped-col"><div class="scoped-title">TARGETING (ADS)</div><div class="scoped-val" id="fn-ads-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">SCOPED (SNIPERS)</div><div class="scoped-val" id="fn-scoped-res">0 cm</div></div>
+            </div>
+        </div>
+
+        <!-- ARENA BREAKOUT RESULTS -->
+        <div class="scoped-results" id="arena-scoped-results">
+            <div class="scoped-cat-title">SCOPED CM/360 DISTANCES</div>
+            <div class="scoped-grid">
+                <div class="scoped-col"><div class="scoped-title">1X / RED DOT</div><div class="scoped-val" id="arena-1x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">2X SCOPE</div><div class="scoped-val" id="arena-2x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">3X SCOPE</div><div class="scoped-val" id="arena-3x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">4X SCOPE</div><div class="scoped-val" id="arena-4x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">6X SCOPE</div><div class="scoped-val" id="arena-6x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">8X SCOPE</div><div class="scoped-val" id="arena-8x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">16X SCOPE</div><div class="scoped-val" id="arena-16x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">20X SCOPE</div><div class="scoped-val" id="arena-20x-res">0 cm</div></div>
+            </div>
+        </div>
+
+        <!-- DELTA FORCE RESULTS -->
+        <div class="scoped-results" id="delta-scoped-results">
+            <div class="scoped-cat-title">SCOPED CM/360 DISTANCES</div>
+            <div class="scoped-grid">
+                <div class="scoped-col"><div class="scoped-title">IRON SIGHT / 1X</div><div class="scoped-val" id="delta-1x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">2X - 4X</div><div class="scoped-val" id="delta-2x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">5X - 7X</div><div class="scoped-val" id="delta-5x-res">0 cm</div></div>
+                <div class="scoped-col"><div class="scoped-title">8X +</div><div class="scoped-val" id="delta-8x-res">0 cm</div></div>
             </div>
         </div>
 
@@ -962,7 +1120,8 @@
     // === GAMES DATABASE ===
     const games = {
         "cs2":  { name: "Counter-Strike 2", aliases:["cs2", "csgo", "counter", "strike", "cs"], yaw: 0.022, decimals: 2 },
-        "apex": { name: "Apex Legends / Source", aliases:["apex", "source"], yaw: 0.022, decimals: 2 },
+        "source": { name: "Quake / Source", aliases:["quake", "source", "hl", "half-life", "cs", "garrys mod", "gmod"], yaw: 0.022, decimals: 2 },
+        "apex": { name: "Apex Legends", aliases:["apex"], yaw: 0.022, decimals: 2 },
         "val":  { name: "Valorant", aliases:["val", "valorant"], yaw: 0.07, decimals: 3 },
         "ow2":  { name: "Overwatch 2", aliases:["ow", "ow2", "overwatch"], yaw: 0.0066, decimals: 2 },
         "cod":  { name: "Call of Duty", aliases:["cod", "call", "warzone", "mw"], yaw: 0.0066, decimals: 2 },
@@ -970,7 +1129,12 @@
         "tf":   { name: "The Finals", aliases:["finals", "the finals", "tf"], yaw: 0.001, decimals: 0 },
         "pubg": { name: "PUBG: BATTLEGROUNDS", aliases:["pubg", "playerunknown", "battlegrounds"], yaw: 1, decimals: 1 }, 
         "r6s":  { name: "Rainbow Six Siege", aliases:["r6", "siege", "rainbow", "rainbow6"], yaw: 0.00572957795, decimals: 0 },
-        "fn":   { name: "Fortnite", aliases:["fortnite", "fn", "fort"], yaw: 0.0055, decimals: 1, suffix: "%" }
+        "fn":   { name: "Fortnite", aliases:["fortnite", "fn", "fort"], yaw: 0.005555, decimals: 1, suffix: "%" },
+        "rust": { name: "Rust", aliases:["rust", "facepunch"], yaw: 0.00222, decimals: 3 },
+        "arc":  { name: "ARC Raiders", aliases:["arc", "raiders"], yaw: 0.022, decimals: 2 },
+        "marathon": { name: "Marathon", aliases:["marathon"], yaw: 0.022, decimals: 2 },
+        "arena": { name: "Arena Breakout: Infinite", aliases:["arena", "breakout", "abi"], yaw: 0.022, decimals: 2 },
+        "delta": { name: "Delta Force", aliases:["delta", "force", "hawk", "ops"], yaw: 0.022, decimals: 2 }
     };
 
     let currentMainTab = 'cm'; 
@@ -1328,6 +1492,9 @@
         const apexBox = document.getElementById('apex-box');
         const pubgBox = document.getElementById('pubg-box');
         const pubgGlobalBox = document.getElementById('pubg-global-box');
+        const fnBox = document.getElementById('fn-box');
+        const arenaBox = document.getElementById('arena-box');
+        const deltaBox = document.getElementById('delta-box');
         
         tfBox.style.display = 'none';
         ow2Box.style.display = 'none';
@@ -1336,12 +1503,18 @@
         apexBox.style.display = 'none';
         pubgBox.style.display = 'none';
         pubgGlobalBox.style.display = 'none';
+        fnBox.style.display = 'none';
+        arenaBox.style.display = 'none';
+        deltaBox.style.display = 'none';
         
         document.getElementById('tf-scoped-results').style.display = 'none';
         document.getElementById('ow2-scoped-results').style.display = 'none';
         document.getElementById('cs2-scoped-results').style.display = 'none';
         document.getElementById('apex-scoped-results').style.display = 'none';
         document.getElementById('pubg-scoped-results').style.display = 'none';
+        document.getElementById('fn-scoped-results').style.display = 'none';
+        document.getElementById('arena-scoped-results').style.display = 'none';
+        document.getElementById('delta-scoped-results').style.display = 'none';
         document.getElementById('feels-like-box').style.display = 'none';
 
         // THE FINALS Logic
@@ -1542,6 +1715,80 @@
                     const scopes =['vert','aim','1x','2x','3x','4x','6x','8x','15x'];
                     scopes.forEach(s => {
                         let el = document.getElementById(`pubg-${s}-res`);
+                        if(el) el.innerText = '0 cm';
+                    });
+                }
+            }
+        }
+        
+        // FORTNITE Logic
+        else if (targetGameKey === 'fn') {
+            fnBox.style.display = 'block';
+            const adv = document.getElementById('fn-advanced-check').checked;
+            document.getElementById('fn-advanced-content').style.display = adv ? 'block' : 'none';
+            
+            if (adv) {
+                document.getElementById('fn-scoped-results').style.display = 'flex';
+                if (actualBaseCm360 > 0) {
+                    let fnAds = parseFloat(document.getElementById('fn-ads-slider').value) / 100;
+                    let fnScoped = parseFloat(document.getElementById('fn-scoped-slider').value) / 100;
+                    
+                    document.getElementById('fn-ads-res').innerText = (actualBaseCm360 / fnAds).toFixed(1) + ' cm';
+                    document.getElementById('fn-scoped-res').innerText = (actualBaseCm360 / fnScoped).toFixed(1) + ' cm';
+                } else {
+                    document.getElementById('fn-ads-res').innerText = '0 cm';
+                    document.getElementById('fn-scoped-res').innerText = '0 cm';
+                }
+            }
+        }
+
+        // ARENA BREAKOUT Logic
+        else if (targetGameKey === 'arena') {
+            arenaBox.style.display = 'block';
+            const adv = document.getElementById('arena-advanced-check').checked;
+            document.getElementById('arena-advanced-content').style.display = adv ? 'block' : 'none';
+            
+            if (adv) {
+                document.getElementById('arena-scoped-results').style.display = 'flex';
+                if (actualBaseCm360 > 0) {
+                    const scopes =['1x','2x','3x','4x','6x','8x','16x','20x'];
+                    scopes.forEach(s => {
+                        let mult = parseFloat(document.getElementById(`arena-${s}`).value) || 1.0;
+                        let scopeCm = actualBaseCm360 / mult;
+                        let resEl = document.getElementById(`arena-${s}-res`);
+                        if (resEl) resEl.innerText = scopeCm.toFixed(1) + ' cm';
+                    });
+                } else {
+                    const scopes =['1x','2x','3x','4x','6x','8x','16x','20x'];
+                    scopes.forEach(s => {
+                        let el = document.getElementById(`arena-${s}-res`);
+                        if(el) el.innerText = '0 cm';
+                    });
+                }
+            }
+        }
+
+        // DELTA FORCE Logic
+        else if (targetGameKey === 'delta') {
+            deltaBox.style.display = 'block';
+            const adv = document.getElementById('delta-advanced-check').checked;
+            document.getElementById('delta-advanced-content').style.display = adv ? 'block' : 'none';
+            
+            if (adv) {
+                document.getElementById('delta-scoped-results').style.display = 'flex';
+                if (actualBaseCm360 > 0) {
+                    const scopes =['1x','2x','5x','8x'];
+                    scopes.forEach(s => {
+                        let sliderVal = parseFloat(document.getElementById(`delta-${s}`).value) || 50;
+                        let mult = sliderVal / 50;
+                        let scopeCm = actualBaseCm360 / mult;
+                        let resEl = document.getElementById(`delta-${s}-res`);
+                        if (resEl) resEl.innerText = scopeCm.toFixed(1) + ' cm';
+                    });
+                } else {
+                    const scopes =['1x','2x','5x','8x'];
+                    scopes.forEach(s => {
+                        let el = document.getElementById(`delta-${s}-res`);
                         if(el) el.innerText = '0 cm';
                     });
                 }
